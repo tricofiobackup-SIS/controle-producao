@@ -111,17 +111,17 @@ export default function Home() {
 }
 
 const colors = {
-  fundo: "#FAF5F2",
-  lateral: "#88432D",
-  lateralEscuro: "#71351F",
-  lateralAtivo: "#A66245",
-  texto: "#2B1A13",
-  textoClaro: "#FFF4EE",
+  fundo: "#FBF7F4",
+  lateral: "#1F1A18",
+  lateralEscuro: "#141110",
+  lateralAtivo: "#D9231F",
+  texto: "#211816",
+  textoClaro: "#FFFFFF",
   card: "#FFFFFF",
-  borda: "#E8D3C8",
-  faixa: "#F2E2DA",
-  sombra: "0 18px 40px rgba(80, 42, 28, .10)"
-};
+  borda: "#E7D8D0",
+  faixa: "#F4E5DD",
+  destaque: "#D9231F",
+  sombra: "0 18px 40px rgba(0, 0, 0, .08)"
 
 const styles = {
   page: {
