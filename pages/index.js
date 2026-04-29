@@ -1,9 +1,27 @@
 export default function Home() {
   const menus = [
-    { titulo: "Cadastro", itens: ["Ficha Cadastro", "Cadastro Geral", "Ficha Técnica", "Combinações"] },
-    { titulo: "O.S", itens: ["Lançar O.S", "Controle O.S Externa", "Impressão O.S", "Consulta Produção"] },
-    { titulo: "Fios", itens: ["Cadastro de Fio", "Fios e Cores", "Entrada de Fios", "Saída de Fios", "Estoque de Fios"] },
-    { titulo: "Consultas", itens: ["Ficha Consulta", "Consulta Compra Fio", "Relatório Estoque"] }
+    {
+      titulo: "Cadastro",
+      itens: ["Ficha Cadastro", "Cadastro Geral", "Ficha Técnica", "Combinações"]
+    },
+    {
+      titulo: "O.S",
+      itens: ["Lançar O.S", "Controle O.S Externa", "Impressão O.S", "Consulta Produção"]
+    },
+    {
+      titulo: "Fios",
+      itens: ["Cadastro de Fio", "Fios e Cores", "Entrada de Fios", "Saída de Fios", "Estoque de Fios"]
+    },
+    {
+      titulo: "Consultas",
+      itens: ["Ficha Consulta", "Consulta Compra Fio", "Relatório Estoque"]
+    }
+  ];
+
+  const linhas = [
+    ["Blusa Tricot", "29/04/2026", "Produção", "10"],
+    ["Calça Tricot", "29/04/2026", "Aberto", "8"],
+    ["Casaco Tricot", "24/04/2026", "Finalizado", "5"]
   ];
 
   return (
@@ -11,7 +29,7 @@ export default function Home() {
       <aside style={styles.sidebar}>
         <div style={styles.logoBox}>
           <div style={styles.logoArea}>
-            <img src="/logo-tricofio.jpg" style={styles.logoImg} />
+            <img src="/logo-tricofio.jpg" style={styles.logoImg} alt="Tricofio" />
           </div>
           <span style={styles.logoSub}>Controle Produção</span>
         </div>
@@ -24,7 +42,9 @@ export default function Home() {
               <p style={styles.menuTitle}>{menu.titulo}</p>
 
               {menu.itens.map((item) => (
-                <a key={item} style={styles.menuItem}>{item}</a>
+                <a key={item} style={styles.menuItem}>
+                  {item}
+                </a>
               ))}
             </div>
           ))}
@@ -35,7 +55,9 @@ export default function Home() {
         <header style={styles.header}>
           <div>
             <h1 style={styles.h1}>Controle Produção</h1>
-            <p style={styles.subtitle}>Sistema web baseado fielmente na Tela Inicial do Excel</p>
+            <p style={styles.subtitle}>
+              Sistema web baseado fielmente na Tela Inicial do Excel
+            </p>
           </div>
 
           <div style={styles.userBox}>
@@ -91,11 +113,7 @@ export default function Home() {
           <div style={styles.table}>
             <div style={styles.group}>CONJUNTO / MODELO EXEMPLO</div>
 
-            {[
-              ["Blusa Tricot", "29/04/2026", "Produção", "10"],
-              ["Calça Tricot", "29/04/2026", "Aberto", "8"],
-              ["Casaco Tricot", "24/04/2026", "Finalizado", "5"]
-            ].map((row, index) => (
+            {linhas.map((row, index) => (
               <div style={styles.row} key={index}>
                 <span>{row[0]}</span>
                 <span>{row[1]}</span>
@@ -111,9 +129,8 @@ export default function Home() {
 }
 
 const colors = {
-  fundo: "#FBF7F5",
+  fundo: "#FBF7F4",
   lateral: "#1F1A18",
-  lateralEscuro: "#141110",
   lateralAtivo: "#D9231F",
   texto: "#211816",
   textoClaro: "#FFFFFF",
@@ -122,6 +139,7 @@ const colors = {
   faixa: "#F4E5DD",
   destaque: "#D9231F",
   sombra: "0 18px 40px rgba(0, 0, 0, .08)"
+};
 
 const styles = {
   page: {
@@ -149,7 +167,7 @@ const styles = {
     borderRadius: 16,
     padding: "12px 16px",
     marginBottom: 10,
-    boxShadow: "0 10px 24px rgba(0,0,0,.12)"
+    boxShadow: colors.sombra
   },
 
   logoImg: {
@@ -163,7 +181,8 @@ const styles = {
     fontSize: 12,
     letterSpacing: 2,
     textTransform: "uppercase",
-    color: "#F1C7B6"
+    color: "#D9231F",
+    fontWeight: "bold"
   },
 
   active: {
@@ -185,7 +204,7 @@ const styles = {
     fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: 1.4,
-    color: "#E9BBA7",
+    color: "#D9231F",
     marginBottom: 8,
     fontWeight: "bold"
   },
@@ -194,7 +213,7 @@ const styles = {
     display: "block",
     padding: "9px 12px",
     borderRadius: 10,
-    color: "#FFF4EE",
+    color: "#FFFFFF",
     fontSize: 14,
     textDecoration: "none"
   },
@@ -259,7 +278,7 @@ const styles = {
   cardNumber: {
     fontSize: 24,
     marginLeft: 6,
-    color: colors.lateral
+    color: colors.destaque
   },
 
   cardText: {
@@ -281,7 +300,7 @@ const styles = {
   },
 
   button: {
-    background: colors.lateral,
+    background: colors.destaque,
     color: "#fff",
     border: 0,
     borderRadius: 12,
@@ -312,11 +331,11 @@ const styles = {
 
   group: {
     background: colors.faixa,
-    color: colors.lateral,
+    color: colors.destaque,
     padding: "11px 14px",
     fontSize: 13,
     fontWeight: "bold",
-    letterSpacing: .4
+    letterSpacing: 0.4
   },
 
   row: {
