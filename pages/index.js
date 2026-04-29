@@ -111,7 +111,7 @@ export default function Home() {
 }
 
 const colors = {
-  fundo: "#FBF7F4",
+  fundo: "#FBF7F5",
   lateral: "#1F1A18",
   lateralEscuro: "#141110",
   lateralAtivo: "#D9231F",
