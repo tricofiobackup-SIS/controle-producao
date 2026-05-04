@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 export default function Sidebar() {
@@ -9,7 +8,9 @@ export default function Sidebar() {
       titulo: "Cadastro",
       itens: [
         { nome: "Ficha Cadastro", link: "/modelos" },
-        { nome: "Cadastro Geral", link: "/cadastro-geral" }
+        { nome: "Cadastro Geral", link: "/cadastro-geral" },
+        { nome: "Ficha Técnica", link: "#" },
+        { nome: "Combinações", link: "#" }
       ]
     },
     {
@@ -25,6 +26,13 @@ export default function Sidebar() {
         { nome: "Cadastro de Fio", link: "#" },
         { nome: "Estoque de Fios", link: "#" }
       ]
+    },
+    {
+      titulo: "Consultas",
+      itens: [
+        { nome: "Ficha Consulta", link: "#" },
+        { nome: "Relatório Estoque", link: "#" }
+      ]
     }
   ];
 
@@ -36,14 +44,15 @@ export default function Sidebar() {
 
       {menus.map((menu) => (
         <div key={menu.titulo}>
-          <div
+          <button
             style={styles.menuTitle}
             onClick={() =>
               setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
             }
           >
-            {menu.titulo}
-          </div>
+            <span>{menu.titulo}</span>
+            <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
+          </button>
 
           {menuAberto === menu.titulo &&
             menu.itens.map((item) => (
@@ -59,39 +68,44 @@ export default function Sidebar() {
 
 const styles = {
   sidebar: {
-    width: 260,
-    background: "#607D8B", // 🔥 SUA COR NOVA
+    width: 292,
+    minHeight: "100vh",
+    background: "#607D8B",
     color: "#fff",
-    padding: 20,
-    minHeight: "100vh"
+    padding: 24,
+    boxSizing: "border-box"
   },
-
   logo: {
     width: "75%",
-    marginBottom: 20
+    display: "block",
+    margin: "0 auto 28px"
   },
-
   home: {
     display: "block",
-    padding: 10,
-    marginBottom: 10,
+    padding: "13px 16px",
     background: "#4B636E",
-    borderRadius: 8,
+    borderRadius: 10,
+    color: "#fff",
     textDecoration: "none",
-    color: "#fff"
-  },
-
-  menuTitle: {
     fontWeight: "bold",
-    marginTop: 10,
-    padding: 10,
+    marginBottom: 16
+  },
+  menuTitle: {
+    width: "100%",
+    background: "transparent",
+    color: "#fff",
+    border: 0,
+    padding: "12px 14px",
+    display: "flex",
+    justifyContent: "space-between",
+    fontWeight: "bold",
     cursor: "pointer"
   },
-
   sub: {
     display: "block",
-    padding: "8px 15px",
-    color: "#E0E0E0",
-    textDecoration: "none"
+    padding: "8px 18px",
+    color: "#EEF5F7",
+    textDecoration: "none",
+    fontSize: 14
   }
 };
