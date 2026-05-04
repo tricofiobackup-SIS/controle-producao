@@ -99,6 +99,10 @@ export default function CadastroGeral() {
     return `${grupo.titulo}-${item}-${index}`;
   }
 
+  function limparSelecao() {
+    setSelecionado(null);
+  }
+
   function adicionarItem(grupo) {
     const titulo = grupo.titulo;
 
@@ -118,6 +122,7 @@ export default function CadastroGeral() {
       ));
 
       setNovos({ ...novos, [titulo]: { a: "", b: "" } });
+      setSelecionado(null);
       return;
     }
 
@@ -133,24 +138,15 @@ export default function CadastroGeral() {
     ));
 
     setNovos({ ...novos, [titulo]: "" });
+    setSelecionado(null);
   }
 
   function excluirSelecionado() {
     if (!selecionado) return;
-
     if (!confirm("Excluir o item selecionado?")) return;
 
     setGrupos(grupos.map(g => {
       if (g.titulo !== selecionado.grupo) return g;
-
-      if (g.tipo === "dupla") {
-        return {
-          ...g,
-          itens: g.itens.filter((item, index) =>
-            chaveItem(g, item, index) !== selecionado.chave
-          )
-        };
-      }
 
       return {
         ...g,
@@ -219,6 +215,7 @@ export default function CadastroGeral() {
           placeholder="Buscar em todos..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
+          onFocus={limparSelecao}
         />
       </div>
 
@@ -252,29 +249,33 @@ export default function CadastroGeral() {
                   <input
                     placeholder={grupo.colunas[0]}
                     value={novos[grupo.titulo]?.a || ""}
-                    onChange={(e) =>
+                    onFocus={limparSelecao}
+                    onChange={(e) => {
+                      limparSelecao();
                       setNovos({
                         ...novos,
                         [grupo.titulo]: {
                           ...(novos[grupo.titulo] || {}),
                           a: e.target.value
                         }
-                      })
-                    }
+                      });
+                    }}
                   />
 
                   <input
                     placeholder={grupo.colunas[1]}
                     value={novos[grupo.titulo]?.b || ""}
-                    onChange={(e) =>
+                    onFocus={limparSelecao}
+                    onChange={(e) => {
+                      limparSelecao();
                       setNovos({
                         ...novos,
                         [grupo.titulo]: {
                           ...(novos[grupo.titulo] || {}),
                           b: e.target.value
                         }
-                      })
-                    }
+                      });
+                    }}
                   />
 
                   <button onClick={() => adicionarItem(grupo)}>Lançar</button>
@@ -284,9 +285,11 @@ export default function CadastroGeral() {
                   <input
                     placeholder="Novo item..."
                     value={novos[grupo.titulo] || ""}
-                    onChange={(e) =>
-                      setNovos({ ...novos, [grupo.titulo]: e.target.value })
-                    }
+                    onFocus={limparSelecao}
+                    onChange={(e) => {
+                      limparSelecao();
+                      setNovos({ ...novos, [grupo.titulo]: e.target.value });
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") adicionarItem(grupo);
                     }}
@@ -354,13 +357,13 @@ const css = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
     gap: 18px;
   }
 
   .search {
-    width: 330px;
-    height: 42px;
+    width: 300px;
+    height: 40px;
     border: 1px solid #90A4AE;
     border-radius: 12px;
     padding: 0 14px;
@@ -369,17 +372,17 @@ const css = `
 
   .grid-erp {
     display: grid;
-    grid-template-columns: repeat(4, minmax(245px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+    gap: 14px;
   }
 
   .erp-card {
     background: #ECEFF1;
     border: 1px solid #90A4AE;
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 12px 28px rgba(38, 50, 56, .12);
-    min-height: 390px;
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 10px 24px rgba(38, 50, 56, .10);
+    min-height: 370px;
   }
 
   .erp-card-header {
@@ -388,24 +391,24 @@ const css = `
     align-items: flex-start;
     gap: 8px;
     border-bottom: 1px solid #B0BEC5;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
+    padding-bottom: 9px;
+    margin-bottom: 11px;
   }
 
   .erp-card-header h2 {
-    font-size: 15px;
+    font-size: 14px;
     margin: 0;
     color: #263238;
   }
 
   .erp-card-header span {
-    font-size: 11px;
+    font-size: 10.5px;
     color: #607D8B;
   }
 
   .top-actions {
     display: flex;
-    gap: 6px;
+    gap: 5px;
   }
 
   .top-actions button {
@@ -413,8 +416,8 @@ const css = `
     background: #FFFFFF;
     color: #455A64;
     border-radius: 8px;
-    padding: 5px 8px;
-    font-size: 11px;
+    padding: 4px 7px;
+    font-size: 10.5px;
     cursor: pointer;
     font-weight: 600;
   }
@@ -426,57 +429,59 @@ const css = `
 
   .insert-line {
     display: grid;
-    grid-template-columns: 1fr 78px;
-    gap: 8px;
-    margin-bottom: 12px;
+    grid-template-columns: 1fr 70px;
+    gap: 7px;
+    margin-bottom: 11px;
   }
 
   .insert-line-dupla {
     display: grid;
-    grid-template-columns: 1fr 80px 74px;
-    gap: 8px;
-    margin-bottom: 12px;
+    grid-template-columns: 1fr 72px 66px;
+    gap: 7px;
+    margin-bottom: 11px;
   }
 
   .insert-line input,
   .insert-line-dupla input {
-    height: 36px;
-    border-radius: 10px;
+    height: 34px;
+    border-radius: 9px;
     border: 1px solid #90A4AE;
-    padding: 0 10px;
+    padding: 0 9px;
     min-width: 0;
+    font-size: 12px;
   }
 
   .insert-line button,
   .insert-line-dupla button {
     border: 0;
-    border-radius: 10px;
+    border-radius: 9px;
     background: #607D8B;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+    font-size: 12px;
   }
 
   .dupla-head {
     display: grid;
-    grid-template-columns: 1fr 90px;
-    gap: 10px;
+    grid-template-columns: 1fr 78px;
+    gap: 8px;
     background: #CFD8DC;
     color: #263238;
-    border-radius: 10px;
-    padding: 8px 10px;
+    border-radius: 9px;
+    padding: 7px 9px;
     margin-bottom: 6px;
-    font-size: 12px;
+    font-size: 11.5px;
   }
 
   .item-list {
-    max-height: 280px;
+    max-height: 260px;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 4px;
   }
 
   .item-list::-webkit-scrollbar {
-    width: 7px;
+    width: 6px;
   }
 
   .item-list::-webkit-scrollbar-thumb {
@@ -487,21 +492,21 @@ const css = `
   .item-row,
   .item-row-dupla {
     border-bottom: 1px solid #CFD8DC;
-    font-size: 12.5px;
+    font-size: 12px;
     color: #263238;
     cursor: pointer;
     transition: .15s;
   }
 
   .item-row {
-    padding: 8px 6px;
+    padding: 7px 5px;
   }
 
   .item-row-dupla {
     display: grid;
-    grid-template-columns: 1fr 90px;
-    gap: 10px;
-    padding: 8px 10px;
+    grid-template-columns: 1fr 78px;
+    gap: 8px;
+    padding: 7px 9px;
   }
 
   .item-row:hover,
@@ -520,13 +525,13 @@ const css = `
 
   @media (max-width: 1500px) {
     .grid-erp {
-      grid-template-columns: repeat(3, minmax(245px, 1fr));
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
     }
   }
 
   @media (max-width: 1100px) {
     .grid-erp {
-      grid-template-columns: repeat(2, minmax(245px, 1fr));
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
     }
   }
 `;
