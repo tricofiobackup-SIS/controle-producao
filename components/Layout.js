@@ -1,9 +1,8 @@
-
 import Sidebar from "./Sidebar";
 
 export default function Layout({ children }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div style={styles.page}>
       <Sidebar />
       <main style={styles.main}>{children}</main>
     </div>
@@ -11,10 +10,20 @@ export default function Layout({ children }) {
 }
 
 const styles = {
+  page: {
+    display: "flex",
+    minHeight: "100vh",
+    width: "100%",
+    margin: 0,
+    background: "#AEBCC3",
+    fontFamily: "Arial, sans-serif"
+  },
   main: {
     flex: 1,
-    padding: 30,
+    minHeight: "100vh",
     background: "#AEBCC3",
-    minHeight: "100vh"
+    padding: 32,
+    boxSizing: "border-box",
+    overflow: "auto"
   }
 };
