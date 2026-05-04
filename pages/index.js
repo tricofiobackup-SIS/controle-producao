@@ -319,7 +319,7 @@ const css = `
   }
 
   .logo-img {
-    width: 76%;
+    width: 70%;
     display: block;
     margin: 0 auto;
   }
