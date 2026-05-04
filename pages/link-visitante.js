@@ -1,4 +1,3 @@
-
 import Layout from "../components/Layout";
 
 export default function LinkVisitante() {
@@ -27,7 +26,7 @@ export default function LinkVisitante() {
         </div>
 
         <p className="obs">
-          Depois que conectarmos o banco, este link será controlado por permissão real.
+          Depois do banco de dados, este link será controlado por permissão real.
         </p>
       </section>
     </Layout>
