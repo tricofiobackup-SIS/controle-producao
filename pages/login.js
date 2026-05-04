@@ -6,32 +6,29 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   function entrar(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!usuario || !senha) {
-    alert("Informe usuário e senha");
-    return;
-  }
-
-  setLoading(true);
-
-  setTimeout(() => {
-    // 🔐 SIMULAÇÃO DE USUÁRIO
-    if (usuario === "admin") {
-      localStorage.setItem("user", JSON.stringify({
-        nome: "Administrador",
-        tipo: "admin"
-      }));
-    } else {
-      localStorage.setItem("user", JSON.stringify({
-        nome: usuario,
-        tipo: "visitante"
-      }));
+    if (!usuario.trim() || !senha.trim()) {
+      alert("Informe usuário e senha.");
+      return;
     }
 
-    window.location.href = "/";
-  }, 600);
-}
+    setLoading(true);
+
+    setTimeout(() => {
+      const tipo = usuario.toLowerCase() === "admin" ? "admin" : "visitante";
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          nome: usuario,
+          tipo: tipo
+        })
+      );
+
+      window.location.href = "/";
+    }, 700);
+  }
 
   return (
     <>
@@ -76,13 +73,9 @@ export default function Login() {
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
-  body {
-    margin: 0;
-  }
+  body { margin: 0; }
 
   .login-page {
     min-height: 100vh;
@@ -102,18 +95,6 @@ const css = `
     border-radius: 26px;
     padding: 34px;
     box-shadow: 0 30px 80px rgba(38,50,56,.35);
-    animation: subir .45s ease;
-  }
-
-  @keyframes subir {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   .login-logo {
@@ -171,12 +152,9 @@ const css = `
     font-size: 15px;
     margin-top: 24px;
     cursor: pointer;
-    box-shadow: 0 12px 25px rgba(38,50,56,.28);
   }
 
-  button:hover {
-    background: #607D8B;
-  }
+  button:hover { background: #607D8B; }
 
   .footer {
     display: flex;
