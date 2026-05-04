@@ -40,8 +40,11 @@ export default function Layout({ children, titulo = "Controle Produção", subti
     });
   }
 
-  function horaCompleta(data) {
-    return data.toLocaleTimeString("pt-BR");
+  function horaSemSegundos(data) {
+    return data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   }
 
   if (carregando) return null;
@@ -62,12 +65,10 @@ export default function Layout({ children, titulo = "Controle Produção", subti
 
             <div className="topbar-right">
               <span className="top-date">
-                {dataCompleta(agora)} • {horaCompleta(agora)}
+                {dataCompleta(agora)} • {horaSemSegundos(agora)}
               </span>
 
-              <span className="user-name">
-                {user?.nome}
-              </span>
+              <span className="user-name">{user?.nome}</span>
 
               <button className="logout-top" onClick={sair}>
                 Sair
@@ -75,9 +76,7 @@ export default function Layout({ children, titulo = "Controle Produção", subti
             </div>
           </header>
 
-          <div className="page-container">
-            {children}
-          </div>
+          <div className="page-container">{children}</div>
         </main>
       </div>
     </>
@@ -87,13 +86,9 @@ export default function Layout({ children, titulo = "Controle Produção", subti
 const globalCss = `
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
-  html,
-  body,
-  #__next {
+  html, body, #__next {
     margin: 0;
     min-height: 100%;
     font-family: 'Montserrat', Arial, sans-serif;
@@ -101,9 +96,7 @@ const globalCss = `
   }
 
   body {
-    background:
-      radial-gradient(circle at top left, rgba(236,239,241,.55), transparent 34%),
-      linear-gradient(135deg, #B0BEC5 0%, #90A4AE 45%, #607D8B 100%);
+    background: linear-gradient(135deg, #B0BEC5 0%, #90A4AE 45%, #607D8B 100%);
   }
 
   .app-shell {
@@ -163,6 +156,7 @@ const globalCss = `
     color: #455A64;
     font-weight: 600;
     white-space: nowrap;
+    text-transform: capitalize;
   }
 
   .user-name {
@@ -196,7 +190,6 @@ const globalCss = `
     font-size: 28px;
     font-weight: 700;
     color: #263238;
-    letter-spacing: .2px;
   }
 
   h2 {
@@ -221,9 +214,7 @@ const globalCss = `
     backdrop-filter: blur(8px);
   }
 
-  input,
-  select,
-  textarea {
+  input, select, textarea {
     border: 1px solid #90A4AE;
     border-radius: 10px;
     background: #FFFFFF;
@@ -234,16 +225,12 @@ const globalCss = `
     outline: none;
   }
 
-  input:focus,
-  select:focus,
-  textarea:focus {
+  input:focus, select:focus, textarea:focus {
     border-color: #607D8B;
     box-shadow: 0 0 0 3px rgba(96,125,139,.22);
   }
 
-  button {
-    font-family: inherit;
-  }
+  button { font-family: inherit; }
 
   .primary-btn {
     background: #607D8B;
