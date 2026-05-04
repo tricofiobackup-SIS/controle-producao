@@ -75,11 +75,6 @@ export default function Sidebar() {
     return router.pathname === link;
   }
 
-  function sair() {
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-  }
-
   return (
     <>
       <style>{css}</style>
@@ -130,10 +125,6 @@ export default function Sidebar() {
             </div>
           ))}
         </nav>
-
-        <button className="logout" onClick={sair}>
-          Sair
-        </button>
       </aside>
     </>
   );
@@ -143,11 +134,12 @@ const css = `
   .sidebar {
     width: 260px;
     min-height: 100vh;
-    background: #263238;
+    background:
+      linear-gradient(180deg, #263238 0%, #37474F 55%, #455A64 100%);
     color: #FFFFFF;
     padding: 20px 18px;
     box-sizing: border-box;
-    box-shadow: 8px 0 24px rgba(38, 50, 56, .18);
+    box-shadow: 8px 0 24px rgba(38,50,56,.22);
   }
 
   .logo-card {
@@ -157,7 +149,7 @@ const css = `
     padding: 12px;
     margin-bottom: 12px;
     text-align: center;
-    box-shadow: 0 10px 22px rgba(0,0,0,.14);
+    box-shadow: 0 10px 22px rgba(0,0,0,.16);
   }
 
   .logo {
@@ -196,12 +188,12 @@ const css = `
   }
 
   .menu-title:hover {
-    background: #455A64;
+    background: rgba(96,125,139,.45);
     transform: translateX(2px);
   }
 
   .menu-title.menu-open {
-    background: rgba(96, 125, 139, .34);
+    background: rgba(96,125,139,.34);
     color: #FFFFFF;
   }
 
@@ -269,7 +261,7 @@ const css = `
   }
 
   .submenu-link:hover {
-    background: #455A64;
+    background: #607D8B;
     color: #FFFFFF;
     transform: translateX(3px);
   }
@@ -284,21 +276,5 @@ const css = `
   .submenu-link.active:before {
     background: #FFFFFF;
     opacity: 1;
-  }
-
-  .logout {
-    width: 100%;
-    margin-top: 24px;
-    border: 1px solid #607D8B;
-    background: transparent;
-    color: #ECEFF1;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .logout:hover {
-    background: #455A64;
   }
 `;
