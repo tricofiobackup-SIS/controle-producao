@@ -137,7 +137,7 @@ const css = `
     background:
       linear-gradient(180deg, #263238 0%, #37474F 55%, #455A64 100%);
     color: #FFFFFF;
-    padding: 20px 18px;
+    padding: 14px 18px 20px;
     box-sizing: border-box;
     box-shadow: 8px 0 24px rgba(38,50,56,.22);
   }
@@ -145,26 +145,26 @@ const css = `
   .logo-card {
     background: #ECEFF1;
     border: 1px solid #90A4AE;
-    border-radius: 16px;
-    padding: 12px;
-    margin-bottom: 12px;
+    border-radius: 14px;
+    padding: 8px;
+    margin-bottom: 8px;
     text-align: center;
-    box-shadow: 0 10px 22px rgba(0,0,0,.16);
+    box-shadow: 0 8px 18px rgba(0,0,0,.13);
   }
 
   .logo {
-    width: 78%;
+    width: 66%;
     display: block;
     margin: 0 auto;
   }
 
   .system-name {
     text-align: center;
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #B0BEC5;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .menu-group {
@@ -204,14 +204,14 @@ const css = `
   }
 
   .menu-icon {
-    width: 24px;
-    height: 24px;
+    width: 25px;
+    height: 25px;
     border-radius: 8px;
     background: rgba(176,190,197,.18);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 15px;
     color: #ECEFF1;
   }
 
