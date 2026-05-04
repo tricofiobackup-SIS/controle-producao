@@ -5,6 +5,7 @@ export default function CadastroGeral() {
   const gruposIniciais = [
     {
       titulo: "Partes Modelos",
+      tipo: "lista",
       itens: [
         "Ac Boca Bolso", "Ac Bojo", "Ac Bolso", "Ac Bolso Costa", "Ac Bolso Frente",
         "Ac Cava", "Ac Cintura", "Ac Cós", "Ac Costa", "Ac Decote",
@@ -33,63 +34,99 @@ export default function CadastroGeral() {
         "Vestido", "Ac Punho"
       ]
     },
-    {
-      titulo: "Tecelões",
-      itens: ["André", "Carla", "Diego", "Fabricio", "Fernando", "Jose Claudio", "Josué", "Mac", "Maicon", "Reginaldo", "Roberto Negao", "Rovani", "Valdemir"]
-    },
-    {
-      titulo: "Coleções",
-      itens: ["Inverno 2025", "Verão 2025", "Inverno 2026", "Verão 2026"]
-    },
-    {
-      titulo: "Acessórios",
-      itens: ["Botões", "Colchetes", "Cordão", "Flor", "Forro Carolina Textil", "Forro Mamut", "Ponteira", "Ziper"]
-    },
-    {
-      titulo: "Máquinas",
-      itens: ["122-6", "234-7", "MACH-2", "NSSG-14", "NSSG-7", "SES-12", "SIR-14", "SIR-7", "SSG-14", "SSR-14", "SSR-7", "SVR-14", "SWG-8"]
-    },
-    {
-      titulo: "Programador",
-      itens: ["Delei"]
-    },
-    {
-      titulo: "Tamanhos",
-      itens: ["PP", "P", "M", "G", "GG"]
-    },
-    {
-      titulo: "Fornecedores",
-      itens: ["Acerto Estoque", "André - Devolução", "Avelã", "Bianca Fios", "Comexport", "Fiação Fides", "Incomfio", "Luma", "Minas Lã", "Modefios", "Palacio Das Lans", "Paramount", "Polo Armarinhos", "R.A Aviamentos", "Top Fios"]
-    },
-    {
-      titulo: "Combinações",
-      itens: ["Comb1", "Comb2", "Comb3", "Comb4", "Comb5", "Comb6", "Comb7", "Comb8"]
-    },
-    {
-      titulo: "Fios",
-      itens: ["Cashemire Light", "Fiore", "Fresh Liner", "Hb Lã", "Jolie", "Linha 2/28", "Poliamida", "Poliester Costura", "Polyester", "Rayon Flex", "Rayon Pp", "Rayon V Ret", "Serido", "Solar", "Veranel Bright", "Viscose", "York Soft"]
-    },
+    { titulo: "Tecelões", tipo: "lista", itens: ["André", "Carla", "Diego", "Fabricio", "Fernando", "Jose Claudio", "Josué", "Mac", "Maicon", "Reginaldo", "Roberto Negao", "Rovani", "Valdemir"] },
+    { titulo: "Coleções", tipo: "lista", itens: ["Inverno 2025", "Verão 2025", "Inverno 2026", "Verão 2026"] },
+    { titulo: "Acessórios", tipo: "lista", itens: ["Botões", "Colchetes", "Cordão", "Flor", "Forro Carolina Textil", "Forro Mamut", "Ponteira", "Ziper"] },
+    { titulo: "Máquinas", tipo: "lista", itens: ["122-6", "234-7", "MACH-2", "NSSG-14", "NSSG-7", "SES-12", "SIR-14", "SIR-7", "SSG-14", "SSR-14", "SSR-7", "SVR-14", "SWG-8"] },
+    { titulo: "Programador", tipo: "lista", itens: ["Delei"] },
+    { titulo: "Tamanhos", tipo: "lista", itens: ["PP", "P", "M", "G", "GG"] },
+    { titulo: "Fornecedores", tipo: "lista", itens: ["Acerto Estoque", "André - Devolução", "Avelã", "Bianca Fios", "Comexport", "Fiação Fides", "Incomfio", "Luma", "Minas Lã", "Modefios", "Palacio Das Lans", "Paramount", "Polo Armarinhos", "R.A Aviamentos", "Top Fios"] },
+    { titulo: "Combinações", tipo: "lista", itens: ["Comb1", "Comb2", "Comb3", "Comb4", "Comb5", "Comb6", "Comb7", "Comb8"] },
+    { titulo: "Clientes", tipo: "lista", itens: ["Elly", "Galeria Tricot", "Tricôfio"] },
     {
       titulo: "Peso Cones",
-      itens: ["Cashemire Light — 0.04", "Fiore — 0.04", "Fresh Liner — 0.06", "Hb Lã — 0.04", "Jolie — 0.04", "Linha 2/28 — 0.04", "Poliamida — 0.06", "Poliester Costura — 0.06", "Polyester — 0.06", "Rayon Flex — 0.04", "Rayon Pp — 0.209", "Rayon V Ret — 0.04", "Serido — 0.04", "Solar — 0.04", "Veranel Bright — 0.04", "Viscose — 0.04", "York Soft — 0.04"]
+      tipo: "dupla",
+      colunas: ["Fio", "Peso"],
+      itens: [
+        { a: "Cashemire Light", b: "0,040" },
+        { a: "Fiore", b: "0,040" },
+        { a: "Fresh Liner", b: "0,060" },
+        { a: "Hb Lã", b: "0,040" },
+        { a: "Jolie", b: "0,040" },
+        { a: "Linha 2/28", b: "0,040" },
+        { a: "Poliamida", b: "0,060" },
+        { a: "Poliester Costura", b: "0,060" },
+        { a: "Polyester", b: "0,060" },
+        { a: "Rayon Flex", b: "0,040" },
+        { a: "Rayon Pp", b: "0,209" },
+        { a: "Rayon V Ret", b: "0,040" },
+        { a: "Serido", b: "0,040" },
+        { a: "Solar", b: "0,040" },
+        { a: "Veranel Bright", b: "0,040" },
+        { a: "Viscose", b: "0,040" },
+        { a: "York Soft", b: "0,040" }
+      ]
     },
     {
-      titulo: "Clientes",
-      itens: ["Elly", "Galeria Tricot", "Tricôfio"]
-    },
-    {
-      titulo: "Tipos / NCMs",
-      itens: ["Blusa — 61069000", "Calça — 61046900", "Casaco — 61043900", "Colete — 61069000", "Cropped — 61069000", "Jaqueta — 61043900", "Macacão — 61122000", "Regata — 61066900", "Saia — 61044900", "Shorts — 61046900", "Top — 61069000", "Twinset — 61043900", "Vestido — 61043900"]
+      titulo: "NCMs",
+      tipo: "dupla",
+      colunas: ["Tipo", "NCM"],
+      itens: [
+        { a: "Blusa", b: "61069000" },
+        { a: "Calça", b: "61046900" },
+        { a: "Casaco", b: "61043900" },
+        { a: "Colete", b: "61069000" },
+        { a: "Cropped", b: "61069000" },
+        { a: "Jaqueta", b: "61043900" },
+        { a: "Macacão", b: "61122000" },
+        { a: "Regata", b: "61066900" },
+        { a: "Saia", b: "61044900" },
+        { a: "Shorts", b: "61046900" },
+        { a: "Top", b: "61069000" },
+        { a: "Twinset", b: "61043900" },
+        { a: "Vestido", b: "61043900" }
+      ]
     }
   ];
 
   const [grupos, setGrupos] = useState(gruposIniciais);
   const [novos, setNovos] = useState({});
   const [busca, setBusca] = useState("");
+  const [selecionado, setSelecionado] = useState(null);
 
-  function adicionarItem(titulo) {
+  function chaveItem(grupo, item, index) {
+    if (grupo.tipo === "dupla") return `${grupo.titulo}-${item.a}-${item.b}-${index}`;
+    return `${grupo.titulo}-${item}-${index}`;
+  }
+
+  function adicionarItem(grupo) {
+    const titulo = grupo.titulo;
+
+    if (grupo.tipo === "dupla") {
+      const valorA = (novos[titulo]?.a || "").trim();
+      const valorB = (novos[titulo]?.b || "").trim();
+
+      if (!valorA || !valorB) {
+        alert("Preencha as duas colunas antes de lançar.");
+        return;
+      }
+
+      setGrupos(grupos.map(g =>
+        g.titulo === titulo
+          ? { ...g, itens: [...g.itens, { a: valorA, b: valorB }] }
+          : g
+      ));
+
+      setNovos({ ...novos, [titulo]: { a: "", b: "" } });
+      return;
+    }
+
     const valor = (novos[titulo] || "").trim();
-    if (!valor) return alert("Digite um item para lançar.");
+
+    if (!valor) {
+      alert("Digite um item para lançar.");
+      return;
+    }
 
     setGrupos(grupos.map(g =>
       g.titulo === titulo ? { ...g, itens: [...g.itens, valor] } : g
@@ -98,12 +135,71 @@ export default function CadastroGeral() {
     setNovos({ ...novos, [titulo]: "" });
   }
 
-  function excluirItem(titulo, item) {
-    if (!confirm(`Excluir "${item}"?`)) return;
+  function excluirSelecionado() {
+    if (!selecionado) return;
 
-    setGrupos(grupos.map(g =>
-      g.titulo === titulo ? { ...g, itens: g.itens.filter(i => i !== item) } : g
-    ));
+    if (!confirm("Excluir o item selecionado?")) return;
+
+    setGrupos(grupos.map(g => {
+      if (g.titulo !== selecionado.grupo) return g;
+
+      if (g.tipo === "dupla") {
+        return {
+          ...g,
+          itens: g.itens.filter((item, index) =>
+            chaveItem(g, item, index) !== selecionado.chave
+          )
+        };
+      }
+
+      return {
+        ...g,
+        itens: g.itens.filter((item, index) =>
+          chaveItem(g, item, index) !== selecionado.chave
+        )
+      };
+    }));
+
+    setSelecionado(null);
+  }
+
+  function editarSelecionado() {
+    if (!selecionado) return;
+
+    const novoValor = prompt("Editar item:", selecionado.texto);
+
+    if (!novoValor) return;
+
+    setGrupos(grupos.map(g => {
+      if (g.titulo !== selecionado.grupo) return g;
+
+      if (g.tipo === "dupla") {
+        const partes = novoValor.split("|").map(v => v.trim());
+
+        if (partes.length < 2 || !partes[0] || !partes[1]) {
+          alert("Para editar este item, use o formato: valor 1 | valor 2");
+          return g;
+        }
+
+        return {
+          ...g,
+          itens: g.itens.map((item, index) =>
+            chaveItem(g, item, index) === selecionado.chave
+              ? { a: partes[0], b: partes[1] }
+              : item
+          )
+        };
+      }
+
+      return {
+        ...g,
+        itens: g.itens.map((item, index) =>
+          chaveItem(g, item, index) === selecionado.chave ? novoValor : item
+        )
+      };
+    }));
+
+    setSelecionado(null);
   }
 
   return (
@@ -114,7 +210,7 @@ export default function CadastroGeral() {
         <div>
           <h1>Cadastro Geral</h1>
           <p className="subtitle">
-            Dados importados da aba Ficha_Cadastro_Geral do Excel
+            Bases usadas nas validações, listas suspensas e cadastros do sistema
           </p>
         </div>
 
@@ -128,9 +224,12 @@ export default function CadastroGeral() {
 
       <div className="grid-erp">
         {grupos.map((grupo) => {
-          const itensFiltrados = grupo.itens.filter(item =>
-            item.toLowerCase().includes(busca.toLowerCase())
-          );
+          const itensFiltrados = grupo.itens.filter(item => {
+            const texto = grupo.tipo === "dupla" ? `${item.a} ${item.b}` : item;
+            return texto.toLowerCase().includes(busca.toLowerCase());
+          });
+
+          const itemSelecionadoDoGrupo = selecionado?.grupo === grupo.titulo;
 
           return (
             <section className="erp-card" key={grupo.titulo}>
@@ -139,36 +238,108 @@ export default function CadastroGeral() {
                   <h2>{grupo.titulo}</h2>
                   <span>{itensFiltrados.length} registros</span>
                 </div>
+
+                {itemSelecionadoDoGrupo && (
+                  <div className="top-actions">
+                    <button onClick={editarSelecionado}>Editar</button>
+                    <button onClick={excluirSelecionado}>Excluir</button>
+                  </div>
+                )}
               </div>
 
-              <div className="insert-line">
-                <input
-                  placeholder="Novo item..."
-                  value={novos[grupo.titulo] || ""}
-                  onChange={(e) =>
-                    setNovos({ ...novos, [grupo.titulo]: e.target.value })
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") adicionarItem(grupo.titulo);
-                  }}
-                />
-                <button onClick={() => adicionarItem(grupo.titulo)}>
-                  Lançar
-                </button>
-              </div>
+              {grupo.tipo === "dupla" ? (
+                <div className="insert-line-dupla">
+                  <input
+                    placeholder={grupo.colunas[0]}
+                    value={novos[grupo.titulo]?.a || ""}
+                    onChange={(e) =>
+                      setNovos({
+                        ...novos,
+                        [grupo.titulo]: {
+                          ...(novos[grupo.titulo] || {}),
+                          a: e.target.value
+                        }
+                      })
+                    }
+                  />
+
+                  <input
+                    placeholder={grupo.colunas[1]}
+                    value={novos[grupo.titulo]?.b || ""}
+                    onChange={(e) =>
+                      setNovos({
+                        ...novos,
+                        [grupo.titulo]: {
+                          ...(novos[grupo.titulo] || {}),
+                          b: e.target.value
+                        }
+                      })
+                    }
+                  />
+
+                  <button onClick={() => adicionarItem(grupo)}>Lançar</button>
+                </div>
+              ) : (
+                <div className="insert-line">
+                  <input
+                    placeholder="Novo item..."
+                    value={novos[grupo.titulo] || ""}
+                    onChange={(e) =>
+                      setNovos({ ...novos, [grupo.titulo]: e.target.value })
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") adicionarItem(grupo);
+                    }}
+                  />
+
+                  <button onClick={() => adicionarItem(grupo)}>Lançar</button>
+                </div>
+              )}
+
+              {grupo.tipo === "dupla" && (
+                <div className="dupla-head">
+                  <strong>{grupo.colunas[0]}</strong>
+                  <strong>{grupo.colunas[1]}</strong>
+                </div>
+              )}
 
               <div className="item-list">
-                {itensFiltrados.map((item) => (
-                  <div className="item-row" key={item}>
-                    <span>{item}</span>
-                    <div className="item-actions">
-                      <button>Editar</button>
-                      <button onClick={() => excluirItem(grupo.titulo, item)}>
-                        Excluir
-                      </button>
+                {itensFiltrados.map((item, index) => {
+                  const chave = chaveItem(grupo, item, index);
+                  const ativo = selecionado?.chave === chave;
+                  const texto = grupo.tipo === "dupla" ? `${item.a} | ${item.b}` : item;
+
+                  return grupo.tipo === "dupla" ? (
+                    <div
+                      className={ativo ? "item-row-dupla selected" : "item-row-dupla"}
+                      key={chave}
+                      onClick={() =>
+                        setSelecionado({
+                          grupo: grupo.titulo,
+                          chave,
+                          texto
+                        })
+                      }
+                    >
+                      <span>{item.a}</span>
+                      <span>{item.b}</span>
                     </div>
-                  </div>
-                ))}
+                  ) : (
+                    <div
+                      className={ativo ? "item-row selected" : "item-row"}
+                      key={chave}
+                      onClick={() =>
+                        setSelecionado({
+                          grupo: grupo.titulo,
+                          chave,
+                          texto
+                        })
+                      }
+                    >
+                      <span>{item}</span>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           );
@@ -198,7 +369,7 @@ const css = `
 
   .grid-erp {
     display: grid;
-    grid-template-columns: repeat(4, minmax(240px, 1fr));
+    grid-template-columns: repeat(4, minmax(245px, 1fr));
     gap: 18px;
   }
 
@@ -212,6 +383,10 @@ const css = `
   }
 
   .erp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
     border-bottom: 1px solid #B0BEC5;
     padding-bottom: 10px;
     margin-bottom: 12px;
@@ -228,6 +403,27 @@ const css = `
     color: #607D8B;
   }
 
+  .top-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .top-actions button {
+    border: 1px solid #90A4AE;
+    background: #FFFFFF;
+    color: #455A64;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .top-actions button:last-child {
+    background: #455A64;
+    color: #FFFFFF;
+  }
+
   .insert-line {
     display: grid;
     grid-template-columns: 1fr 78px;
@@ -235,20 +431,42 @@ const css = `
     margin-bottom: 12px;
   }
 
-  .insert-line input {
+  .insert-line-dupla {
+    display: grid;
+    grid-template-columns: 1fr 80px 74px;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .insert-line input,
+  .insert-line-dupla input {
     height: 36px;
     border-radius: 10px;
     border: 1px solid #90A4AE;
     padding: 0 10px;
+    min-width: 0;
   }
 
-  .insert-line button {
+  .insert-line button,
+  .insert-line-dupla button {
     border: 0;
     border-radius: 10px;
     background: #607D8B;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  .dupla-head {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap: 10px;
+    background: #CFD8DC;
+    color: #263238;
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    font-size: 12px;
   }
 
   .item-list {
@@ -266,45 +484,49 @@ const css = `
     border-radius: 10px;
   }
 
-  .item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 0;
+  .item-row,
+  .item-row-dupla {
     border-bottom: 1px solid #CFD8DC;
     font-size: 12.5px;
     color: #263238;
-  }
-
-  .item-actions {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .item-actions button {
-    border: 0;
-    background: transparent;
-    color: #607D8B;
     cursor: pointer;
-    font-size: 11px;
-    font-weight: 600;
+    transition: .15s;
   }
 
-  .item-actions button:last-child {
-    color: #455A64;
+  .item-row {
+    padding: 8px 6px;
+  }
+
+  .item-row-dupla {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap: 10px;
+    padding: 8px 10px;
+  }
+
+  .item-row:hover,
+  .item-row-dupla:hover {
+    background: #DDE6EA;
+    border-radius: 8px;
+  }
+
+  .selected {
+    background: #607D8B !important;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding-left: 10px;
+    font-weight: 600;
   }
 
   @media (max-width: 1500px) {
     .grid-erp {
-      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      grid-template-columns: repeat(3, minmax(245px, 1fr));
     }
   }
 
   @media (max-width: 1100px) {
     .grid-erp {
-      grid-template-columns: repeat(2, minmax(240px, 1fr));
+      grid-template-columns: repeat(2, minmax(245px, 1fr));
     }
   }
 `;
