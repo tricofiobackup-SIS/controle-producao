@@ -1,7 +1,30 @@
-
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 
 export default function Usuarios() {
+  const router = useRouter();
+  const [liberado, setLiberado] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    if (user.tipo !== "admin") {
+      alert("Acesso restrito ao administrador.");
+      router.push("/");
+      return;
+    }
+
+    setLiberado(true);
+  }, []);
+
+  if (!liberado) return null;
+
   return (
     <Layout>
       <style>{css}</style>
@@ -9,14 +32,14 @@ export default function Usuarios() {
       <div className="page-header">
         <div>
           <h1>Usuários</h1>
-          <p className="subtitle">Cadastro de usuários do sistema</p>
+          <p className="subtitle">Cadastro de usuários e permissões do sistema</p>
         </div>
 
         <button className="primary-btn">Novo Usuário</button>
       </div>
 
       <section className="card">
-        <h2>Cadastro</h2>
+        <h2>Cadastro de usuário</h2>
 
         <div className="grid">
           <label>
@@ -25,7 +48,7 @@ export default function Usuarios() {
           </label>
 
           <label>
-            E-mail / Usuário
+            Usuário / E-mail
             <input placeholder="usuario@tricofio.com.br" />
           </label>
 
