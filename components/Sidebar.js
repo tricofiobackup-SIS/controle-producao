@@ -13,7 +13,7 @@ export default function Sidebar() {
   const menus = [
     {
       titulo: "Cadastro",
-      icon: "▣",
+      icon: "▦",
       itens: [
         { nome: "Ficha Cadastro", link: "/modelos" },
         { nome: "Cadastro Geral", link: "/cadastro-geral" },
@@ -200,23 +200,23 @@ const css = `
   .menu-left {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 10px;
   }
 
   .menu-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
-    background: rgba(176,190,197,.16);
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: rgba(176,190,197,.18);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    color: #B0BEC5;
+    font-size: 14px;
+    color: #ECEFF1;
   }
 
   .arrow {
-    font-size: 11px;
+    font-size: 12px;
     color: #B0BEC5;
   }
 
@@ -224,7 +224,7 @@ const css = `
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    padding-left: 8px;
+    padding-left: 10px;
     transition: max-height .25s ease, opacity .22s ease;
   }
 
