@@ -80,51 +80,53 @@ export default function Sidebar() {
       <style>{css}</style>
 
       <aside className="sidebar">
-        <div className="logo-card">
+        <a href="/" className="logo-strip" title="Voltar para a Tela Inicial">
           <img src="/logo-tricofio.png" className="logo" alt="Tricofio" />
-        </div>
+        </a>
 
-        <div className="system-name">Controle Produção</div>
+        <div className="menu-area">
+          <div className="system-name">Controle Produção</div>
 
-        <nav>
-          {menus.map((menu) => (
-            <div className="menu-group" key={menu.titulo}>
-              <button
-                className={`menu-title ${
-                  menuAberto === menu.titulo ? "menu-open" : ""
-                }`}
-                onClick={() =>
-                  setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
-                }
-              >
-                <span className="menu-left">
-                  <span className="menu-icon">{menu.icon}</span>
-                  <span>{menu.titulo}</span>
-                </span>
+          <nav>
+            {menus.map((menu) => (
+              <div className="menu-group" key={menu.titulo}>
+                <button
+                  className={`menu-title ${
+                    menuAberto === menu.titulo ? "menu-open" : ""
+                  }`}
+                  onClick={() =>
+                    setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
+                  }
+                >
+                  <span className="menu-left">
+                    <span className="menu-icon">{menu.icon}</span>
+                    <span>{menu.titulo}</span>
+                  </span>
 
-                <span className="arrow">
-                  {menuAberto === menu.titulo ? "▾" : "▸"}
-                </span>
-              </button>
+                  <span className="arrow">
+                    {menuAberto === menu.titulo ? "▾" : "▸"}
+                  </span>
+                </button>
 
-              <div
-                className={`submenu ${
-                  menuAberto === menu.titulo ? "submenu-open" : ""
-                }`}
-              >
-                {menu.itens.map((item) => (
-                  <a
-                    key={item.nome}
-                    href={item.link}
-                    className={`submenu-link ${ativo(item.link) ? "active" : ""}`}
-                  >
-                    {item.nome}
-                  </a>
-                ))}
+                <div
+                  className={`submenu ${
+                    menuAberto === menu.titulo ? "submenu-open" : ""
+                  }`}
+                >
+                  {menu.itens.map((item) => (
+                    <a
+                      key={item.nome}
+                      href={item.link}
+                      className={`submenu-link ${ativo(item.link) ? "active" : ""}`}
+                    >
+                      {item.nome}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </nav>
+            ))}
+          </nav>
+        </div>
       </aside>
     </>
   );
@@ -137,25 +139,32 @@ const css = `
     background:
       linear-gradient(180deg, #263238 0%, #37474F 55%, #455A64 100%);
     color: #FFFFFF;
-    padding: 14px 18px 20px;
     box-sizing: border-box;
     box-shadow: 8px 0 24px rgba(38,50,56,.22);
   }
 
-  .logo-card {
+  .logo-strip {
+    height: 100px;
+    background: rgba(236,239,241,.96);
+    border-bottom: 1px solid #B0BEC5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    text-decoration: none;
+  }
+
+  .logo-strip:hover {
     background: #ECEFF1;
-    border: 1px solid #90A4AE;
-    border-radius: 14px;
-    padding: 8px;
-    margin-bottom: 8px;
-    text-align: center;
-    box-shadow: 0 8px 18px rgba(0,0,0,.13);
   }
 
   .logo {
-    width: 66%;
+    width: 150px;
     display: block;
-    margin: 0 auto;
+  }
+
+  .menu-area {
+    padding: 14px 18px 20px;
   }
 
   .system-name {
