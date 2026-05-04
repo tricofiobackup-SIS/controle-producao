@@ -41,7 +41,7 @@ export default function Sidebar() {
       <style>{css}</style>
 
       <aside className="sidebar">
-        <div className="logo-box">
+        <div className="logo-card">
           <img src="/logo-tricofio.png" className="logo" alt="Tricofio" />
         </div>
 
@@ -82,19 +82,24 @@ const css = `
     min-height: 100vh;
     background: #263238;
     color: #FFFFFF;
-    padding: 24px;
+    padding: 24px 22px;
     box-sizing: border-box;
     box-shadow: 8px 0 24px rgba(38, 50, 56, .18);
   }
 
-  .logo-box {
-    margin-bottom: 10px;
-    text-align: center;
+  .logo-card {
+    background: #ECEFF1;
+    border: 1px solid #90A4AE;
+    border-radius: 18px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.16);
   }
 
   .logo {
-    width: 76%;
-    display: inline-block;
+    width: 86%;
+    display: block;
+    margin: 0 auto;
   }
 
   .system-name {
