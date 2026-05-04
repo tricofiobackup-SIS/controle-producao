@@ -21,12 +21,15 @@ export default function Home() {
     });
   }
 
-  function horaCompleta(data) {
-    return data.toLocaleTimeString("pt-BR");
+  function horaSemSegundos(data) {
+    return data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   }
 
   return (
-    <Layout titulo="Controle Produção" subtitulo="Sistema interno Tricofio">
+    <Layout titulo="Tela Inicial" subtitulo="Sistema interno Tricofio">
       <style>{css}</style>
 
       <div className="home-hero">
@@ -35,12 +38,14 @@ export default function Home() {
           <p>Gestão de produção, modelos, fios, ordens de serviço e consultas.</p>
         </div>
 
-        <div className="home-date">
-          <strong>{dataCompleta(agora)}</strong>
-          <span>{horaCompleta(agora)}</span>
-        </div>
+        <div className="home-brand">
+          <img src="/logo-tricofio.png" className="home-logo" alt="Tricofio" />
 
-        <img src="/logo-tricofio.png" className="home-logo" alt="Tricofio" />
+          <div className="home-date">
+            <strong>{dataCompleta(agora)}</strong>
+            <span>{horaSemSegundos(agora)}</span>
+          </div>
+        </div>
       </div>
     </Layout>
   );
@@ -66,33 +71,37 @@ const css = `
     font-size: 14px;
   }
 
-  .home-logo {
+  .home-brand {
     position: absolute;
-    right: 34px;
-    bottom: -8px;
-    width: 360px;
-    opacity: .72;
+    right: 36px;
+    bottom: -4px;
+    text-align: right;
+  }
+
+  .home-logo {
+    width: 470px;
+    opacity: .78;
+    display: block;
   }
 
   .home-date {
-    position: absolute;
-    right: 42px;
-    bottom: 118px;
-    text-align: right;
+    margin-top: 12px;
+    padding-right: 18px;
     color: #263238;
+    text-align: right;
   }
 
   .home-date strong {
     display: block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     text-transform: capitalize;
   }
 
   .home-date span {
     display: block;
-    margin-top: 6px;
-    font-size: 26px;
+    margin-top: 3px;
+    font-size: 22px;
     font-weight: 700;
     color: #455A64;
   }
