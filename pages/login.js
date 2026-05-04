@@ -6,19 +6,32 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   function entrar(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!usuario.trim() || !senha.trim()) {
-      alert("Informe usuário e senha.");
-      return;
+  if (!usuario || !senha) {
+    alert("Informe usuário e senha");
+    return;
+  }
+
+  setLoading(true);
+
+  setTimeout(() => {
+    // 🔐 SIMULAÇÃO DE USUÁRIO
+    if (usuario === "admin") {
+      localStorage.setItem("user", JSON.stringify({
+        nome: "Administrador",
+        tipo: "admin"
+      }));
+    } else {
+      localStorage.setItem("user", JSON.stringify({
+        nome: usuario,
+        tipo: "visitante"
+      }));
     }
 
-    setLoading(true);
-
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 700);
-  }
+    window.location.href = "/";
+  }, 600);
+}
 
   return (
     <>
