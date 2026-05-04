@@ -2,11 +2,21 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Sidebar from "./Sidebar";
 
-export default function Layout({ children, titulo = "Controle Produção", subtitulo = "" }) {
+export default function Layout({ children, titulo, subtitulo = "" }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [agora, setAgora] = useState(new Date());
+
+  const titulos = {
+    "/": "Tela Inicial",
+    "/modelos": "Ficha de Modelos",
+    "/cadastro-geral": "Cadastro Geral",
+    "/usuarios": "Usuários",
+    "/link-visitante": "Link para Visitantes"
+  };
+
+  const tituloFinal = titulo || titulos[router.pathname] || "Controle Produção";
 
   useEffect(() => {
     const salvo = localStorage.getItem("user");
@@ -59,7 +69,7 @@ export default function Layout({ children, titulo = "Controle Produção", subti
         <main className="app-main">
           <header className="topbar">
             <div>
-              <h1>{titulo}</h1>
+              <h1>{tituloFinal}</h1>
               {subtitulo && <p>{subtitulo}</p>}
             </div>
 
@@ -116,7 +126,7 @@ const globalCss = `
   }
 
   .topbar {
-    height: 78px;
+    height: 100px;
     background: rgba(236,239,241,.96);
     border-bottom: 1px solid #B0BEC5;
     display: flex;
@@ -132,7 +142,7 @@ const globalCss = `
 
   .topbar h1 {
     margin: 0;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 500;
     color: #263238;
     letter-spacing: .3px;
