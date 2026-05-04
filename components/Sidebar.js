@@ -37,75 +37,126 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside style={styles.sidebar}>
-      <img src="/logo-tricofio.png" style={styles.logo} />
+    <>
+      <style>{css}</style>
 
-      <a href="/" style={styles.home}>Tela Inicial</a>
-
-      {menus.map((menu) => (
-        <div key={menu.titulo}>
-          <button
-            style={styles.menuTitle}
-            onClick={() =>
-              setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
-            }
-          >
-            <span>{menu.titulo}</span>
-            <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
-          </button>
-
-          {menuAberto === menu.titulo &&
-            menu.itens.map((item) => (
-              <a key={item.nome} href={item.link} style={styles.sub}>
-                {item.nome}
-              </a>
-            ))}
+      <aside className="sidebar">
+        <div className="logo-box">
+          <img src="/logo-tricofio.png" className="logo" alt="Tricofio" />
         </div>
-      ))}
-    </aside>
+
+        <div className="system-name">Controle Produção</div>
+
+        <a href="/" className="home-link">
+          Tela Inicial
+        </a>
+
+        {menus.map((menu) => (
+          <div className="menu-group" key={menu.titulo}>
+            <button
+              className="menu-title"
+              onClick={() =>
+                setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
+              }
+            >
+              <span>{menu.titulo}</span>
+              <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
+            </button>
+
+            {menuAberto === menu.titulo &&
+              menu.itens.map((item) => (
+                <a key={item.nome} href={item.link} className="submenu-link">
+                  {item.nome}
+                </a>
+              ))}
+          </div>
+        ))}
+      </aside>
+    </>
   );
 }
 
-const styles = {
-  sidebar: {
-    width: 292,
-    minHeight: "100vh",
-    background: "#607D8B",
-    color: "#fff",
-    padding: 24,
-    boxSizing: "border-box"
-  },
-  logo: {
-    width: "75%",
-    display: "block",
-    margin: "0 auto 28px"
-  },
-  home: {
-    display: "block",
-    padding: "13px 16px",
-    background: "#4B636E",
-    borderRadius: 10,
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: "bold",
-    marginBottom: 16
-  },
-  menuTitle: {
-    width: "100%",
-    background: "transparent",
-    color: "#fff",
-    border: 0,
-    padding: "12px 14px",
-    display: "flex",
-    justifyContent: "space-between",
-    fontWeight: "bold",
-    cursor: "pointer"
-  },
-  sub: {
-    display: "block",
-    padding: "8px 18px",
-    color: "#EEF5F7",
-    textDecoration: "none",
-    fontSize: 14
+const css = `
+  .sidebar {
+    width: 292px;
+    min-height: 100vh;
+    background: #263238;
+    color: #FFFFFF;
+    padding: 24px;
+    box-sizing: border-box;
+    box-shadow: 8px 0 24px rgba(38, 50, 56, .18);
   }
-};
+
+  .logo-box {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .logo {
+    width: 76%;
+    display: inline-block;
+  }
+
+  .system-name {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #B0BEC5;
+    margin-bottom: 28px;
+  }
+
+  .home-link {
+    display: block;
+    padding: 13px 16px;
+    background: #455A64;
+    color: #FFFFFF;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    box-shadow: inset 3px 0 0 #90A4AE;
+  }
+
+  .menu-group {
+    margin-bottom: 8px;
+  }
+
+  .menu-title {
+    width: 100%;
+    background: transparent;
+    color: #FFFFFF;
+    border: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .2s ease;
+  }
+
+  .menu-title:hover {
+    background: #455A64;
+    transform: translateX(2px);
+  }
+
+  .submenu-link {
+    display: block;
+    padding: 9px 18px;
+    margin-left: 8px;
+    color: #ECEFF1;
+    text-decoration: none;
+    font-size: 13px;
+    border-radius: 8px;
+    transition: .2s ease;
+  }
+
+  .submenu-link:hover {
+    background: #607D8B;
+    color: #FFFFFF;
+    transform: translateX(3px);
+  }
+`;
