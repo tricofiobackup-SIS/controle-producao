@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Sidebar from "./Sidebar";
 
-export default function Layout({ children }) {
+export default function Layout({ children, titulo = "Controle Produção", subtitulo = "" }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [carregando, setCarregando] = useState(true);
+  const [agora, setAgora] = useState(new Date());
 
   useEffect(() => {
     const salvo = localStorage.getItem("user");
@@ -17,11 +18,30 @@ export default function Layout({ children }) {
 
     setUser(JSON.parse(salvo));
     setCarregando(false);
+
+    const timer = setInterval(() => {
+      setAgora(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   function sair() {
     localStorage.removeItem("user");
     router.push("/login");
+  }
+
+  function dataCompleta(data) {
+    return data.toLocaleDateString("pt-BR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  function horaCompleta(data) {
+    return data.toLocaleTimeString("pt-BR");
   }
 
   if (carregando) return null;
@@ -34,14 +54,26 @@ export default function Layout({ children }) {
         <Sidebar />
 
         <main className="app-main">
-          <div className="top-user">
+          <header className="topbar">
             <div>
-              <span>{user?.tipo === "admin" ? "Administrador" : "Visitante"}</span>
-              <strong>{user?.nome}</strong>
+              <h1>{titulo}</h1>
+              {subtitulo && <p>{subtitulo}</p>}
             </div>
 
-            <button onClick={sair}>Sair</button>
-          </div>
+            <div className="topbar-right">
+              <span className="top-date">
+                {dataCompleta(agora)} • {horaCompleta(agora)}
+              </span>
+
+              <span className="user-name">
+                {user?.nome}
+              </span>
+
+              <button className="logout-top" onClick={sair}>
+                Sair
+              </button>
+            </div>
+          </header>
 
           <div className="page-container">
             {children}
@@ -83,62 +115,80 @@ const globalCss = `
   .app-main {
     flex: 1;
     min-height: 100vh;
-    padding: 28px;
     overflow: auto;
     background:
-      radial-gradient(circle at top right, rgba(236,239,241,.65), transparent 32%),
+      radial-gradient(circle at top right, rgba(236,239,241,.72), transparent 32%),
       linear-gradient(135deg, #ECEFF1 0%, #B0BEC5 48%, #90A4AE 100%);
     position: relative;
   }
 
-  .page-container {
-    padding-top: 68px;
-  }
-
-  .top-user {
-    position: absolute;
-    top: 22px;
-    right: 28px;
-    background: rgba(236,239,241,.92);
-    border: 1px solid #B0BEC5;
-    border-radius: 16px;
-    padding: 9px 12px;
+  .topbar {
+    height: 78px;
+    background: rgba(236,239,241,.96);
+    border-bottom: 1px solid #B0BEC5;
     display: flex;
     align-items: center;
-    gap: 14px;
-    box-shadow: 0 12px 28px rgba(38,50,56,.16);
+    justify-content: space-between;
+    padding: 0 28px;
+    box-shadow: 0 8px 22px rgba(38,50,56,.08);
+    position: sticky;
+    top: 0;
+    z-index: 5;
     backdrop-filter: blur(10px);
   }
 
-  .top-user div {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
+  .topbar h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+    color: #263238;
+    letter-spacing: .3px;
   }
 
-  .top-user span {
+  .topbar p {
+    margin: 5px 0 0;
     font-size: 11px;
+    color: #607D8B;
+    font-weight: 500;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .top-date {
+    font-size: 11px;
+    color: #455A64;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .user-name {
+    font-size: 12px;
     color: #607D8B;
     font-weight: 600;
   }
 
-  .top-user strong {
-    font-size: 13px;
+  .logout-top {
+    border: 1px solid #90A4AE;
+    background: #ECEFF1;
     color: #263238;
-  }
-
-  .top-user button {
-    border: 0;
-    background: #263238;
-    color: #fff;
-    border-radius: 10px;
-    padding: 8px 12px;
+    border-radius: 8px;
+    padding: 8px 13px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
   }
 
-  .top-user button:hover {
+  .logout-top:hover {
     background: #607D8B;
+    color: #FFFFFF;
+  }
+
+  .page-container {
+    padding: 28px;
   }
 
   h1 {
