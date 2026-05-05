@@ -159,7 +159,7 @@ const globalCss = `
   }
 
   .topbar {
-    height: 72px;
+    height: 88px;
     background: rgba(236,239,241,.96);
     border-bottom: 1px solid #B0BEC5;
     display: flex;
