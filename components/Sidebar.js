@@ -49,9 +49,7 @@ export default function Sidebar() {
       titulo: "Configurações",
       icon: "⚙",
       itens: [
-        ...(user?.tipo === "admin"
-          ? [{ nome: "Usuários", link: "/usuarios" }]
-          : []),
+        ...(user?.tipo === "admin" ? [{ nome: "Usuários", link: "/usuarios" }] : []),
         { nome: "Link Visitante", link: "/link-visitante" }
       ]
     }
@@ -136,21 +134,20 @@ const css = `
   .sidebar {
     width: 260px;
     min-height: 100vh;
-    background:
-      linear-gradient(180deg, #263238 0%, #37474F 55%, #455A64 100%);
+    background: linear-gradient(180deg, #263238 0%, #37474F 55%, #455A64 100%);
     color: #FFFFFF;
     box-sizing: border-box;
     box-shadow: 8px 0 24px rgba(38,50,56,.22);
   }
 
   .logo-strip {
-    height: 100px;
+    height: 88px;
     background: rgba(236,239,241,.96);
     border-bottom: 1px solid #B0BEC5;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 18px;
+    padding: 6px 18px;
     text-decoration: none;
   }
 
@@ -159,7 +156,7 @@ const css = `
   }
 
   .logo {
-    width: 150px;
+    width: 132px;
     display: block;
   }
 
