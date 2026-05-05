@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Sidebar() {
+export default function Sidebar({ abertoMobile = false, fecharMobile = () => {} }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
 
@@ -73,12 +73,17 @@ export default function Sidebar() {
     return router.pathname === link;
   }
 
+  function navegar(link) {
+    if (link === "#") return;
+    fecharMobile();
+  }
+
   return (
     <>
       <style>{css}</style>
 
-      <aside className="sidebar">
-        <a href="/" className="logo-strip" title="Voltar para a Tela Inicial">
+      <aside className={`sidebar ${abertoMobile ? "sidebar-mobile-open" : ""}`}>
+        <a href="/" className="logo-strip" title="Voltar para a Tela Inicial" onClick={fecharMobile}>
           <img src="/logo-tricofio.png" className="logo" alt="Tricofio" />
         </a>
 
@@ -89,9 +94,7 @@ export default function Sidebar() {
             {menus.map((menu) => (
               <div className="menu-group" key={menu.titulo}>
                 <button
-                  className={`menu-title ${
-                    menuAberto === menu.titulo ? "menu-open" : ""
-                  }`}
+                  className={`menu-title ${menuAberto === menu.titulo ? "menu-open" : ""}`}
                   onClick={() =>
                     setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
                   }
@@ -106,15 +109,12 @@ export default function Sidebar() {
                   </span>
                 </button>
 
-                <div
-                  className={`submenu ${
-                    menuAberto === menu.titulo ? "submenu-open" : ""
-                  }`}
-                >
+                <div className={`submenu ${menuAberto === menu.titulo ? "submenu-open" : ""}`}>
                   {menu.itens.map((item) => (
                     <a
                       key={item.nome}
                       href={item.link}
+                      onClick={() => navegar(item.link)}
                       className={`submenu-link ${ativo(item.link) ? "active" : ""}`}
                     >
                       {item.nome}
@@ -138,6 +138,7 @@ const css = `
     color: #FFFFFF;
     box-sizing: border-box;
     box-shadow: 8px 0 24px rgba(38,50,56,.22);
+    flex-shrink: 0;
   }
 
   .logo-strip {
@@ -282,5 +283,31 @@ const css = `
   .submenu-link.active:before {
     background: #FFFFFF;
     opacity: 1;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 270px;
+      height: 100vh;
+      z-index: 30;
+      transform: translateX(-105%);
+      transition: transform .25s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar-mobile-open {
+      transform: translateX(0);
+    }
+
+    .logo-strip {
+      height: 76px;
+    }
+
+    .logo {
+      width: 120px;
+    }
   }
 `;
