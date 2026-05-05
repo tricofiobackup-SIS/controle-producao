@@ -8,15 +8,41 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
   const [carregando, setCarregando] = useState(true);
   const [agora, setAgora] = useState(new Date());
 
-  const titulos = {
-    "/": "Tela Inicial",
-    "/modelos": "Ficha de Modelos",
-    "/cadastro-geral": "Cadastro Geral",
-    "/usuarios": "Usuários",
-    "/link-visitante": "Link para Visitantes"
+  const telas = {
+    "/": {
+      titulo: "Tela Inicial",
+      breadcrumb: "Início",
+      icon: "⌂"
+    },
+    "/modelos": {
+      titulo: "Ficha de Modelos",
+      breadcrumb: "Cadastro > Ficha de Modelos",
+      icon: "▦"
+    },
+    "/cadastro-geral": {
+      titulo: "Cadastro Geral",
+      breadcrumb: "Cadastro > Cadastro Geral",
+      icon: "▣"
+    },
+    "/usuarios": {
+      titulo: "Usuários",
+      breadcrumb: "Configurações > Usuários",
+      icon: "⚙"
+    },
+    "/link-visitante": {
+      titulo: "Link para Visitantes",
+      breadcrumb: "Configurações > Link Visitante",
+      icon: "↗"
+    }
   };
 
-  const tituloFinal = titulo || titulos[router.pathname] || "Controle Produção";
+  const telaAtual = telas[router.pathname] || {
+    titulo: titulo || "Controle Produção",
+    breadcrumb: "Sistema",
+    icon: "▧"
+  };
+
+  const tituloFinal = titulo || telaAtual.titulo;
 
   useEffect(() => {
     const salvo = localStorage.getItem("user");
@@ -68,9 +94,14 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
 
         <main className="app-main">
           <header className="topbar">
-            <div>
-              <h1>{tituloFinal}</h1>
-              {subtitulo && <p>{subtitulo}</p>}
+            <div className="topbar-left">
+              <div className="page-icon">{telaAtual.icon}</div>
+
+              <div>
+                <div className="breadcrumb">{telaAtual.breadcrumb}</div>
+                <h1>{tituloFinal}</h1>
+                {subtitulo && <p>{subtitulo}</p>}
+              </div>
             </div>
 
             <div className="topbar-right">
@@ -86,7 +117,9 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
             </div>
           </header>
 
-          <div className="page-container">{children}</div>
+          <div key={router.pathname} className="page-container page-fade">
+            {children}
+          </div>
         </main>
       </div>
     </>
@@ -126,13 +159,13 @@ const globalCss = `
   }
 
   .topbar {
-    height: 100px;
+    height: 72px;
     background: rgba(236,239,241,.96);
     border-bottom: 1px solid #B0BEC5;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px;
+    padding: 0 26px;
     box-shadow: 0 8px 22px rgba(38,50,56,.08);
     position: sticky;
     top: 0;
@@ -140,16 +173,45 @@ const globalCss = `
     backdrop-filter: blur(10px);
   }
 
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+  }
+
+  .page-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: #607D8B;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(38,50,56,.16);
+  }
+
+  .breadcrumb {
+    font-size: 10.5px;
+    color: #607D8B;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
   .topbar h1 {
     margin: 0;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     color: #263238;
-    letter-spacing: .3px;
+    letter-spacing: .2px;
+    line-height: 1.1;
   }
 
   .topbar p {
-    margin: 5px 0 0;
+    margin: 3px 0 0;
     font-size: 11px;
     color: #607D8B;
     font-weight: 500;
@@ -180,7 +242,7 @@ const globalCss = `
     background: #ECEFF1;
     color: #263238;
     border-radius: 8px;
-    padding: 8px 13px;
+    padding: 7px 12px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -192,7 +254,22 @@ const globalCss = `
   }
 
   .page-container {
-    padding: 28px;
+    padding: 26px;
+  }
+
+  .page-fade {
+    animation: pageFade .28s ease;
+  }
+
+  @keyframes pageFade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   h1 {
