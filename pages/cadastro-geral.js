@@ -91,8 +91,22 @@ export default function CadastroGeral() {
 
   const [grupos, setGrupos] = useState(gruposIniciais);
   const [novos, setNovos] = useState({});
-  const [busca, setBusca] = useState("");
   const [selecionado, setSelecionado] = useState(null);
+
+  function capitalizar(texto) {
+    return texto
+      .toLowerCase()
+      .replace(/\b\w/g, (letra) => letra.toUpperCase())
+      .trim();
+  }
+
+  function ordenarLista(lista, tipo) {
+    if (tipo === "dupla") {
+      return [...lista].sort((x, y) => x.a.localeCompare(y.a, "pt-BR"));
+    }
+
+    return [...lista].sort((x, y) => x.localeCompare(y, "pt-BR"));
+  }
 
   function chaveItem(grupo, item, index) {
     if (grupo.tipo === "dupla") return `${grupo.titulo}-${item.a}-${item.b}-${index}`;
@@ -107,7 +121,7 @@ export default function CadastroGeral() {
     const titulo = grupo.titulo;
 
     if (grupo.tipo === "dupla") {
-      const valorA = (novos[titulo]?.a || "").trim();
+      const valorA = capitalizar(novos[titulo]?.a || "");
       const valorB = (novos[titulo]?.b || "").trim();
 
       if (!valorA || !valorB) {
@@ -115,9 +129,18 @@ export default function CadastroGeral() {
         return;
       }
 
+      const jaExiste = grupo.itens.some(
+        (item) => item.a.toLowerCase() === valorA.toLowerCase()
+      );
+
+      if (jaExiste) {
+        alert("Este item já está cadastrado.");
+        return;
+      }
+
       setGrupos(grupos.map(g =>
         g.titulo === titulo
-          ? { ...g, itens: [...g.itens, { a: valorA, b: valorB }] }
+          ? { ...g, itens: ordenarLista([...g.itens, { a: valorA, b: valorB }], g.tipo) }
           : g
       ));
 
@@ -126,15 +149,26 @@ export default function CadastroGeral() {
       return;
     }
 
-    const valor = (novos[titulo] || "").trim();
+    const valor = capitalizar(novos[titulo] || "");
 
     if (!valor) {
       alert("Digite um item para lançar.");
       return;
     }
 
+    const jaExiste = grupo.itens.some(
+      (item) => item.toLowerCase() === valor.toLowerCase()
+    );
+
+    if (jaExiste) {
+      alert("Este item já está cadastrado.");
+      return;
+    }
+
     setGrupos(grupos.map(g =>
-      g.titulo === titulo ? { ...g, itens: [...g.itens, valor] } : g
+      g.titulo === titulo
+        ? { ...g, itens: ordenarLista([...g.itens, valor], g.tipo) }
+        : g
     ));
 
     setNovos({ ...novos, [titulo]: "" });
@@ -163,7 +197,6 @@ export default function CadastroGeral() {
     if (!selecionado) return;
 
     const novoValor = prompt("Editar item:", selecionado.texto);
-
     if (!novoValor) return;
 
     setGrupos(grupos.map(g => {
@@ -173,26 +206,26 @@ export default function CadastroGeral() {
         const partes = novoValor.split("|").map(v => v.trim());
 
         if (partes.length < 2 || !partes[0] || !partes[1]) {
-          alert("Para editar este item, use o formato: valor 1 | valor 2");
+          alert("Use o formato: valor 1 | valor 2");
           return g;
         }
 
-        return {
-          ...g,
-          itens: g.itens.map((item, index) =>
-            chaveItem(g, item, index) === selecionado.chave
-              ? { a: partes[0], b: partes[1] }
-              : item
-          )
-        };
+        const novaLista = g.itens.map((item, index) =>
+          chaveItem(g, item, index) === selecionado.chave
+            ? { a: capitalizar(partes[0]), b: partes[1] }
+            : item
+        );
+
+        return { ...g, itens: ordenarLista(novaLista, g.tipo) };
       }
 
-      return {
-        ...g,
-        itens: g.itens.map((item, index) =>
-          chaveItem(g, item, index) === selecionado.chave ? novoValor : item
-        )
-      };
+      const novaLista = g.itens.map((item, index) =>
+        chaveItem(g, item, index) === selecionado.chave
+          ? capitalizar(novoValor)
+          : item
+      );
+
+      return { ...g, itens: ordenarLista(novaLista, g.tipo) };
     }));
 
     setSelecionado(null);
@@ -202,222 +235,197 @@ export default function CadastroGeral() {
     <Layout>
       <style>{css}</style>
 
-      <div className="page-header">
-        <div>
-          <h1>Cadastro Geral</h1>
-          <p className="subtitle">
-            Bases usadas nas validações, listas suspensas e cadastros do sistema
-          </p>
-        </div>
+      <div className="cadastro-wrap">
+        <div className="grid-erp">
+          {grupos.map((grupo) => {
+            const itemSelecionadoDoGrupo = selecionado?.grupo === grupo.titulo;
 
-        <input
-          className="search"
-          placeholder="Buscar em todos..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          onFocus={limparSelecao}
-        />
-      </div>
+            return (
+              <section className="erp-card" key={grupo.titulo}>
+                <div className="erp-card-header">
+                  <div>
+                    <h2>{grupo.titulo}</h2>
+                    <span>{grupo.itens.length} registros</span>
+                  </div>
 
-      <div className="grid-erp">
-        {grupos.map((grupo) => {
-          const itensFiltrados = grupo.itens.filter(item => {
-            const texto = grupo.tipo === "dupla" ? `${item.a} ${item.b}` : item;
-            return texto.toLowerCase().includes(busca.toLowerCase());
-          });
-
-          const itemSelecionadoDoGrupo = selecionado?.grupo === grupo.titulo;
-
-          return (
-            <section className="erp-card" key={grupo.titulo}>
-              <div className="erp-card-header">
-                <div>
-                  <h2>{grupo.titulo}</h2>
-                  <span>{itensFiltrados.length} registros</span>
+                  {itemSelecionadoDoGrupo && (
+                    <div className="top-actions">
+                      <button onClick={editarSelecionado}>Editar</button>
+                      <button onClick={excluirSelecionado}>Excluir</button>
+                    </div>
+                  )}
                 </div>
 
-                {itemSelecionadoDoGrupo && (
-                  <div className="top-actions">
-                    <button onClick={editarSelecionado}>Editar</button>
-                    <button onClick={excluirSelecionado}>Excluir</button>
+                {grupo.tipo === "dupla" ? (
+                  <div className="insert-line-dupla">
+                    <input
+                      placeholder={grupo.colunas[0]}
+                      value={novos[grupo.titulo]?.a || ""}
+                      onFocus={limparSelecao}
+                      onChange={(e) => {
+                        limparSelecao();
+                        setNovos({
+                          ...novos,
+                          [grupo.titulo]: {
+                            ...(novos[grupo.titulo] || {}),
+                            a: e.target.value
+                          }
+                        });
+                      }}
+                    />
+
+                    <input
+                      placeholder={grupo.colunas[1]}
+                      value={novos[grupo.titulo]?.b || ""}
+                      onFocus={limparSelecao}
+                      onChange={(e) => {
+                        limparSelecao();
+                        setNovos({
+                          ...novos,
+                          [grupo.titulo]: {
+                            ...(novos[grupo.titulo] || {}),
+                            b: e.target.value
+                          }
+                        });
+                      }}
+                    />
+
+                    <button onClick={() => adicionarItem(grupo)}>+</button>
+                  </div>
+                ) : (
+                  <div className="insert-line">
+                    <input
+                      placeholder="Novo item..."
+                      value={novos[grupo.titulo] || ""}
+                      onFocus={limparSelecao}
+                      onChange={(e) => {
+                        limparSelecao();
+                        setNovos({ ...novos, [grupo.titulo]: e.target.value });
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") adicionarItem(grupo);
+                      }}
+                    />
+
+                    <button onClick={() => adicionarItem(grupo)}>+</button>
                   </div>
                 )}
-              </div>
 
-              {grupo.tipo === "dupla" ? (
-                <div className="insert-line-dupla">
-                  <input
-                    placeholder={grupo.colunas[0]}
-                    value={novos[grupo.titulo]?.a || ""}
-                    onFocus={limparSelecao}
-                    onChange={(e) => {
-                      limparSelecao();
-                      setNovos({
-                        ...novos,
-                        [grupo.titulo]: {
-                          ...(novos[grupo.titulo] || {}),
-                          a: e.target.value
+                {grupo.tipo === "dupla" && (
+                  <div className="dupla-head">
+                    <strong>{grupo.colunas[0]}</strong>
+                    <strong>{grupo.colunas[1]}</strong>
+                  </div>
+                )}
+
+                <div className="item-list">
+                  {grupo.itens.map((item, index) => {
+                    const chave = chaveItem(grupo, item, index);
+                    const ativo = selecionado?.chave === chave;
+                    const texto = grupo.tipo === "dupla" ? `${item.a} | ${item.b}` : item;
+
+                    return grupo.tipo === "dupla" ? (
+                      <div
+                        className={ativo ? "item-row-dupla selected" : "item-row-dupla"}
+                        key={chave}
+                        onClick={() =>
+                          setSelecionado({
+                            grupo: grupo.titulo,
+                            chave,
+                            texto
+                          })
                         }
-                      });
-                    }}
-                  />
-
-                  <input
-                    placeholder={grupo.colunas[1]}
-                    value={novos[grupo.titulo]?.b || ""}
-                    onFocus={limparSelecao}
-                    onChange={(e) => {
-                      limparSelecao();
-                      setNovos({
-                        ...novos,
-                        [grupo.titulo]: {
-                          ...(novos[grupo.titulo] || {}),
-                          b: e.target.value
+                      >
+                        <span>{item.a}</span>
+                        <span>{item.b}</span>
+                      </div>
+                    ) : (
+                      <div
+                        className={ativo ? "item-row selected" : "item-row"}
+                        key={chave}
+                        onClick={() =>
+                          setSelecionado({
+                            grupo: grupo.titulo,
+                            chave,
+                            texto
+                          })
                         }
-                      });
-                    }}
-                  />
-
-                  <button onClick={() => adicionarItem(grupo)}>Lançar</button>
+                      >
+                        <span>{item}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-              ) : (
-                <div className="insert-line">
-                  <input
-                    placeholder="Novo item..."
-                    value={novos[grupo.titulo] || ""}
-                    onFocus={limparSelecao}
-                    onChange={(e) => {
-                      limparSelecao();
-                      setNovos({ ...novos, [grupo.titulo]: e.target.value });
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") adicionarItem(grupo);
-                    }}
-                  />
-
-                  <button onClick={() => adicionarItem(grupo)}>Lançar</button>
-                </div>
-              )}
-
-              {grupo.tipo === "dupla" && (
-                <div className="dupla-head">
-                  <strong>{grupo.colunas[0]}</strong>
-                  <strong>{grupo.colunas[1]}</strong>
-                </div>
-              )}
-
-              <div className="item-list">
-                {itensFiltrados.map((item, index) => {
-                  const chave = chaveItem(grupo, item, index);
-                  const ativo = selecionado?.chave === chave;
-                  const texto = grupo.tipo === "dupla" ? `${item.a} | ${item.b}` : item;
-
-                  return grupo.tipo === "dupla" ? (
-                    <div
-                      className={ativo ? "item-row-dupla selected" : "item-row-dupla"}
-                      key={chave}
-                      onClick={() =>
-                        setSelecionado({
-                          grupo: grupo.titulo,
-                          chave,
-                          texto
-                        })
-                      }
-                    >
-                      <span>{item.a}</span>
-                      <span>{item.b}</span>
-                    </div>
-                  ) : (
-                    <div
-                      className={ativo ? "item-row selected" : "item-row"}
-                      key={chave}
-                      onClick={() =>
-                        setSelecionado({
-                          grupo: grupo.titulo,
-                          chave,
-                          texto
-                        })
-                      }
-                    >
-                      <span>{item}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
+              </section>
+            );
+          })}
+        </div>
       </div>
     </Layout>
   );
 }
 
 const css = `
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    gap: 18px;
-  }
-
-  .search {
-    width: 300px;
-    height: 40px;
-    border: 1px solid #90A4AE;
-    border-radius: 12px;
-    padding: 0 14px;
-    background: #ECEFF1;
+  .cadastro-wrap {
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
   }
 
   .grid-erp {
     display: grid;
-    grid-template-columns: repeat(4, minmax(220px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+    gap: 12px;
+    align-items: start;
   }
 
   .erp-card {
-    background: #ECEFF1;
+    background: rgba(236,239,241,.96);
     border: 1px solid #90A4AE;
-    border-radius: 16px;
-    padding: 14px;
-    box-shadow: 0 10px 24px rgba(38, 50, 56, .10);
-    min-height: 370px;
+    border-radius: 14px;
+    padding: 11px;
+    box-shadow: 0 8px 18px rgba(38,50,56,.10);
+    min-height: 312px;
+    max-width: 255px;
+    width: 100%;
   }
 
   .erp-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
     border-bottom: 1px solid #B0BEC5;
-    padding-bottom: 9px;
-    margin-bottom: 11px;
+    padding-bottom: 7px;
+    margin-bottom: 9px;
   }
 
   .erp-card-header h2 {
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
     color: #263238;
+    line-height: 1.1;
   }
 
   .erp-card-header span {
-    font-size: 10.5px;
+    display: block;
+    font-size: 10px;
     color: #607D8B;
+    margin-top: 2px;
   }
 
   .top-actions {
     display: flex;
-    gap: 5px;
+    gap: 4px;
   }
 
   .top-actions button {
     border: 1px solid #90A4AE;
     background: #FFFFFF;
     color: #455A64;
-    border-radius: 8px;
-    padding: 4px 7px;
-    font-size: 10.5px;
+    border-radius: 7px;
+    padding: 3px 6px;
+    font-size: 10px;
     cursor: pointer;
     font-weight: 600;
   }
@@ -429,59 +437,61 @@ const css = `
 
   .insert-line {
     display: grid;
-    grid-template-columns: 1fr 70px;
-    gap: 7px;
-    margin-bottom: 11px;
+    grid-template-columns: 1fr 34px;
+    gap: 6px;
+    margin-bottom: 8px;
   }
 
   .insert-line-dupla {
     display: grid;
-    grid-template-columns: 1fr 72px 66px;
-    gap: 7px;
-    margin-bottom: 11px;
+    grid-template-columns: 1fr 58px 34px;
+    gap: 5px;
+    margin-bottom: 8px;
   }
 
   .insert-line input,
   .insert-line-dupla input {
-    height: 34px;
-    border-radius: 9px;
+    height: 31px;
+    border-radius: 8px;
     border: 1px solid #90A4AE;
-    padding: 0 9px;
+    padding: 0 8px;
     min-width: 0;
-    font-size: 12px;
+    font-size: 11.5px;
   }
 
   .insert-line button,
   .insert-line-dupla button {
+    height: 31px;
     border: 0;
-    border-radius: 9px;
+    border-radius: 8px;
     background: #607D8B;
     color: #fff;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 16px;
+    line-height: 1;
   }
 
   .dupla-head {
     display: grid;
-    grid-template-columns: 1fr 78px;
-    gap: 8px;
+    grid-template-columns: 1fr 62px;
+    gap: 6px;
     background: #CFD8DC;
     color: #263238;
-    border-radius: 9px;
-    padding: 7px 9px;
-    margin-bottom: 6px;
-    font-size: 11.5px;
+    border-radius: 8px;
+    padding: 6px 8px;
+    margin-bottom: 5px;
+    font-size: 11px;
   }
 
   .item-list {
-    max-height: 260px;
+    max-height: 218px;
     overflow-y: auto;
-    padding-right: 4px;
+    padding-right: 3px;
   }
 
   .item-list::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
 
   .item-list::-webkit-scrollbar-thumb {
@@ -492,46 +502,34 @@ const css = `
   .item-row,
   .item-row-dupla {
     border-bottom: 1px solid #CFD8DC;
-    font-size: 12px;
+    font-size: 11.4px;
     color: #263238;
     cursor: pointer;
     transition: .15s;
   }
 
   .item-row {
-    padding: 7px 5px;
+    padding: 6px 4px;
   }
 
   .item-row-dupla {
     display: grid;
-    grid-template-columns: 1fr 78px;
-    gap: 8px;
-    padding: 7px 9px;
+    grid-template-columns: 1fr 62px;
+    gap: 6px;
+    padding: 6px 8px;
   }
 
   .item-row:hover,
   .item-row-dupla:hover {
     background: #DDE6EA;
-    border-radius: 8px;
+    border-radius: 7px;
   }
 
   .selected {
     background: #607D8B !important;
     color: #FFFFFF;
-    border-radius: 8px;
-    padding-left: 10px;
+    border-radius: 7px;
+    padding-left: 8px;
     font-weight: 600;
-  }
-
-  @media (max-width: 1500px) {
-    .grid-erp {
-      grid-template-columns: repeat(3, minmax(220px, 1fr));
-    }
-  }
-
-  @media (max-width: 1100px) {
-    .grid-erp {
-      grid-template-columns: repeat(2, minmax(220px, 1fr));
-    }
   }
 `;
