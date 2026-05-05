@@ -11,26 +11,31 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
   const telas = {
     "/": {
       titulo: "Tela Inicial",
+      subtitulo: "Sistema interno Tricofio",
       breadcrumb: "Início",
       icon: "⌂"
     },
     "/modelos": {
       titulo: "Ficha de Modelos",
+      subtitulo: "Cadastro e manutenção dos modelos de produção",
       breadcrumb: "Cadastro > Ficha de Modelos",
       icon: "▦"
     },
     "/cadastro-geral": {
       titulo: "Cadastro Geral",
+      subtitulo: "Bases usadas nas validações, listas suspensas e cadastros do sistema",
       breadcrumb: "Cadastro > Cadastro Geral",
       icon: "▣"
     },
     "/usuarios": {
       titulo: "Usuários",
+      subtitulo: "Cadastro de usuários e permissões",
       breadcrumb: "Configurações > Usuários",
       icon: "⚙"
     },
     "/link-visitante": {
       titulo: "Link para Visitantes",
+      subtitulo: "Compartilhamento de acesso visitante",
       breadcrumb: "Configurações > Link Visitante",
       icon: "↗"
     }
@@ -38,11 +43,10 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
 
   const telaAtual = telas[router.pathname] || {
     titulo: titulo || "Controle Produção",
+    subtitulo: subtitulo || "",
     breadcrumb: "Sistema",
     icon: "▧"
   };
-
-  const tituloFinal = titulo || telaAtual.titulo;
 
   useEffect(() => {
     const salvo = localStorage.getItem("user");
@@ -99,8 +103,8 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
 
               <div>
                 <div className="breadcrumb">{telaAtual.breadcrumb}</div>
-                <h1>{tituloFinal}</h1>
-                {subtitulo && <p>{subtitulo}</p>}
+                <h1>{telaAtual.titulo}</h1>
+                {telaAtual.subtitulo && <p>{telaAtual.subtitulo}</p>}
               </div>
             </div>
 
@@ -177,7 +181,6 @@ const globalCss = `
     display: flex;
     align-items: center;
     gap: 13px;
-    min-width: 0;
   }
 
   .page-icon {
@@ -206,7 +209,6 @@ const globalCss = `
     font-size: 20px;
     font-weight: 600;
     color: #263238;
-    letter-spacing: .2px;
     line-height: 1.1;
   }
 
@@ -270,6 +272,21 @@ const globalCss = `
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* REMOVE TÍTULOS DUPLICADOS DENTRO DAS PÁGINAS */
+  .page-container > h1:first-child,
+  .page-container > h1:first-child + .subtitle {
+    display: none !important;
+  }
+
+  .page-container > .page-header > div:first-child {
+    display: none !important;
+  }
+
+  .page-container > .page-header {
+    justify-content: flex-end !important;
+    margin-bottom: 22px;
   }
 
   h1 {
