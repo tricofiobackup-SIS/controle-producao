@@ -1,85 +1,139 @@
-export default function Sidebar() {
-  return `
-    <aside class="sidebar">
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-      <div class="logo-card">
+export default function Sidebar({ abertoMobile, fecharMobile }) {
+  const router = useRouter();
+
+  const menus = [
+    {
+      titulo: "Cadastro",
+      icon: "▣",
+      itens: [
+        { nome: "Ficha Cadastro", link: "/modelos" },
+        { nome: "Cadastro Geral", link: "/cadastro-geral" },
+        { nome: "Ficha Técnica", link: "#" },
+        { nome: "Combinações", link: "#" }
+      ]
+    },
+    {
+      titulo: "O.S",
+      icon: "▤",
+      itens: [
+        { nome: "Lançar O.S", link: "#" },
+        { nome: "Consulta Produção", link: "#" }
+      ]
+    },
+    {
+      titulo: "Fios",
+      icon: "◈",
+      itens: [
+        { nome: "Cadastro de Fio", link: "#" },
+        { nome: "Estoque de Fios", link: "#" }
+      ]
+    },
+    {
+      titulo: "Consultas",
+      icon: "⌕",
+      itens: [
+        { nome: "Ficha Consulta", link: "#" },
+        { nome: "Relatório Estoque", link: "#" }
+      ]
+    }
+  ];
+
+  const menuInicial =
+    menus.find((m) =>
+      m.itens.some((i) => i.link === router.pathname)
+    )?.titulo || "Cadastro";
+
+  const [menuAberto, setMenuAberto] = useState(menuInicial);
+
+  useEffect(() => {
+    const atual = menus.find((m) =>
+      m.itens.some((i) => i.link === router.pathname)
+    );
+
+    if (atual) {
+      setMenuAberto(atual.titulo);
+    }
+  }, [router.pathname]);
+
+  function ativo(link) {
+    return router.pathname === link;
+  }
+
+  function navegar(link) {
+    if (link === "#") return;
+
+    router.push(link);
+
+    if (fecharMobile) {
+      fecharMobile();
+    }
+  }
+
+  return (
+    <aside className={`sidebar ${abertoMobile ? "sidebar-mobile-open" : ""}`}>
+      <div className="logo-card">
         <img
-          src="./public/logo-tricofio.png"
-          class="logo"
+          src="/logo-tricofio.png"
+          className="logo"
           alt="Tricofio"
         />
       </div>
 
-      <div class="system-name">
+      <div className="system-name">
         Controle Produção
       </div>
 
       <nav>
+        {menus.map((menu) => (
+          <div className="menu-group" key={menu.titulo}>
+            <button
+              className={`menu-title ${
+                menuAberto === menu.titulo ? "menu-open" : ""
+              }`}
+              onClick={() =>
+                setMenuAberto(
+                  menuAberto === menu.titulo ? null : menu.titulo
+                )
+              }
+            >
+              <span className="menu-left">
+                <span className="menu-icon">
+                  {menu.icon}
+                </span>
 
-        <div class="menu-group">
-          <button class="menu-title menu-open">
-            <span class="menu-left">
-              <span class="menu-icon">▣</span>
-              <span>Cadastro</span>
-            </span>
-            <span class="arrow">▾</span>
-          </button>
+                <span>{menu.titulo}</span>
+              </span>
 
-          <div class="submenu submenu-open">
-            <a href="#" class="submenu-link">Ficha Cadastro</a>
-            <a href="#" class="submenu-link active">Cadastro Geral</a>
-            <a href="#" class="submenu-link">Ficha Técnica</a>
-            <a href="#" class="submenu-link">Combinações</a>
+              <span className="arrow">
+                {menuAberto === menu.titulo ? "▾" : "▸"}
+              </span>
+            </button>
+
+            <div
+              className={`submenu ${
+                menuAberto === menu.titulo
+                  ? "submenu-open"
+                  : ""
+              }`}
+            >
+              {menu.itens.map((item) => (
+                <button
+                  key={item.nome}
+                  onClick={() => navegar(item.link)}
+                  className={`submenu-link ${
+                    ativo(item.link) ? "active" : ""
+                  }`}
+                >
+                  {item.nome}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-
-        <div class="menu-group">
-          <button class="menu-title">
-            <span class="menu-left">
-              <span class="menu-icon">▤</span>
-              <span>O.S</span>
-            </span>
-            <span class="arrow">▸</span>
-          </button>
-
-          <div class="submenu">
-            <a href="#" class="submenu-link">Lançar O.S</a>
-            <a href="#" class="submenu-link">Consulta Produção</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button class="menu-title">
-            <span class="menu-left">
-              <span class="menu-icon">◈</span>
-              <span>Fios</span>
-            </span>
-            <span class="arrow">▸</span>
-          </button>
-
-          <div class="submenu">
-            <a href="#" class="submenu-link">Cadastro de Fio</a>
-            <a href="#" class="submenu-link">Estoque de Fios</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button class="menu-title">
-            <span class="menu-left">
-              <span class="menu-icon">⌕</span>
-              <span>Consultas</span>
-            </span>
-            <span class="arrow">▸</span>
-          </button>
-
-          <div class="submenu">
-            <a href="#" class="submenu-link">Ficha Consulta</a>
-            <a href="#" class="submenu-link">Relatório Estoque</a>
-          </div>
-        </div>
-
+        ))}
       </nav>
-
     </aside>
-  `;
+  );
 }
