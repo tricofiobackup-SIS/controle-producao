@@ -44,30 +44,24 @@ body {
   color: #FFFFFF;
   box-shadow: 8px 0 24px rgba(38,50,56,.22);
   flex-shrink: 0;
+  padding-top: 1px;
 }
 
-.logo-strip {
-  height: 88px;
-  background: rgba(236,239,241,.96);
-  border-bottom: 1px solid #B0BEC5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 18px;
-  text-decoration: none;
-}
-
-.logo-strip:hover {
+.logo-card {
   background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  border-radius: 16px;
+  padding: 12px;
+  margin: 18px;
+  margin-bottom: 14px;
+  text-align: center;
+  box-shadow: 0 10px 22px rgba(0,0,0,.14);
 }
 
-.logo {
-  width: 132px;
+.logo-card .logo {
+  width: 78%;
   display: block;
-}
-
-.menu-area {
-  padding: 14px 18px 20px;
+  margin: 0 auto;
 }
 
 .system-name {
@@ -81,6 +75,7 @@ body {
 
 .menu-group {
   margin-bottom: 7px;
+  padding: 0 18px;
 }
 
 .menu-title {
@@ -378,14 +373,20 @@ button {
   .sidebar {
     width: 100%;
     min-height: auto;
+    padding-top: 1px;
   }
 
-  .logo-strip {
-    height: 76px;
+  .logo-card {
+    margin: 12px;
+    padding: 10px;
   }
 
-  .logo {
+  .logo-card .logo {
     width: 120px;
+  }
+
+  .menu-group {
+    padding: 0 12px;
   }
 
   .topbar {
