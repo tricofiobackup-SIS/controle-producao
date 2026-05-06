@@ -476,3 +476,22 @@ export default function CadastroGeral() {
     content
   });
 }
+@media (max-width: 768px) {
+
+  .grid-erp {
+    grid-template-columns: 1fr !important;
+    justify-content: center;
+  }
+
+  .erp-card {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+  }
+
+  .item-list {
+    max-height: 220px;
+  }
+
+}
