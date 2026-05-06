@@ -2,7 +2,7 @@ export default function Sidebar() {
   return `
     <aside class="sidebar">
       <a href="#" class="logo-strip" title="Voltar para a Tela Inicial">
-        <img src="/logo-tricofio.png" class="logo" alt="Tricofio" />
+        <img src="./public/logo-tricofio.png" class="logo" alt="Tricofio" />
       </a>
 
       <div class="menu-area">
