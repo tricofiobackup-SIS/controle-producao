@@ -1,3 +1,3 @@
-import CadastroGeral from "./cadastro-geral.js";
+import Home from "./home.js";
 
-document.getElementById("app").innerHTML = CadastroGeral();
+document.getElementById("app").innerHTML = Home();
