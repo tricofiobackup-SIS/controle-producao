@@ -5,42 +5,49 @@ export default function Sidebar({ abertoMobile, fecharMobile }) {
   const router = useRouter();
 
   const menus = [
-    {
-      titulo: "Cadastro",
-      icon: "▣",
-      itens: [
-        { nome: "Ficha Cadastro", link: "/modelos" },
-        { nome: "Cadastro Geral", link: "/cadastro-geral" },
-        { nome: "Ficha Técnica", link: "#" },
-        { nome: "Combinações", link: "#" }
-      ]
-    },
-    {
-      titulo: "O.S",
-      icon: "▤",
-      itens: [
-        { nome: "Lançar O.S", link: "#" },
-        { nome: "Consulta Produção", link: "#" }
-      ]
-    },
-    {
-      titulo: "Fios",
-      icon: "◈",
-      itens: [
-        { nome: "Cadastro de Fio", link: "#" },
-        { nome: "Estoque de Fios", link: "#" }
-      ]
-    },
-    {
-      titulo: "Consultas",
-      icon: "⌕",
-      itens: [
-        { nome: "Ficha Consulta", link: "#" },
-        { nome: "Relatório Estoque", link: "#" }
-      ]
-    }
-  ];
-
+  {
+    titulo: "Cadastro",
+    icon: "▣",
+    itens: [
+      { nome: "Ficha Cadastro", link: "/modelos" },
+      { nome: "Cadastro Geral", link: "/cadastro-geral" },
+      { nome: "Ficha Técnica", link: "#" },
+      { nome: "Combinações", link: "#" }
+    ]
+  },
+  {
+    titulo: "O.S",
+    icon: "▤",
+    itens: [
+      { nome: "Lançar O.S", link: "#" },
+      { nome: "Consulta Produção", link: "#" }
+    ]
+  },
+  {
+    titulo: "Fios",
+    icon: "◈",
+    itens: [
+      { nome: "Cadastro de Fio", link: "#" },
+      { nome: "Estoque de Fios", link: "#" }
+    ]
+  },
+  {
+    titulo: "Consultas",
+    icon: "⌕",
+    itens: [
+      { nome: "Ficha Consulta", link: "#" },
+      { nome: "Relatório Estoque", link: "#" }
+    ]
+  },
+  {
+    titulo: "Configurações",
+    icon: "⚙",
+    itens: [
+      { nome: "Usuários", link: "/usuarios" },
+      { nome: "Link Visitante", link: "/link-visitante" }
+    ]
+  }
+];
   const menuInicial =
     menus.find((m) =>
       m.itens.some((i) => i.link === router.pathname)
