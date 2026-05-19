@@ -4,10 +4,6 @@ export default function Home() {
   const [tela, setTela] = useState("inicial");
   const [menuAberto, setMenuAberto] = useState("Cadastro");
 
-  const abrirMenu = (menu) => {
-    setMenuAberto(menuAberto === menu ? null : menu);
-  };
-
   const menus = [
     {
       titulo: "Cadastro",
@@ -62,7 +58,10 @@ export default function Home() {
 
         {menus.map((menu) => (
           <div key={menu.titulo} style={styles.menuGroup}>
-            <button style={styles.menuTitle} onClick={() => abrirMenu(menu.titulo)}>
+            <button
+              style={styles.menuTitle}
+              onClick={() => setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)}
+            >
               <span>{menu.titulo}</span>
               <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
             </button>
@@ -94,176 +93,192 @@ export default function Home() {
 
 function TelaInicial() {
   return (
-    <>
-      <header style={styles.header}>
-        <div>
-          <h1 style={styles.h1}>Controle Produção</h1>
-          <p style={styles.subtitle}>Sistema web baseado fielmente na Tela Inicial do Excel</p>
-        </div>
-
-        <div style={styles.userBox}>
-          <span>Admin</span>
-          <strong>LF</strong>
-        </div>
-      </header>
-
-      <section style={styles.cards}>
-        <Card titulo="O.S em aberto" numero="24" texto="Ordens aguardando andamento" />
-        <Card titulo="Modelos cadastrados" numero="128" texto="Base principal do sistema" />
-        <Card titulo="Fios em estoque" numero="342" texto="Controle de entrada e saída" />
-      </section>
-
-      <section style={styles.panel}>
-        <h2 style={styles.h2}>Encomendas / O.S</h2>
-        <p style={styles.subtitle}>Primeira listagem do sistema web</p>
-      </section>
-    </>
-  );
-}
-
-function Card({ titulo, numero, texto }) {
-  return (
-    <div style={styles.card}>
-      <span style={styles.cardLabel}>{titulo}</span>
-      <strong style={styles.cardNumber}>{numero}</strong>
-      <p style={styles.cardText}>{texto}</p>
+    <div style={styles.content}>
+      <h1 style={styles.h1}>Controle Produção</h1>
+      <p style={styles.subtitle}>Sistema web baseado no Excel Tricofio</p>
     </div>
   );
 }
 
 function FichaModelos() {
-  const fios = Array.from({ length: 12 }, (_, i) => `Fio ${i + 1}`);
-  const partes = Array.from({ length: 13 }, (_, i) => `Parte ${i + 1}`);
+  const fios = Array.from({ length: 12 }, (_, i) => i + 1);
+  const partes = Array.from({ length: 13 }, (_, i) => i + 1);
 
   return (
-    <div>
-      <div style={styles.topBar}>
-        <h1 style={styles.topTitle}>Ficha de Modelos</h1>
-        <div style={styles.topLinks}>
-          <span>Cadastro Geral</span>
-          <span>Ordem de Serviços</span>
-          <span>Ficha Técnica</span>
-          <span>Consulta Modelos</span>
-          <span>Cadastro de Fios</span>
-          <span>Fios e Cores</span>
-          <span>B.D. Modelos</span>
+    <div style={styles.content}>
+      <div style={styles.pageHeader}>
+        <div>
+          <h1 style={styles.h1}>Ficha de Modelos</h1>
+          <p style={styles.subtitle}>Cadastro e manutenção dos modelos de produção</p>
         </div>
-      </div>
 
-      <div style={styles.modelPage}>
         <div style={styles.actions}>
-          <button style={styles.actionBtn}>Cadastrar novo Modelo</button>
-          <button style={styles.actionBtn}>Carregar</button>
-          <button style={styles.actionBtn}>Atualizar</button>
-          <button style={styles.actionBtn}>Limpar</button>
-          <button style={styles.actionBtn}>Excluir</button>
+          <button style={styles.primaryBtn}>Cadastrar novo</button>
+          <button style={styles.secondaryBtn}>Carregar</button>
+          <button style={styles.secondaryBtn}>Atualizar</button>
+          <button style={styles.secondaryBtn}>Limpar</button>
+          <button style={styles.dangerBtn}>Excluir</button>
+        </div>
+      </div>
+
+      <section style={styles.card}>
+        <h2 style={styles.cardTitle}>Dados principais</h2>
+
+        <div style={styles.grid4}>
+          <Campo label="Código" />
+          <Campo label="Tempo Peça" />
+          <Campo label="Máquina" />
+          <Campo label="Coleção" />
         </div>
 
-        <div style={styles.formLine}>
-          <LabelInput label="Cod:" small />
-          <LabelInput label="Tempo Pç:" />
-          <LabelInput label="Máquina:" />
-          <LabelInput label="Coleção:" />
+        <div style={styles.grid4}>
+          <Campo label="Peso Total" />
+          <Campo label="Programador" />
+          <Campo label="NCM" />
+          <Campo label="Data" value="30/04/2026" />
         </div>
+      </section>
 
-        <div style={styles.modelGrid}>
-          <section>
-            <LabelInput label="Peso Total:" small />
-            <TableLike
-              headers={["", "Peso", "Cor 1", "Cor 2", "Cor 3"]}
-              rows={fios}
-            />
-          </section>
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Fios e cores</h2>
 
-          <section>
-            <TableLike
-              headers={["Partes", "Quant."]}
-              rows={partes.slice(0, 12)}
-            />
-          </section>
+          <div style={styles.tableHeader5}>
+            <span>Fio</span>
+            <span>Peso</span>
+            <span>Cor 1</span>
+            <span>Cor 2</span>
+            <span>Cor 3</span>
+          </div>
 
-          <section>
-            <TableLike
-              headers={["Bico", "Lado L", "Bico", "Lado R"]}
-              rows={["11 / 21", "12 / 22", "13 / 23", "14 / 24", "15 / 25", "16 / 26", "17 / 27", "18 / 28"]}
-            />
-
-            <label style={styles.label}>Obs:</label>
-            <textarea style={styles.textarea}></textarea>
-          </section>
-
-          <section>
-            <div style={styles.smallTitle}>Peso tirado &gt;&gt;&gt;&gt;&gt;</div>
-            <TableLike
-              headers={["Fio", "Peso", "+5% M", "+5% G"]}
-              rows={Array.from({ length: 14 }, () => "-")}
-            />
-          </section>
-        </div>
-
-        <div style={styles.bottomGrid}>
-          <section>
-            <h3 style={styles.sectionTitle}>Medidas REMALHO</h3>
-            <TableLike headers={["Partes", "Medida"]} rows={partes} />
-          </section>
-
-          <section>
-            <h3 style={styles.sectionTitle}>Acessórios</h3>
-            <div style={styles.blankBox}></div>
-
-            <LabelInput label="Programador:" />
-            <LabelInput label="NCMs:" />
-          </section>
-
-          <section>
-            <button style={styles.actionBtn}>Calcular composição</button>
-            <h3 style={styles.sectionTitle}>Composições:</h3>
-            <div style={styles.blankBoxLarge}></div>
-
-            <h3 style={styles.sectionTitle}>Composições Forros:</h3>
-            <div style={styles.blankBox}></div>
-          </section>
-
-          <section>
-            <h3 style={styles.sectionTitle}>Imagem:</h3>
-            <div style={styles.imageBox}></div>
-            <div style={{ marginTop: 10 }}>
-              <button style={styles.actionBtn}>Busca</button>
-              <button style={styles.actionBtn}>Limpa</button>
+          {fios.map((n) => (
+            <div style={styles.tableRow5} key={n}>
+              <strong>Fio {n}</strong>
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
             </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LabelInput({ label, small }) {
-  return (
-    <label style={styles.labelWrap}>
-      <span style={styles.label}>{label}</span>
-      <input style={small ? styles.inputSmall : styles.input} />
-    </label>
-  );
-}
-
-function TableLike({ headers, rows }) {
-  return (
-    <div style={styles.fakeTable}>
-      <div style={styles.fakeHeader}>
-        {headers.map((h) => (
-          <div key={h}>{h}</div>
-        ))}
-      </div>
-
-      {rows.map((row, i) => (
-        <div style={styles.fakeRow} key={i}>
-          {headers.map((_, j) => (
-            <div key={j}>{j === 0 ? row : ""}</div>
           ))}
-        </div>
-      ))}
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Partes e quantidades</h2>
+
+          <div style={styles.tableHeader2}>
+            <span>Parte</span>
+            <span>Quantidade</span>
+          </div>
+
+          {partes.slice(0, 12).map((n) => (
+            <div style={styles.tableRow2} key={n}>
+              <strong>Parte {n}</strong>
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+      </div>
+
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Bicos / Lados</h2>
+
+          <div style={styles.grid2Inner}>
+            <div>
+              <h3 style={styles.smallTitle}>Lado L</h3>
+              {[11, 12, 13, 14, 15, 16, 17, 18].map((n) => (
+                <div style={styles.lineInput} key={n}>
+                  <strong>{n}</strong>
+                  <input style={styles.input} />
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h3 style={styles.smallTitle}>Lado R</h3>
+              {[21, 22, 23, 24, 25, 26, 27, 28].map((n) => (
+                <div style={styles.lineInput} key={n}>
+                  <strong>{n}</strong>
+                  <input style={styles.input} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <label style={styles.label}>Observações</label>
+          <textarea style={styles.textarea}></textarea>
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Peso tirado</h2>
+
+          <div style={styles.tableHeader4}>
+            <span>Fio</span>
+            <span>Peso</span>
+            <span>+5% M</span>
+            <span>+5% G</span>
+          </div>
+
+          {fios.map((n) => (
+            <div style={styles.tableRow4} key={n}>
+              <strong>Fio {n}</strong>
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+      </div>
+
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Medidas Remalho</h2>
+
+          <div style={styles.tableHeader2}>
+            <span>Parte</span>
+            <span>Medida</span>
+          </div>
+
+          {partes.map((n) => (
+            <div style={styles.tableRow2} key={n}>
+              <strong>Parte {n}</strong>
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Composição e imagem</h2>
+
+          <button style={styles.secondaryBtn}>Calcular composição</button>
+
+          <label style={styles.label}>Composições</label>
+          <textarea style={styles.textarea}></textarea>
+
+          <label style={styles.label}>Composições Forros</label>
+          <textarea style={styles.textareaSmall}></textarea>
+
+          <label style={styles.label}>Imagem do modelo</label>
+          <div style={styles.imageBox}>
+            <span>Nenhuma imagem selecionada</span>
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <button style={styles.secondaryBtn}>Buscar imagem</button>
+            <button style={styles.secondaryBtn}>Limpar imagem</button>
+          </div>
+        </section>
+      </div>
     </div>
+  );
+}
+
+function Campo({ label, value }) {
+  return (
+    <label style={styles.campo}>
+      <span>{label}</span>
+      <input style={styles.input} defaultValue={value || ""} />
+    </label>
   );
 }
 
@@ -272,11 +287,10 @@ const colors = {
   lateral: "#1F1F1F",
   lateralAtivo: "#333333",
   texto: "#10222C",
-  textoClaro: "#FFFFFF",
   card: "#FFFFFF",
-  borda: "#8FA1AA",
+  borda: "#D6DEE3",
   destaque: "#5E7A86",
-  topo: "#25343B"
+  danger: "#B43131"
 };
 
 const styles = {
@@ -290,13 +304,13 @@ const styles = {
   sidebar: {
     width: 292,
     background: colors.lateral,
-    color: colors.textoClaro,
+    color: "#fff",
     padding: 24,
     boxSizing: "border-box"
   },
   logoArea: {
     background: "#fff",
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 10,
     marginBottom: 10
   },
@@ -355,187 +369,203 @@ const styles = {
   },
   main: {
     flex: 1,
-    padding: 0,
-    boxSizing: "border-box"
+    overflow: "auto"
   },
-  header: {
+  content: {
+    padding: 32
+  },
+  pageHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 34
+    marginBottom: 24
   },
   h1: {
     margin: 0,
     fontSize: 30
   },
-  h2: {
-    margin: 0,
-    fontSize: 26
-  },
   subtitle: {
     color: "#34464E",
-    marginTop: 10
-  },
-  userBox: {
-    background: "#fff",
-    padding: "10px 15px",
-    borderRadius: 14
-  },
-  cards: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 18,
-    padding: "0 34px 26px"
-  },
-  card: {
-    background: "#fff",
-    padding: 22,
-    borderRadius: 20,
-    border: "1px solid #D6DEE3"
-  },
-  cardLabel: {
-    color: "#34464E"
-  },
-  cardNumber: {
-    fontSize: 24,
-    marginLeft: 6
-  },
-  cardText: {
-    color: "#34464E"
-  },
-  panel: {
-    background: "#fff",
-    borderRadius: 24,
-    padding: 24,
-    margin: "0 34px",
-    border: "1px solid #D6DEE3"
-  },
-
-  topBar: {
-    background: colors.topo,
-    color: "#fff",
-    height: 72,
-    display: "flex",
-    alignItems: "center"
-  },
-  topTitle: {
-    width: 300,
-    paddingLeft: 35,
-    fontSize: 24,
-    fontWeight: 400
-  },
-  topLinks: {
-    display: "flex",
-    gap: 22,
-    fontSize: 16
-  },
-  modelPage: {
-    padding: 24
+    marginTop: 8
   },
   actions: {
     display: "flex",
-    gap: 36,
-    marginBottom: 18
+    gap: 10,
+    flexWrap: "wrap"
   },
-  actionBtn: {
+  primaryBtn: {
     background: colors.destaque,
     color: "#fff",
     border: 0,
-    padding: "7px 22px",
-    borderRadius: 2,
-    boxShadow: "2px 3px 5px rgba(0,0,0,.25)",
-    marginRight: 8,
+    borderRadius: 10,
+    padding: "11px 16px",
+    fontWeight: "bold",
     cursor: "pointer"
   },
-  formLine: {
-    display: "flex",
-    gap: 26,
-    marginBottom: 28,
-    alignItems: "end"
+  secondaryBtn: {
+    background: "#fff",
+    color: colors.texto,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    marginRight: 8
   },
-  labelWrap: {
-    display: "inline-flex",
-    alignItems: "center",
+  dangerBtn: {
+    background: colors.danger,
+    color: "#fff",
+    border: 0,
+    borderRadius: 10,
+    padding: "11px 16px",
+    fontWeight: "bold",
+    cursor: "pointer"
+  },
+  card: {
+    background: colors.card,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 18,
+    padding: 20,
+    marginBottom: 20,
+    boxShadow: "0 10px 28px rgba(0,0,0,.08)"
+  },
+  cardTitle: {
+    marginTop: 0,
+    marginBottom: 16,
+    fontSize: 20
+  },
+  grid4: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gap: 16,
+    marginBottom: 14
+  },
+  grid2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 20
+  },
+  grid2Inner: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 16
+  },
+  campo: {
+    display: "flex",
+    flexDirection: "column",
     gap: 6,
-    marginRight: 12,
-    marginBottom: 10
+    fontWeight: "bold",
+    fontSize: 13
   },
   label: {
+    display: "block",
+    marginTop: 14,
+    marginBottom: 6,
     fontWeight: "bold",
     fontSize: 13
   },
   input: {
-    height: 22,
-    width: 170,
-    border: "1px solid #555",
+    height: 38,
+    borderRadius: 10,
+    border: `1px solid ${colors.borda}`,
+    padding: "0 10px",
     background: "#fff"
   },
-  inputSmall: {
-    height: 22,
-    width: 70,
-    border: "1px solid #555",
+  cellInput: {
+    height: 34,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 8,
+    padding: "0 8px",
     background: "#fff"
   },
-  modelGrid: {
+  tableHeader5: {
     display: "grid",
-    gridTemplateColumns: "360px 180px 420px 290px",
-    gap: 34,
-    alignItems: "start"
-  },
-  bottomGrid: {
-    display: "grid",
-    gridTemplateColumns: "220px 220px 300px 360px",
-    gap: 42,
-    marginTop: 26,
-    alignItems: "start"
-  },
-  fakeTable: {
-    border: "1px solid #777",
-    background: "#fff",
-    fontSize: 13
-  },
-  fakeHeader: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))",
-    background: "#D8E1E6",
+    gridTemplateColumns: "90px repeat(4, 1fr)",
+    gap: 8,
     fontWeight: "bold",
-    borderBottom: "1px solid #999"
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
   },
-  fakeRow: {
+  tableRow5: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))",
-    minHeight: 22,
-    borderBottom: "1px solid #ccc"
+    gridTemplateColumns: "90px repeat(4, 1fr)",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  tableHeader2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 8,
+    fontWeight: "bold",
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
+  },
+  tableRow2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  tableHeader4: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(3, 1fr)",
+    gap: 8,
+    fontWeight: "bold",
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
+  },
+  tableRow4: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(3, 1fr)",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  smallTitle: {
+    margin: "0 0 10px",
+    fontSize: 15
+  },
+  lineInput: {
+    display: "grid",
+    gridTemplateColumns: "50px 1fr",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
   },
   textarea: {
     width: "100%",
+    height: 110,
+    borderRadius: 12,
+    border: `1px solid ${colors.borda}`,
+    padding: 10,
+    resize: "vertical",
+    boxSizing: "border-box"
+  },
+  textareaSmall: {
+    width: "100%",
     height: 70,
-    background: "#DCEAF3",
-    border: "1px solid #999"
-  },
-  smallTitle: {
-    background: colors.destaque,
-    color: "#fff",
-    padding: 6,
-    fontWeight: "bold"
-  },
-  sectionTitle: {
-    fontSize: 14,
-    margin: "10px 0 6px"
-  },
-  blankBox: {
-    height: 125,
-    background: "#fff",
-    border: "1px solid #777"
-  },
-  blankBoxLarge: {
-    height: 170,
-    background: "#fff",
-    border: "1px solid #777"
+    borderRadius: 12,
+    border: `1px solid ${colors.borda}`,
+    padding: 10,
+    resize: "vertical",
+    boxSizing: "border-box"
   },
   imageBox: {
-    height: 300,
-    background: "#D8E1E6",
-    border: "1px solid #B8C4CA"
+    height: 220,
+    background: "#E7EEF2",
+    border: `1px dashed ${colors.destaque}`,
+    borderRadius: 14,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#34464E"
   }
 };
