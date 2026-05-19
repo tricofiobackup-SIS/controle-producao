@@ -4,14 +4,15 @@ export default function Home() {
   const [logado, setLogado] = useState(false);
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
-  const [nivel, setNivel] = useState("visitante");
+  const [nivel, setNivel] = useState("admin");
   const [tela, setTela] = useState("inicial");
   const [menuAberto, setMenuAberto] = useState("Cadastro");
+  const [itemAtivo, setItemAtivo] = useState("Tela Inicial");
 
   function entrar(e) {
     e.preventDefault();
 
-    if (usuario.trim() === "" || senha.trim() === "") {
+    if (!usuario.trim() || !senha.trim()) {
       alert("Informe usuário e senha.");
       return;
     }
@@ -60,114 +61,125 @@ export default function Home() {
 
   if (!logado) {
     return (
-      <div style={styles.loginPage}>
-        <form style={styles.loginCard} onSubmit={entrar}>
-          <div style={styles.loginLogoBox}>
-            <img src="/logo-tricofio.jpg" style={styles.loginLogo} alt="Tricofio" />
-          </div>
+      <>
+        <style>{css}</style>
 
-          <h1 style={styles.loginTitle}>Controle Produção</h1>
-          <p style={styles.loginSub}>Acesse o sistema</p>
+        <div className="login-page">
+          <form className="login-card" onSubmit={entrar}>
+            <img src="/logo-tricofio.png" className="login-logo" alt="Tricofio" />
 
-          <label style={styles.loginLabel}>Usuário</label>
-          <input
-            style={styles.loginInput}
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            placeholder="Digite seu usuário"
-          />
+            <h1>Controle Produção</h1>
+            <p>Acesse o sistema</p>
 
-          <label style={styles.loginLabel}>Senha</label>
-          <input
-            style={styles.loginInput}
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            placeholder="Digite sua senha"
-          />
+            <label>Usuário</label>
+            <input
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              placeholder="Digite seu usuário"
+            />
 
-          <label style={styles.loginLabel}>Nível</label>
-          <select
-            style={styles.loginInput}
-            value={nivel}
-            onChange={(e) => setNivel(e.target.value)}
-          >
-            <option value="admin">Admin</option>
-            <option value="visitante">Visitante</option>
-          </select>
+            <label>Senha</label>
+            <input
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Digite sua senha"
+            />
 
-          <button style={styles.loginButton} type="submit">
-            Entrar
-          </button>
+            <label>Nível</label>
+            <select value={nivel} onChange={(e) => setNivel(e.target.value)}>
+              <option value="admin">Admin</option>
+              <option value="visitante">Visitante</option>
+            </select>
 
-          <p style={styles.loginHint}>Login provisório para teste visual.</p>
-        </form>
-      </div>
+            <button type="submit">Entrar</button>
+
+            <small>Login provisório para teste visual.</small>
+          </form>
+        </div>
+      </>
     );
   }
 
   return (
-    <div style={styles.page}>
-      <aside style={styles.sidebar}>
-        <div style={styles.logoArea}>
-          <img src="/logo-tricofio.jpg" style={styles.logoImg} alt="Tricofio" />
-        </div>
+    <>
+      <style>{css}</style>
 
-        <div style={styles.logoSub}>Controle Produção</div>
-
-        <button style={styles.active} onClick={() => setTela("inicial")}>
-          Tela Inicial
-        </button>
-
-        {menus.map((menu) => (
-          <div key={menu.titulo} style={styles.menuGroup}>
-            <button
-              style={styles.menuTitle}
-              onClick={() => setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)}
-            >
-              <span>{menu.titulo}</span>
-              <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
-            </button>
-
-            {menuAberto === menu.titulo && (
-              <div style={styles.submenu}>
-                {menu.itens.map((item) => (
-                  <button
-                    key={item.nome}
-                    style={styles.menuItem}
-                    onClick={() => setTela(item.tela)}
-                  >
-                    {item.nome}
-                  </button>
-                ))}
-              </div>
-            )}
+      <div className="page">
+        <aside className="sidebar">
+          <div className="logo-area">
+            <img src="/logo-tricofio.png" className="logo-img" alt="Tricofio" />
           </div>
-        ))}
 
-        <button style={styles.logoutBtn} onClick={() => setLogado(false)}>
-          Sair
-        </button>
-      </aside>
+          <div className="logo-sub">Controle Produção</div>
 
-      <main style={styles.main}>
-        <div style={styles.userTop}>
-          <span>{nivel === "admin" ? "Admin" : "Visitante"}</span>
-          <strong>{usuario || "Usuário"}</strong>
-        </div>
+          <button
+            className={itemAtivo === "Tela Inicial" ? "nav-active" : "nav-button"}
+            onClick={() => {
+              setTela("inicial");
+              setItemAtivo("Tela Inicial");
+            }}
+          >
+            Tela Inicial
+          </button>
 
-        {tela === "inicial" && <TelaInicial />}
-        {tela === "modelos" && <FichaModelos />}
-      </main>
-    </div>
+          {menus.map((menu) => (
+            <div key={menu.titulo} className="menu-group">
+              <button
+                className="menu-title"
+                onClick={() =>
+                  setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
+                }
+              >
+                <span>{menu.titulo}</span>
+                <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
+              </button>
+
+              {menuAberto === menu.titulo && (
+                <div className="submenu">
+                  {menu.itens.map((item) => (
+                    <button
+                      key={item.nome}
+                      className={
+                        itemAtivo === item.nome ? "submenu-item active-item" : "submenu-item"
+                      }
+                      onClick={() => {
+                        setTela(item.tela);
+                        setItemAtivo(item.nome);
+                      }}
+                    >
+                      {item.nome}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          <button className="logout-btn" onClick={() => setLogado(false)}>
+            Sair
+          </button>
+        </aside>
+
+        <main className="main">
+          <div className="user-top">
+            <span>{nivel === "admin" ? "Admin" : "Visitante"}</span>
+            <strong>{usuario || "Usuário"}</strong>
+          </div>
+
+          {tela === "inicial" && <TelaInicial />}
+          {tela === "modelos" && <FichaModelos />}
+        </main>
+      </div>
+    </>
   );
 }
 
 function TelaInicial() {
   return (
-    <div style={styles.content}>
-      <h1 style={styles.h1}>Controle Produção</h1>
-      <p style={styles.subtitle}>Sistema web baseado no Excel Tricofio</p>
+    <div className="content">
+      <h1>Controle Produção</h1>
+      <p className="subtitle">Sistema web baseado no Excel Tricofio</p>
     </div>
   );
 }
@@ -177,33 +189,33 @@ function FichaModelos() {
   const partes = Array.from({ length: 13 }, (_, i) => i + 1);
 
   return (
-    <div style={styles.content}>
-      <div style={styles.pageHeader}>
+    <div className="content">
+      <div className="page-header">
         <div>
-          <h1 style={styles.h1}>Ficha de Modelos</h1>
-          <p style={styles.subtitle}>Cadastro e manutenção dos modelos de produção</p>
+          <h1>Ficha de Modelos</h1>
+          <p className="subtitle">Cadastro e manutenção dos modelos de produção</p>
         </div>
 
-        <div style={styles.actions}>
-          <button style={styles.primaryBtn}>Cadastrar novo</button>
-          <button style={styles.secondaryBtn}>Carregar</button>
-          <button style={styles.secondaryBtn}>Atualizar</button>
-          <button style={styles.secondaryBtn}>Limpar</button>
-          <button style={styles.dangerBtn}>Excluir</button>
+        <div className="actions">
+          <button className="primary-btn">Cadastrar novo</button>
+          <button className="secondary-btn">Carregar</button>
+          <button className="secondary-btn">Atualizar</button>
+          <button className="secondary-btn">Limpar</button>
+          <button className="danger-btn">Excluir</button>
         </div>
       </div>
 
-      <section style={styles.card}>
-        <h2 style={styles.cardTitle}>Dados principais</h2>
+      <section className="card">
+        <h2>Dados principais</h2>
 
-        <div style={styles.grid4}>
+        <div className="grid4">
           <Campo label="Código" />
           <Campo label="Tempo Peça" />
           <Campo label="Máquina" />
           <Campo label="Coleção" />
         </div>
 
-        <div style={styles.grid4}>
+        <div className="grid4">
           <Campo label="Peso Total" />
           <Campo label="Programador" />
           <Campo label="NCM" />
@@ -211,11 +223,11 @@ function FichaModelos() {
         </div>
       </section>
 
-      <div style={styles.grid2}>
-        <section style={styles.card}>
-          <h2 style={styles.cardTitle}>Fios e cores</h2>
+      <div className="grid2">
+        <section className="card">
+          <h2>Fios e cores</h2>
 
-          <div style={styles.tableHeader5}>
+          <div className="table-header-5">
             <span>Fio</span>
             <span>Peso</span>
             <span>Cor 1</span>
@@ -224,28 +236,28 @@ function FichaModelos() {
           </div>
 
           {fios.map((n) => (
-            <div style={styles.tableRow5} key={n}>
+            <div className="table-row-5" key={n}>
               <strong>Fio {n}</strong>
-              <input style={styles.cellInput} />
-              <input style={styles.cellInput} />
-              <input style={styles.cellInput} />
-              <input style={styles.cellInput} />
+              <input />
+              <input />
+              <input />
+              <input />
             </div>
           ))}
         </section>
 
-        <section style={styles.card}>
-          <h2 style={styles.cardTitle}>Partes e quantidades</h2>
+        <section className="card">
+          <h2>Partes e quantidades</h2>
 
-          <div style={styles.tableHeader2}>
+          <div className="table-header-2">
             <span>Parte</span>
             <span>Quantidade</span>
           </div>
 
           {partes.slice(0, 12).map((n) => (
-            <div style={styles.tableRow2} key={n}>
+            <div className="table-row-2" key={n}>
               <strong>Parte {n}</strong>
-              <input style={styles.cellInput} />
+              <input />
             </div>
           ))}
         </section>
@@ -256,315 +268,388 @@ function FichaModelos() {
 
 function Campo({ label, value }) {
   return (
-    <label style={styles.campo}>
+    <label className="campo">
       <span>{label}</span>
-      <input style={styles.input} defaultValue={value || ""} />
+      <input defaultValue={value || ""} />
     </label>
   );
 }
 
-const colors = {
-  fundo: "#AEBCC3",
-  lateral: "#1F1F1F",
-  lateralAtivo: "#333333",
-  texto: "#10222C",
-  card: "#FFFFFF",
-  borda: "#D6DEE3",
-  destaque: "#5E7A86",
-  danger: "#B43131"
-};
-
-const styles = {
-  loginPage: {
-    minHeight: "100vh",
-    background: colors.fundo,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "Arial, sans-serif"
-  },
-  loginCard: {
-    width: 390,
-    background: "#fff",
-    borderRadius: 22,
-    padding: 32,
-    boxShadow: "0 20px 45px rgba(0,0,0,.18)"
-  },
-  loginLogoBox: {
-    background: "#fff",
-    borderRadius: 16,
-    marginBottom: 20
-  },
-  loginLogo: {
-    width: "100%"
-  },
-  loginTitle: {
-    margin: 0,
-    fontSize: 28,
-    color: colors.texto
-  },
-  loginSub: {
-    color: "#50646E",
-    marginBottom: 22
-  },
-  loginLabel: {
-    display: "block",
-    fontWeight: "bold",
-    marginBottom: 6,
-    marginTop: 12,
-    fontSize: 13
-  },
-  loginInput: {
-    width: "100%",
-    height: 42,
-    borderRadius: 12,
-    border: `1px solid ${colors.borda}`,
-    padding: "0 12px",
-    boxSizing: "border-box"
-  },
-  loginButton: {
-    width: "100%",
-    height: 44,
-    borderRadius: 12,
-    border: 0,
-    background: colors.lateral,
-    color: "#fff",
-    fontWeight: "bold",
-    marginTop: 20,
-    cursor: "pointer"
-  },
-  loginHint: {
-    fontSize: 12,
-    color: "#60747E",
-    textAlign: "center",
-    marginTop: 16
-  },
-  page: {
-    display: "flex",
-    minHeight: "100vh",
-    background: colors.fundo,
-    fontFamily: "Arial, sans-serif",
-    color: colors.texto
-  },
-  sidebar: {
-    width: 292,
-    background: colors.lateral,
-    color: "#fff",
-    padding: 24,
-    boxSizing: "border-box"
-  },
-  logoArea: {
-    background: "#fff",
-    borderRadius: 12,
-    padding: 10,
-    marginBottom: 10
-  },
-  logoImg: {
-    width: "100%",
-    display: "block"
-  },
-  logoSub: {
-    fontSize: 12,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-    color: "#D6DEE3",
-    marginBottom: 25
-  },
-  active: {
-    width: "100%",
-    padding: "13px 16px",
-    borderRadius: 10,
-    background: colors.lateralAtivo,
-    color: "#fff",
-    border: 0,
-    marginBottom: 16,
-    fontWeight: "bold",
-    textAlign: "left",
-    cursor: "pointer"
-  },
-  menuGroup: {
-    marginBottom: 8
-  },
-  menuTitle: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "12px 14px",
-    borderRadius: 8,
-    background: "transparent",
-    color: "#fff",
-    border: 0,
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: 14
-  },
-  submenu: {
-    paddingLeft: 12,
-    paddingBottom: 8
-  },
-  menuItem: {
-    display: "block",
-    width: "100%",
-    background: "transparent",
-    border: 0,
-    color: "#E7EEF2",
-    textAlign: "left",
-    padding: "8px 10px",
-    cursor: "pointer"
-  },
-  logoutBtn: {
-    width: "100%",
-    marginTop: 25,
-    padding: "12px 14px",
-    borderRadius: 10,
-    border: "1px solid #555",
-    background: "transparent",
-    color: "#fff",
-    cursor: "pointer"
-  },
-  main: {
-    flex: 1,
-    overflow: "auto",
-    position: "relative"
-  },
-  userTop: {
-    position: "absolute",
-    top: 20,
-    right: 30,
-    background: "#fff",
-    borderRadius: 14,
-    padding: "10px 15px",
-    display: "flex",
-    gap: 12,
-    boxShadow: "0 10px 25px rgba(0,0,0,.08)"
-  },
-  content: {
-    padding: 32
-  },
-  pageHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-    paddingRight: 160
-  },
-  h1: {
-    margin: 0,
-    fontSize: 30
-  },
-  subtitle: {
-    color: "#34464E",
-    marginTop: 8
-  },
-  actions: {
-    display: "flex",
-    gap: 10,
-    flexWrap: "wrap"
-  },
-  primaryBtn: {
-    background: colors.destaque,
-    color: "#fff",
-    border: 0,
-    borderRadius: 10,
-    padding: "11px 16px",
-    fontWeight: "bold",
-    cursor: "pointer"
-  },
-  secondaryBtn: {
-    background: "#fff",
-    color: colors.texto,
-    border: `1px solid ${colors.borda}`,
-    borderRadius: 10,
-    padding: "10px 14px",
-    fontWeight: "bold",
-    cursor: "pointer"
-  },
-  dangerBtn: {
-    background: colors.danger,
-    color: "#fff",
-    border: 0,
-    borderRadius: 10,
-    padding: "11px 16px",
-    fontWeight: "bold",
-    cursor: "pointer"
-  },
-  card: {
-    background: colors.card,
-    border: `1px solid ${colors.borda}`,
-    borderRadius: 18,
-    padding: 20,
-    marginBottom: 20,
-    boxShadow: "0 10px 28px rgba(0,0,0,.08)"
-  },
-  cardTitle: {
-    marginTop: 0,
-    marginBottom: 16,
-    fontSize: 20
-  },
-  grid4: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gap: 16,
-    marginBottom: 14
-  },
-  grid2: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 20
-  },
-  campo: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 6,
-    fontWeight: "bold",
-    fontSize: 13
-  },
-  input: {
-    height: 38,
-    borderRadius: 10,
-    border: `1px solid ${colors.borda}`,
-    padding: "0 10px",
-    background: "#fff"
-  },
-  cellInput: {
-    height: 34,
-    border: `1px solid ${colors.borda}`,
-    borderRadius: 8,
-    padding: "0 8px",
-    background: "#fff"
-  },
-  tableHeader5: {
-    display: "grid",
-    gridTemplateColumns: "90px repeat(4, 1fr)",
-    gap: 8,
-    fontWeight: "bold",
-    background: "#E7EEF2",
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 8
-  },
-  tableRow5: {
-    display: "grid",
-    gridTemplateColumns: "90px repeat(4, 1fr)",
-    gap: 8,
-    alignItems: "center",
-    marginBottom: 8
-  },
-  tableHeader2: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 8,
-    fontWeight: "bold",
-    background: "#E7EEF2",
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 8
-  },
-  tableRow2: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 8,
-    alignItems: "center",
-    marginBottom: 8
+const css = `
+  :root {
+    --fundo: #AEBCC3;
+    --lateral: #1F1F1F;
+    --lateral2: #292929;
+    --ativo: #34464E;
+    --texto: #10222C;
+    --card: #FFFFFF;
+    --borda: #D6DEE3;
+    --destaque: #5E7A86;
+    --danger: #B43131;
   }
-};
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .page {
+    display: flex;
+    min-height: 100vh;
+    background: var(--fundo);
+    font-family: Arial, sans-serif;
+    color: var(--texto);
+  }
+
+  .sidebar {
+    width: 292px;
+    background: var(--lateral);
+    color: #fff;
+    padding: 22px;
+  }
+
+  .logo-area {
+    background: transparent;
+    border-radius: 12px;
+    padding: 2px;
+    margin-bottom: 8px;
+  }
+
+  .logo-img {
+    width: 76%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #D6DEE3;
+    margin: 8px 0 25px;
+    text-align: center;
+  }
+
+  .nav-button,
+  .nav-active,
+  .menu-title,
+  .submenu-item,
+  .logout-btn {
+    font-family: Arial, sans-serif;
+  }
+
+  .nav-button,
+  .nav-active {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 0;
+    margin-bottom: 16px;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+    color: #fff;
+    transition: all .2s ease;
+  }
+
+  .nav-button {
+    background: transparent;
+  }
+
+  .nav-active {
+    background: var(--ativo);
+    box-shadow: inset 3px 0 0 #AEBCC3;
+  }
+
+  .nav-button:hover,
+  .nav-active:hover {
+    background: var(--lateral2);
+    transform: translateX(2px);
+  }
+
+  .menu-group {
+    margin-bottom: 8px;
+  }
+
+  .menu-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: transparent;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all .2s ease;
+  }
+
+  .menu-title:hover {
+    background: var(--lateral2);
+    transform: translateX(2px);
+  }
+
+  .submenu {
+    padding-left: 12px;
+    padding-bottom: 8px;
+  }
+
+  .submenu-item {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: #E7EEF2;
+    text-align: left;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s ease;
+    font-size: 14px;
+  }
+
+  .submenu-item:hover {
+    background: #2B2B2B;
+    color: #fff;
+    transform: translateX(3px);
+  }
+
+  .active-item {
+    background: #34464E;
+    color: #fff;
+    box-shadow: inset 3px 0 0 #AEBCC3;
+  }
+
+  .logout-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+
+  .logout-btn:hover {
+    background: #2B2B2B;
+  }
+
+  .main {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+  }
+
+  .user-top {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 15px;
+    display: flex;
+    gap: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  }
+
+  .content {
+    padding: 32px;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-right: 160px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 30px;
+  }
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  .subtitle {
+    color: #34464E;
+    margin-top: 8px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .danger-btn {
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+
+  .primary-btn {
+    background: var(--destaque);
+    color: #fff;
+    border: 0;
+  }
+
+  .secondary-btn {
+    background: #fff;
+    color: var(--texto);
+    border: 1px solid var(--borda);
+  }
+
+  .danger-btn {
+    background: var(--danger);
+    color: #fff;
+    border: 0;
+  }
+
+  .primary-btn:hover,
+  .secondary-btn:hover,
+  .danger-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.08);
+  }
+
+  .grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+  input,
+  select {
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--borda);
+    padding: 0 10px;
+    background: #fff;
+  }
+
+  .table-header-5,
+  .table-row-5 {
+    display: grid;
+    grid-template-columns: 90px repeat(4, 1fr);
+    gap: 8px;
+    align-items: center;
+  }
+
+  .table-header-2,
+  .table-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .table-header-5,
+  .table-header-2 {
+    font-weight: bold;
+    background: #E7EEF2;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+
+  .table-row-5,
+  .table-row-2 {
+    margin-bottom: 8px;
+  }
+
+  .login-page {
+    min-height: 100vh;
+    background: var(--fundo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .login-card {
+    width: 390px;
+    background: #fff;
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow: 0 20px 45px rgba(0,0,0,.18);
+  }
+
+  .login-logo {
+    width: 78%;
+    display: block;
+    margin: 0 auto 22px;
+  }
+
+  .login-card label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  .login-card input,
+  .login-card select {
+    width: 100%;
+  }
+
+  .login-card button {
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    border: 0;
+    background: var(--lateral);
+    color: #fff;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .login-card small {
+    display: block;
+    font-size: 12px;
+    color: #60747E;
+    text-align: center;
+    margin-top: 16px;
+  }
+`;
