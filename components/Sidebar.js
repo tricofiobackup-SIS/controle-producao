@@ -3,6 +3,12 @@ import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const salvo = localStorage.getItem("user");
+    if (salvo) setUser(JSON.parse(salvo));
+  }, []);
 
   const menus = [
     {
@@ -38,6 +44,16 @@ export default function Sidebar() {
         { nome: "Ficha Consulta", link: "#" },
         { nome: "Relatório Estoque", link: "#" }
       ]
+    },
+    {
+      titulo: "Configurações",
+      icon: "⚙",
+      itens: [
+        ...(user?.tipo === "admin"
+          ? [{ nome: "Usuários", link: "/usuarios" }]
+          : []),
+        { nome: "Link Visitante", link: "/link-visitante" }
+      ]
     }
   ];
 
@@ -52,13 +68,16 @@ export default function Sidebar() {
       m.itens.some((i) => i.link === router.pathname)
     );
 
-    if (atual) {
-      setMenuAberto(atual.titulo);
-    }
-  }, [router.pathname]);
+    if (atual) setMenuAberto(atual.titulo);
+  }, [router.pathname, user]);
 
   function ativo(link) {
     return router.pathname === link;
+  }
+
+  function sair() {
+    localStorage.removeItem("user");
+    window.location.href = "/login";
   }
 
   return (
@@ -111,6 +130,10 @@ export default function Sidebar() {
             </div>
           ))}
         </nav>
+
+        <button className="logout" onClick={sair}>
+          Sair
+        </button>
       </aside>
     </>
   );
@@ -261,5 +284,21 @@ const css = `
   .submenu-link.active:before {
     background: #FFFFFF;
     opacity: 1;
+  }
+
+  .logout {
+    width: 100%;
+    margin-top: 24px;
+    border: 1px solid #607D8B;
+    background: transparent;
+    color: #ECEFF1;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .logout:hover {
+    background: #455A64;
   }
 `;
