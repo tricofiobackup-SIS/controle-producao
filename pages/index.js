@@ -129,17 +129,17 @@ export default function Home() {
 }
 
 const colors = {
-  fundo: "#F6EEE9",
-  lateral: "#8C4B2F",
-  lateralEscuro: "#6F3823",
-  lateralAtivo: "#A9664B",
-  texto: "#2A1A14",
-  textoClaro: "#FFF4ED",
+  fundo: "#A7B3BB",        // fundo principal (cinza azulado)
+  lateral: "#2E3F47",      // topo/menu escuro
+  lateralEscuro: "#24343B",
+  lateralAtivo: "#3F5963",
+  texto: "#1C252A",
+  textoClaro: "#FFFFFF",
   card: "#FFFFFF",
-  borda: "#E5CFC3",
-  faixa: "#EEDFD7",
-  destaque: "#C93A2F",
-  sombra: "0 12px 30px rgba(120, 70, 50, .12)"
+  borda: "#D6DEE3",
+  faixa: "#E7EEF2",
+  destaque: "#2E3F47",
+  sombra: "0 10px 25px rgba(0,0,0,.08)"
 };
 
 const styles = {
