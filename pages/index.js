@@ -102,7 +102,7 @@ const css = `
   }
 
   .home-logo {
-  width: 420px !important;
+  width: 120px !important;
   max-width: 45vw !important;
   opacity: .18 !important;
   display: block;
