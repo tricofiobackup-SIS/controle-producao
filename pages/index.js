@@ -1,10 +1,3 @@
-import { useState } from "react";
-
-export default function Home() {
-  const [tela, setTela] = useState("inicial");
-  const [menuAberto, setMenuAberto] = useState("Cadastro");
-  const [itemAtivo, setItemAtivo] = useState("Tela Inicial");
-
 import Layout from "../components/Layout";
 
 export default function Home() {
