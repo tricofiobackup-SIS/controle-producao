@@ -98,10 +98,9 @@ const css = `
   }
 
   .login-logo {
-    width: 70%;
-    display: block;
-    margin: 0 auto 24px;
-  }
+  width: 240px;
+  margin-bottom: 18px;
+}
 
   h1 {
     margin: 0;
