@@ -35,13 +35,14 @@ export default function Home() {
           <p>Gestão de produção, modelos, fios, ordens de serviço e consultas.</p>
         </div>
 
-        <div className="home-date">
-          <strong>{dataCompleta(agora)}</strong>
-          <span>{horaCompleta(agora)}</span>
-        </div>
+ <div className="home-brand">
+  <img src="/logo-tricofio.svg" className="home-logo" alt="Tricofio" />
 
-        <img src="/logo-tricofio.png" className="home-logo" alt="Tricofio" />
-      </div>
+  <div className="home-date">
+    <strong>{dataCompleta(agora)}</strong>
+    <span>{horaSemSegundos(agora)}</span>
+  </div>
+</div>
     </Layout>
   );
 }
