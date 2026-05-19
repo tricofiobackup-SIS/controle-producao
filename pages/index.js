@@ -1,202 +1,173 @@
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 
 export default function Home() {
+  const [agora, setAgora] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setAgora(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  function dataCompleta(data) {
+    return data.toLocaleDateString("pt-BR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  function horaSemSegundos(data) {
+    return data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
   return (
     <Layout>
-      <h1>Controle Produção</h1>
-      <p>Sistema baseado no Excel Tricofio</p>
-    </Layout>
-  );
-} 
-
-  const menus = [
-    {
-      titulo: "Cadastro",
-      itens: [
-        { nome: "Ficha Cadastro", tela: "modelos" },
-        { nome: "Cadastro Geral", tela: "cadastroGeral" },
-        { nome: "Ficha Técnica", tela: "inicial" },
-        { nome: "Combinações", tela: "inicial" }
-      ]
-    },
-    {
-      titulo: "O.S",
-      itens: [
-        { nome: "Lançar O.S", tela: "inicial" },
-        { nome: "Controle O.S Externa", tela: "inicial" },
-        { nome: "Impressão O.S", tela: "inicial" },
-        { nome: "Consulta Produção", tela: "inicial" }
-      ]
-    },
-    {
-      titulo: "Fios",
-      itens: [
-        { nome: "Cadastro de Fio", tela: "inicial" },
-        { nome: "Fios e Cores", tela: "inicial" },
-        { nome: "Entrada de Fios", tela: "inicial" },
-        { nome: "Saída de Fios", tela: "inicial" },
-        { nome: "Estoque de Fios", tela: "inicial" }
-      ]
-    },
-    {
-      titulo: "Consultas",
-      itens: [
-        { nome: "Ficha Consulta", tela: "inicial" },
-        { nome: "Consulta Compra Fio", tela: "inicial" },
-        { nome: "Relatório Estoque", tela: "inicial" }
-      ]
-    }
-  ];
-
-  return (
-    <>
       <style>{css}</style>
 
-      <div className="page">
-        <aside className="sidebar">
-          <img src="/logo-tricofio.png" className="logo" />
+      <div className="home-hero">
+        <div className="welcome-area">
+          <h2>Bem-vindo ao sistema</h2>
 
-          <button
-            className={itemAtivo === "Tela Inicial" ? "active" : ""}
-            onClick={() => {
-              setTela("inicial");
-              setItemAtivo("Tela Inicial");
-            }}
-          >
-            Tela Inicial
-          </button>
+          <p>
+            Gestão de produção, modelos, fios,
+            ordens de serviço e consultas.
+          </p>
+        </div>
 
-          {menus.map((menu) => (
-            <div key={menu.titulo}>
-              <button
-                className="menu-title"
-                onClick={() =>
-                  setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)
-                }
-              >
-                {menu.titulo}
-              </button>
+        <div className="home-brand">
+          <img
+            src="/logo-tricofio.png"
+            className="home-logo"
+            alt="Tricofio"
+          />
 
-              {menuAberto === menu.titulo &&
-                menu.itens.map((item) => (
-                  <button
-                    key={item.nome}
-                    className={itemAtivo === item.nome ? "sub active" : "sub"}
-                    onClick={() => {
-                      setTela(item.tela);
-                      setItemAtivo(item.nome);
-                    }}
-                  >
-                    {item.nome}
-                  </button>
-                ))}
-            </div>
-          ))}
-        </aside>
-
-        <main className="main">
-          {tela === "inicial" && <h1>Controle Produção</h1>}
-          {tela === "modelos" && <h1>Ficha de Modelos (em construção)</h1>}
-          {tela === "cadastroGeral" && <CadastroGeral />}
-        </main>
-      </div>
-    </>
-  );
-}
-
-function CadastroGeral() {
-  const dados = [
-    { titulo: "Tecelões", itens: ["André", "Carla", "Diego"] },
-    { titulo: "Coleções", itens: ["Inverno 2025", "Verão 2025"] },
-    { titulo: "Tamanhos", itens: ["PP", "P", "M", "G", "GG"] },
-    { titulo: "Máquinas", itens: ["122-6", "234-7"] },
-    { titulo: "Fios", itens: ["Cashmere", "Poliamida"] }
-  ];
-
-  return (
-    <div>
-      <h1>Cadastro Geral</h1>
-
-      <div className="grid">
-        {dados.map((g) => (
-          <div className="card" key={g.titulo}>
-            <h3>{g.titulo}</h3>
-
-            <input placeholder="Novo item..." />
-
-            {g.itens.map((i) => (
-              <div className="item" key={i}>
-                {i}
-              </div>
-            ))}
+          <div className="home-date">
+            <strong>{dataCompleta(agora)}</strong>
+            <span>{horaSemSegundos(agora)}</span>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
 const css = `
-.page {
-  display:flex;
-  font-family:Arial;
-}
+  .home-hero {
+    min-height: calc(100vh - 140px);
+    position: relative;
+    border-radius: 26px;
+    padding: 30px;
+    overflow: hidden;
+  }
 
-.sidebar {
-  width:250px;
-  background:#111;
-  color:#fff;
-  padding:20px;
-}
+  .welcome-area {
+    position: relative;
+    z-index: 2;
+  }
 
-.logo {
-  width:140px;
-  margin-bottom:20px;
-}
+  .home-hero h2 {
+    font-size: 28px;
+    color: #263238;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
 
-.sidebar button {
-  width:100%;
-  background:none;
-  border:none;
-  color:#fff;
-  padding:10px;
-  text-align:left;
-  cursor:pointer;
-}
+  .home-hero p {
+    color: #455A64;
+    font-size: 14px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
 
-.menu-title {
-  font-weight:bold;
-  margin-top:10px;
-}
+  .home-brand {
+    position: absolute;
+    right: 36px;
+    bottom: 0;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
-.sub {
-  padding-left:20px;
-  color:#ccc;
-}
+  .home-logo {
+    width: 470px;
+    opacity: .78;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+  }
 
-.active {
-  background:#333;
-}
+  .home-date {
+    margin-top: 8px;
+    padding-right: 16px;
+    color: #263238;
+    text-align: right;
+  }
 
-.main {
-  flex:1;
-  padding:30px;
-  background:#AEBCC3;
-}
+  .home-date strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
+  .home-date span {
+    display: block;
+    margin-top: 2px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #455A64;
+  }
 
-.card {
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-}
+  @media (max-width: 900px) {
 
-.item {
-  padding:5px 0;
-}
+    .home-hero {
+      min-height: auto;
+      padding: 18px;
+    }
+
+    .home-hero h2 {
+      font-size: 22px;
+    }
+
+    .home-hero p {
+      font-size: 13px;
+      max-width: 100%;
+    }
+
+    .home-brand {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      margin-top: 40px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .home-logo {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .home-date {
+      padding-right: 0;
+      text-align: center;
+    }
+
+    .home-date strong {
+      font-size: 12px;
+    }
+
+    .home-date span {
+      font-size: 18px;
+    }
+  }
 `;
