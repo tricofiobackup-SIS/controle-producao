@@ -129,16 +129,17 @@ export default function Home() {
 }
 
 const colors = {
-  fundo: "#FBF7F4",
-  lateral: "#1F1A18",
-  lateralAtivo: "#D9231F",
-  texto: "#211816",
-  textoClaro: "#FFFFFF",
+  fundo: "#F6EEE9",
+  lateral: "#8C4B2F",
+  lateralEscuro: "#6F3823",
+  lateralAtivo: "#A9664B",
+  texto: "#2A1A14",
+  textoClaro: "#FFF4ED",
   card: "#FFFFFF",
-  borda: "#E7D8D0",
-  faixa: "#F4E5DD",
-  destaque: "#D9231F",
-  sombra: "0 18px 40px rgba(0, 0, 0, .08)"
+  borda: "#E5CFC3",
+  faixa: "#EEDFD7",
+  destaque: "#C93A2F",
+  sombra: "0 12px 30px rgba(120, 70, 50, .12)"
 };
 
 const styles = {
