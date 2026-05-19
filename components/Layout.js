@@ -6,39 +6,15 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [carregando, setCarregando] = useState(true);
+  const [menuAbertoMobile, setMenuAbertoMobile] = useState(false);
   const [agora, setAgora] = useState(new Date());
 
   const telas = {
-    "/": {
-      titulo: "Tela Inicial",
-      subtitulo: "Sistema interno Tricofio",
-      breadcrumb: "Início",
-      icon: "⌂"
-    },
-    "/modelos": {
-      titulo: "Ficha de Modelos",
-      subtitulo: "Cadastro e manutenção dos modelos de produção",
-      breadcrumb: "Cadastro > Ficha de Modelos",
-      icon: "▦"
-    },
-    "/cadastro-geral": {
-      titulo: "Cadastro Geral",
-      subtitulo: "Bases usadas nas validações, listas suspensas e cadastros do sistema",
-      breadcrumb: "Cadastro > Cadastro Geral",
-      icon: "▣"
-    },
-    "/usuarios": {
-      titulo: "Usuários",
-      subtitulo: "Cadastro de usuários e permissões",
-      breadcrumb: "Configurações > Usuários",
-      icon: "⚙"
-    },
-    "/link-visitante": {
-      titulo: "Link para Visitantes",
-      subtitulo: "Compartilhamento de acesso visitante",
-      breadcrumb: "Configurações > Link Visitante",
-      icon: "↗"
-    }
+    "/": { titulo: "Tela Inicial", subtitulo: "Sistema interno Tricofio", breadcrumb: "Início", icon: "⌂" },
+    "/modelos": { titulo: "Ficha de Modelos", subtitulo: "Cadastro e manutenção dos modelos de produção", breadcrumb: "Cadastro > Ficha de Modelos", icon: "▦" },
+    "/cadastro-geral": { titulo: "Cadastro Geral", subtitulo: "Bases usadas nas validações, listas suspensas e cadastros do sistema", breadcrumb: "Cadastro > Cadastro Geral", icon: "▣" },
+    "/usuarios": { titulo: "Usuários", subtitulo: "Cadastro de usuários e permissões", breadcrumb: "Configurações > Usuários", icon: "⚙" },
+    "/link-visitante": { titulo: "Link para Visitantes", subtitulo: "Compartilhamento de acesso visitante", breadcrumb: "Configurações > Link Visitante", icon: "↗" }
   };
 
   const telaAtual = telas[router.pathname] || {
@@ -59,10 +35,7 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
     setUser(JSON.parse(salvo));
     setCarregando(false);
 
-    const timer = setInterval(() => {
-      setAgora(new Date());
-    }, 1000);
-
+    const timer = setInterval(() => setAgora(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -94,10 +67,18 @@ export default function Layout({ children, titulo, subtitulo = "" }) {
       <style>{globalCss}</style>
 
       <div className="app-shell">
-        <Sidebar />
+        <Sidebar abertoMobile={menuAbertoMobile} fecharMobile={() => setMenuAbertoMobile(false)} />
+
+        {menuAbertoMobile && (
+          <div className="mobile-overlay" onClick={() => setMenuAbertoMobile(false)} />
+        )}
 
         <main className="app-main">
           <header className="topbar">
+            <button className="mobile-menu-btn" onClick={() => setMenuAbertoMobile(true)}>
+              ☰
+            </button>
+
             <div className="topbar-left">
               <div className="page-icon">{telaAtual.icon}</div>
 
@@ -175,6 +156,18 @@ const globalCss = `
     top: 0;
     z-index: 5;
     backdrop-filter: blur(10px);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    border: 0;
+    background: #607D8B;
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
   }
 
   .topbar-left {
@@ -264,17 +257,10 @@ const globalCss = `
   }
 
   @keyframes pageFade {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* REMOVE TÍTULOS DUPLICADOS DENTRO DAS PÁGINAS */
   .page-container > h1:first-child,
   .page-container > h1:first-child + .subtitle {
     display: none !important;
@@ -287,6 +273,10 @@ const globalCss = `
   .page-container > .page-header {
     justify-content: flex-end !important;
     margin-bottom: 22px;
+  }
+
+  .mobile-overlay {
+    display: none;
   }
 
   h1 {
@@ -364,5 +354,95 @@ const globalCss = `
     padding: 11px 16px;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .app-shell {
+      display: block;
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-overlay {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(38,50,56,.45);
+      z-index: 20;
+    }
+
+    .topbar {
+      height: auto;
+      min-height: 76px;
+      padding: 12px 14px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topbar-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .page-icon {
+      width: 34px;
+      height: 34px;
+      font-size: 15px;
+    }
+
+    .breadcrumb {
+      font-size: 9.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 210px;
+    }
+
+    .topbar h1 {
+      font-size: 17px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 230px;
+    }
+
+    .topbar p {
+      display: none;
+    }
+
+    .topbar-right {
+      gap: 6px;
+    }
+
+    .top-date {
+      display: none;
+    }
+
+    .user-name {
+      display: none;
+    }
+
+    .logout-top {
+      padding: 7px 9px;
+      font-size: 11px;
+    }
+
+    .page-container {
+      padding: 14px;
+    }
+
+    .card {
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+    }
   }
 `;
