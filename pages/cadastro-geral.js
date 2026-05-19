@@ -173,4 +173,28 @@ const css = `
     padding-left: 8px;
     font-weight: 600;
   }
-`;
+  @media (max-width: 900px) {
+    .cadastro-wrap {
+      max-width: 100%;
+    }
+
+    .grid-erp {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .erp-card {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      min-height: 300px;
+    }
+
+    .item-list {
+      max-height: 230px;
+    }
+
+    .insert-line-dupla {
+      grid-template-columns: 1fr 80px 36px;
+    }
+  }
