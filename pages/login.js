@@ -36,7 +36,7 @@ export default function Login() {
 
       <div className="login-page">
         <form className="login-card" onSubmit={entrar}>
-          <img src="/logo-tricofio.png" className="login-logo" alt="Tricofio" />
+          <img src="/logo-tricofio.svg" className="login-logo" alt="Tricofio" />
 
           <h1>Controle Produção</h1>
           <p>Sistema interno Tricofio</p>
