@@ -308,7 +308,7 @@ const css = `
     }
 
     .logo {
-      width: 120px;
+      width: 210px;
     }
   }
 `;
