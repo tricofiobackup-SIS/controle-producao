@@ -1,144 +1,296 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [menuAberto, setMenuAberto] = useState(null);
+  const [tela, setTela] = useState("inicial");
+  const [menuAberto, setMenuAberto] = useState("Cadastro");
 
   const menus = [
-    { titulo: "Cadastro", itens: ["Ficha Cadastro", "Cadastro Geral", "Ficha Técnica", "Combinações"] },
-    { titulo: "O.S", itens: ["Lançar O.S", "Controle O.S Externa", "Impressão O.S", "Consulta Produção"] },
-    { titulo: "Fios", itens: ["Cadastro de Fio", "Fios e Cores", "Entrada de Fios", "Saída de Fios", "Estoque de Fios"] },
-    { titulo: "Consultas", itens: ["Ficha Consulta", "Consulta Compra Fio", "Relatório Estoque"] }
+    {
+      titulo: "Cadastro",
+      itens: [
+        { nome: "Ficha Cadastro", tela: "modelos" },
+        { nome: "Cadastro Geral", tela: "inicial" },
+        { nome: "Ficha Técnica", tela: "inicial" },
+        { nome: "Combinações", tela: "inicial" }
+      ]
+    },
+    {
+      titulo: "O.S",
+      itens: [
+        { nome: "Lançar O.S", tela: "inicial" },
+        { nome: "Controle O.S Externa", tela: "inicial" },
+        { nome: "Impressão O.S", tela: "inicial" },
+        { nome: "Consulta Produção", tela: "inicial" }
+      ]
+    },
+    {
+      titulo: "Fios",
+      itens: [
+        { nome: "Cadastro de Fio", tela: "inicial" },
+        { nome: "Fios e Cores", tela: "inicial" },
+        { nome: "Entrada de Fios", tela: "inicial" },
+        { nome: "Saída de Fios", tela: "inicial" },
+        { nome: "Estoque de Fios", tela: "inicial" }
+      ]
+    },
+    {
+      titulo: "Consultas",
+      itens: [
+        { nome: "Ficha Consulta", tela: "inicial" },
+        { nome: "Consulta Compra Fio", tela: "inicial" },
+        { nome: "Relatório Estoque", tela: "inicial" }
+      ]
+    }
   ];
-
-  const linhas = [
-    ["Blusa Tricot", "29/04/2026", "Produção", "10"],
-    ["Calça Tricot", "29/04/2026", "Aberto", "8"],
-    ["Casaco Tricot", "24/04/2026", "Finalizado", "5"]
-  ];
-
-  const toggleMenu = (titulo) => {
-    setMenuAberto(menuAberto === titulo ? null : titulo);
-  };
 
   return (
     <div style={styles.page}>
       <aside style={styles.sidebar}>
-        <div style={styles.logoBox}>
-          <div style={styles.logoArea}>
-            <img src="/logo-tricofio.jpg" style={styles.logoImg} alt="Tricofio" />
-          </div>
-          <span style={styles.logoSub}>Controle Produção</span>
+        <div style={styles.logoArea}>
+          <img src="/logo-tricofio.jpg" style={styles.logoImg} alt="Tricofio" />
         </div>
 
-        <nav>
-          <a style={styles.active}>Tela Inicial</a>
+        <div style={styles.logoSub}>Controle Produção</div>
 
-          {menus.map((menu) => (
-            <div key={menu.titulo} style={styles.menuGroup}>
-              <button style={styles.menuTitle} onClick={() => toggleMenu(menu.titulo)}>
-                <span>{menu.titulo}</span>
-                <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
-              </button>
+        <button style={styles.active} onClick={() => setTela("inicial")}>
+          Tela Inicial
+        </button>
 
-              {menuAberto === menu.titulo && (
-                <div style={styles.submenu}>
-                  {menu.itens.map((item) => (
-                    <a key={item} style={styles.menuItem}>{item}</a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
+        {menus.map((menu) => (
+          <div key={menu.titulo} style={styles.menuGroup}>
+            <button
+              style={styles.menuTitle}
+              onClick={() => setMenuAberto(menuAberto === menu.titulo ? null : menu.titulo)}
+            >
+              <span>{menu.titulo}</span>
+              <span>{menuAberto === menu.titulo ? "▾" : "▸"}</span>
+            </button>
+
+            {menuAberto === menu.titulo && (
+              <div style={styles.submenu}>
+                {menu.itens.map((item) => (
+                  <button
+                    key={item.nome}
+                    style={styles.menuItem}
+                    onClick={() => setTela(item.tela)}
+                  >
+                    {item.nome}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </aside>
 
       <main style={styles.main}>
-        <header style={styles.header}>
-          <div>
-            <h1 style={styles.h1}>Controle Produção</h1>
-            <p style={styles.subtitle}>Sistema web baseado fielmente na Tela Inicial do Excel</p>
-          </div>
-
-          <div style={styles.userBox}>
-            <span>Admin</span>
-            <strong>LF</strong>
-          </div>
-        </header>
-
-        <section style={styles.cards}>
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>O.S em aberto</span>
-            <strong style={styles.cardNumber}>24</strong>
-            <p style={styles.cardText}>Ordens aguardando andamento</p>
-          </div>
-
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>Modelos cadastrados</span>
-            <strong style={styles.cardNumber}>128</strong>
-            <p style={styles.cardText}>Base principal do sistema</p>
-          </div>
-
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>Fios em estoque</span>
-            <strong style={styles.cardNumber}>342</strong>
-            <p style={styles.cardText}>Controle de entrada e saída</p>
-          </div>
-        </section>
-
-        <section style={styles.panel}>
-          <div style={styles.panelHeader}>
-            <div>
-              <h2 style={styles.h2}>Encomendas / O.S</h2>
-              <p style={styles.subtitle}>Primeira listagem do sistema web</p>
-            </div>
-
-            <button style={styles.button}>Nova O.S</button>
-          </div>
-
-          <div style={styles.filters}>
-            <input placeholder="Buscar modelo..." style={styles.input} />
-
-            <select style={styles.input}>
-              <option>Todos os status</option>
-              <option>Aberto</option>
-              <option>Produção</option>
-              <option>Finalizado</option>
-              <option>Entregue</option>
-            </select>
-
-            <input type="date" style={styles.input} />
-          </div>
-
-          <div style={styles.table}>
-            <div style={styles.group}>CONJUNTO / MODELO EXEMPLO</div>
-
-            {linhas.map((row, index) => (
-              <div style={styles.row} key={index}>
-                <span>{row[0]}</span>
-                <span>{row[1]}</span>
-                <span>{row[2]}</span>
-                <strong>{row[3]}</strong>
-              </div>
-            ))}
-          </div>
-        </section>
+        {tela === "inicial" && <TelaInicial />}
+        {tela === "modelos" && <FichaModelos />}
       </main>
     </div>
   );
 }
 
+function TelaInicial() {
+  return (
+    <div style={styles.content}>
+      <h1 style={styles.h1}>Controle Produção</h1>
+      <p style={styles.subtitle}>Sistema web baseado no Excel Tricofio</p>
+    </div>
+  );
+}
+
+function FichaModelos() {
+  const fios = Array.from({ length: 12 }, (_, i) => i + 1);
+  const partes = Array.from({ length: 13 }, (_, i) => i + 1);
+
+  return (
+    <div style={styles.content}>
+      <div style={styles.pageHeader}>
+        <div>
+          <h1 style={styles.h1}>Ficha de Modelos</h1>
+          <p style={styles.subtitle}>Cadastro e manutenção dos modelos de produção</p>
+        </div>
+
+        <div style={styles.actions}>
+          <button style={styles.primaryBtn}>Cadastrar novo</button>
+          <button style={styles.secondaryBtn}>Carregar</button>
+          <button style={styles.secondaryBtn}>Atualizar</button>
+          <button style={styles.secondaryBtn}>Limpar</button>
+          <button style={styles.dangerBtn}>Excluir</button>
+        </div>
+      </div>
+
+      <section style={styles.card}>
+        <h2 style={styles.cardTitle}>Dados principais</h2>
+
+        <div style={styles.grid4}>
+          <Campo label="Código" />
+          <Campo label="Tempo Peça" />
+          <Campo label="Máquina" />
+          <Campo label="Coleção" />
+        </div>
+
+        <div style={styles.grid4}>
+          <Campo label="Peso Total" />
+          <Campo label="Programador" />
+          <Campo label="NCM" />
+          <Campo label="Data" value="30/04/2026" />
+        </div>
+      </section>
+
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Fios e cores</h2>
+
+          <div style={styles.tableHeader5}>
+            <span>Fio</span>
+            <span>Peso</span>
+            <span>Cor 1</span>
+            <span>Cor 2</span>
+            <span>Cor 3</span>
+          </div>
+
+          {fios.map((n) => (
+            <div style={styles.tableRow5} key={n}>
+              <strong>Fio {n}</strong>
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Partes e quantidades</h2>
+
+          <div style={styles.tableHeader2}>
+            <span>Parte</span>
+            <span>Quantidade</span>
+          </div>
+
+          {partes.slice(0, 12).map((n) => (
+            <div style={styles.tableRow2} key={n}>
+              <strong>Parte {n}</strong>
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+      </div>
+
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Bicos / Lados</h2>
+
+          <div style={styles.grid2Inner}>
+            <div>
+              <h3 style={styles.smallTitle}>Lado L</h3>
+              {[11, 12, 13, 14, 15, 16, 17, 18].map((n) => (
+                <div style={styles.lineInput} key={n}>
+                  <strong>{n}</strong>
+                  <input style={styles.input} />
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h3 style={styles.smallTitle}>Lado R</h3>
+              {[21, 22, 23, 24, 25, 26, 27, 28].map((n) => (
+                <div style={styles.lineInput} key={n}>
+                  <strong>{n}</strong>
+                  <input style={styles.input} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <label style={styles.label}>Observações</label>
+          <textarea style={styles.textarea}></textarea>
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Peso tirado</h2>
+
+          <div style={styles.tableHeader4}>
+            <span>Fio</span>
+            <span>Peso</span>
+            <span>+5% M</span>
+            <span>+5% G</span>
+          </div>
+
+          {fios.map((n) => (
+            <div style={styles.tableRow4} key={n}>
+              <strong>Fio {n}</strong>
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+      </div>
+
+      <div style={styles.grid2}>
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Medidas Remalho</h2>
+
+          <div style={styles.tableHeader2}>
+            <span>Parte</span>
+            <span>Medida</span>
+          </div>
+
+          {partes.map((n) => (
+            <div style={styles.tableRow2} key={n}>
+              <strong>Parte {n}</strong>
+              <input style={styles.cellInput} />
+            </div>
+          ))}
+        </section>
+
+        <section style={styles.card}>
+          <h2 style={styles.cardTitle}>Composição e imagem</h2>
+
+          <button style={styles.secondaryBtn}>Calcular composição</button>
+
+          <label style={styles.label}>Composições</label>
+          <textarea style={styles.textarea}></textarea>
+
+          <label style={styles.label}>Composições Forros</label>
+          <textarea style={styles.textareaSmall}></textarea>
+
+          <label style={styles.label}>Imagem do modelo</label>
+          <div style={styles.imageBox}>
+            <span>Nenhuma imagem selecionada</span>
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <button style={styles.secondaryBtn}>Buscar imagem</button>
+            <button style={styles.secondaryBtn}>Limpar imagem</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function Campo({ label, value }) {
+  return (
+    <label style={styles.campo}>
+      <span>{label}</span>
+      <input style={styles.input} defaultValue={value || ""} />
+    </label>
+  );
+}
+
 const colors = {
-  fundo: "#A7B3BB",
+  fundo: "#AEBCC3",
   lateral: "#1F1F1F",
   lateralAtivo: "#333333",
-  lateralHover: "#2B2B2B",
-  texto: "#1C252A",
-  textoClaro: "#FFFFFF",
+  texto: "#10222C",
   card: "#FFFFFF",
   borda: "#D6DEE3",
-  faixa: "#E7EEF2",
-  destaque: "#1F1F1F",
-  sombra: "0 10px 25px rgba(0,0,0,.08)"
+  destaque: "#5E7A86",
+  danger: "#B43131"
 };
 
 const styles = {
@@ -149,212 +301,271 @@ const styles = {
     fontFamily: "Arial, sans-serif",
     color: colors.texto
   },
-
   sidebar: {
     width: 292,
     background: colors.lateral,
-    color: colors.textoClaro,
+    color: "#fff",
     padding: 24,
     boxSizing: "border-box"
   },
-
-  logoBox: {
-    marginBottom: 28
-  },
-
   logoArea: {
     background: "#fff",
-    borderRadius: 16,
-    padding: "12px 16px",
-    marginBottom: 10,
-    boxShadow: colors.sombra
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 10
   },
-
   logoImg: {
     width: "100%",
-    maxWidth: 210,
     display: "block"
   },
-
   logoSub: {
-    display: "block",
     fontSize: 12,
     letterSpacing: 2,
     textTransform: "uppercase",
     color: "#D6DEE3",
-    fontWeight: "bold"
+    marginBottom: 25
   },
-
   active: {
-    display: "block",
+    width: "100%",
     padding: "13px 16px",
-    borderRadius: 12,
+    borderRadius: 10,
     background: colors.lateralAtivo,
     color: "#fff",
-    marginBottom: 20,
+    border: 0,
+    marginBottom: 16,
     fontWeight: "bold",
-    textDecoration: "none"
+    textAlign: "left",
+    cursor: "pointer"
   },
-
   menuGroup: {
-    marginBottom: 10
+    marginBottom: 8
   },
-
   menuTitle: {
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
     padding: "12px 14px",
-    borderRadius: 10,
+    borderRadius: 8,
     background: "transparent",
-    color: "#FFFFFF",
+    color: "#fff",
     border: 0,
     cursor: "pointer",
     fontWeight: "bold",
-    fontSize: 14,
-    textAlign: "left"
+    fontSize: 14
   },
-
   submenu: {
-    padding: "4px 0 8px 10px"
+    paddingLeft: 12,
+    paddingBottom: 8
   },
-
   menuItem: {
     display: "block",
-    padding: "8px 12px",
-    borderRadius: 8,
+    width: "100%",
+    background: "transparent",
+    border: 0,
     color: "#E7EEF2",
-    fontSize: 14,
-    textDecoration: "none"
+    textAlign: "left",
+    padding: "8px 10px",
+    cursor: "pointer"
   },
-
   main: {
     flex: 1,
-    padding: 34,
-    boxSizing: "border-box"
+    overflow: "auto"
   },
-
-  header: {
+  content: {
+    padding: 32
+  },
+  pageHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 30
+    marginBottom: 24
   },
-
   h1: {
     margin: 0,
     fontSize: 30
   },
-
-  h2: {
-    margin: 0,
-    fontSize: 26
-  },
-
   subtitle: {
     color: "#34464E",
-    marginTop: 10
+    marginTop: 8
   },
-
-  userBox: {
+  actions: {
     display: "flex",
-    gap: 12,
-    alignItems: "center",
-    background: colors.card,
-    padding: "10px 15px",
-    borderRadius: 14,
-    boxShadow: colors.sombra
+    gap: 10,
+    flexWrap: "wrap"
   },
-
-  cards: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 18,
-    marginBottom: 26
-  },
-
-  card: {
-    background: colors.card,
-    padding: 22,
-    borderRadius: 20,
-    boxShadow: colors.sombra,
-    border: `1px solid ${colors.borda}`
-  },
-
-  cardLabel: {
-    color: "#34464E"
-  },
-
-  cardNumber: {
-    fontSize: 24,
-    marginLeft: 6,
-    color: colors.destaque
-  },
-
-  cardText: {
-    color: "#34464E"
-  },
-
-  panel: {
-    background: colors.card,
-    borderRadius: 24,
-    padding: 24,
-    boxShadow: colors.sombra,
-    border: `1px solid ${colors.borda}`
-  },
-
-  panelHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-
-  button: {
+  primaryBtn: {
     background: colors.destaque,
     color: "#fff",
     border: 0,
-    borderRadius: 12,
-    padding: "12px 18px",
+    borderRadius: 10,
+    padding: "11px 16px",
     fontWeight: "bold",
     cursor: "pointer"
   },
-
-  filters: {
-    display: "flex",
-    gap: 12,
-    margin: "28px 0 24px"
+  secondaryBtn: {
+    background: "#fff",
+    color: colors.texto,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 10,
+    padding: "10px 14px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    marginRight: 8
   },
-
+  dangerBtn: {
+    background: colors.danger,
+    color: "#fff",
+    border: 0,
+    borderRadius: 10,
+    padding: "11px 16px",
+    fontWeight: "bold",
+    cursor: "pointer"
+  },
+  card: {
+    background: colors.card,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 18,
+    padding: 20,
+    marginBottom: 20,
+    boxShadow: "0 10px 28px rgba(0,0,0,.08)"
+  },
+  cardTitle: {
+    marginTop: 0,
+    marginBottom: 16,
+    fontSize: 20
+  },
+  grid4: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gap: 16,
+    marginBottom: 14
+  },
+  grid2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 20
+  },
+  grid2Inner: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 16
+  },
+  campo: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    fontWeight: "bold",
+    fontSize: 13
+  },
+  label: {
+    display: "block",
+    marginTop: 14,
+    marginBottom: 6,
+    fontWeight: "bold",
+    fontSize: 13
+  },
   input: {
-    padding: "12px 14px",
+    height: 38,
+    borderRadius: 10,
+    border: `1px solid ${colors.borda}`,
+    padding: "0 10px",
+    background: "#fff"
+  },
+  cellInput: {
+    height: 34,
+    border: `1px solid ${colors.borda}`,
+    borderRadius: 8,
+    padding: "0 8px",
+    background: "#fff"
+  },
+  tableHeader5: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(4, 1fr)",
+    gap: 8,
+    fontWeight: "bold",
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
+  },
+  tableRow5: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(4, 1fr)",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  tableHeader2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 8,
+    fontWeight: "bold",
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
+  },
+  tableRow2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  tableHeader4: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(3, 1fr)",
+    gap: 8,
+    fontWeight: "bold",
+    background: "#E7EEF2",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 8
+  },
+  tableRow4: {
+    display: "grid",
+    gridTemplateColumns: "90px repeat(3, 1fr)",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  smallTitle: {
+    margin: "0 0 10px",
+    fontSize: 15
+  },
+  lineInput: {
+    display: "grid",
+    gridTemplateColumns: "50px 1fr",
+    gap: 8,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  textarea: {
+    width: "100%",
+    height: 110,
     borderRadius: 12,
     border: `1px solid ${colors.borda}`,
-    background: "#fff",
-    color: colors.texto
+    padding: 10,
+    resize: "vertical",
+    boxSizing: "border-box"
   },
-
-  table: {
+  textareaSmall: {
+    width: "100%",
+    height: 70,
+    borderRadius: 12,
     border: `1px solid ${colors.borda}`,
-    borderRadius: 16,
-    overflow: "hidden"
+    padding: 10,
+    resize: "vertical",
+    boxSizing: "border-box"
   },
-
-  group: {
-    background: colors.faixa,
-    color: "#34464E",
-    padding: "11px 14px",
-    fontSize: 13,
-    fontWeight: "bold",
-    letterSpacing: 0.4
-  },
-
-  row: {
-    display: "grid",
-    gridTemplateColumns: "1fr 150px 150px 80px",
-    padding: "16px 14px",
-    borderTop: `1px solid ${colors.borda}`,
+  imageBox: {
+    height: 220,
+    background: "#E7EEF2",
+    border: `1px dashed ${colors.destaque}`,
+    borderRadius: 14,
+    display: "flex",
     alignItems: "center",
-    background: "#fff"
+    justifyContent: "center",
+    color: "#34464E"
   }
 };
