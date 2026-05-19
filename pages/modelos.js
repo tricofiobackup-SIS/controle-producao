@@ -2,10 +2,7 @@ import Layout from "../components/Layout";
 
 export default function Modelos() {
   return (
-    <Layout>
-      <h1>Ficha de Modelos</h1>
-      <p>Cadastro e manutenção dos modelos de produção</p>
-
+    <Layout subtitulo="Cadastro e manutenção dos modelos de produção">
       <section style={card}>
         <h2>Dados principais</h2>
 
@@ -26,6 +23,7 @@ export default function Modelos() {
 
       <section style={card}>
         <h2>Fios e Cores</h2>
+
         {Array.from({ length: 12 }, (_, i) => (
           <div style={row} key={i}>
             <strong>Fio {i + 1}</strong>
@@ -50,11 +48,12 @@ function Campo({ label }) {
 }
 
 const card = {
-  background: "#fff",
+  background: "rgba(236,239,241,.94)",
   borderRadius: 18,
   padding: 22,
-  marginTop: 22,
-  boxShadow: "0 10px 28px rgba(0,0,0,.08)"
+  marginBottom: 22,
+  boxShadow: "0 10px 28px rgba(38,50,56,.12)",
+  border: "1px solid #90A4AE"
 };
 
 const grid4 = {
@@ -67,7 +66,7 @@ const grid4 = {
 const input = {
   height: 38,
   borderRadius: 10,
-  border: "1px solid #D6DEE3",
+  border: "1px solid #90A4AE",
   padding: "0 10px"
 };
 
@@ -75,5 +74,6 @@ const row = {
   display: "grid",
   gridTemplateColumns: "90px repeat(4, 1fr)",
   gap: 10,
-  marginBottom: 10
+  marginBottom: 10,
+  alignItems: "center"
 };
