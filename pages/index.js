@@ -102,7 +102,7 @@ const css = `
   }
 
 .home-logo {
-  width: 520px;
+  width: 120px;
 }
 
   .home-date {
