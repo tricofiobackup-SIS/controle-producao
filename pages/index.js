@@ -21,39 +21,26 @@ export default function Home() {
     });
   }
 
-  function horaSemSegundos(data) {
-    return data.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+  function horaCompleta(data) {
+    return data.toLocaleTimeString("pt-BR");
   }
 
   return (
-    <Layout>
+    <Layout titulo="Controle Produção" subtitulo="Sistema interno Tricofio">
       <style>{css}</style>
 
       <div className="home-hero">
-        <div className="welcome-area">
+        <div>
           <h2>Bem-vindo ao sistema</h2>
-
-          <p>
-            Gestão de produção, modelos, fios,
-            ordens de serviço e consultas.
-          </p>
+          <p>Gestão de produção, modelos, fios, ordens de serviço e consultas.</p>
         </div>
 
-        <div className="home-brand">
-          <img
-            src="/logo-tricofio.png"
-            className="home-logo"
-            alt="Tricofio"
-          />
-
-          <div className="home-date">
-            <strong>{dataCompleta(agora)}</strong>
-            <span>{horaSemSegundos(agora)}</span>
-          </div>
+        <div className="home-date">
+          <strong>{dataCompleta(agora)}</strong>
+          <span>{horaCompleta(agora)}</span>
         </div>
+
+        <img src="/logo-tricofio.png" className="home-logo" alt="Tricofio" />
       </div>
     </Layout>
   );
@@ -61,113 +48,52 @@ export default function Home() {
 
 const css = `
   .home-hero {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 150px);
     position: relative;
     border-radius: 26px;
-    padding: 30px;
+    padding: 34px;
     overflow: hidden;
-  }
-
-  .welcome-area {
-    position: relative;
-    z-index: 2;
   }
 
   .home-hero h2 {
     font-size: 28px;
     color: #263238;
     margin-bottom: 8px;
-    font-weight: 700;
   }
 
   .home-hero p {
     color: #455A64;
     font-size: 14px;
-    max-width: 520px;
-    line-height: 1.6;
-  }
-
-  .home-brand {
-    position: absolute;
-    right: 36px;
-    bottom: 0;
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
   }
 
   .home-logo {
-    width: 470px;
-    opacity: .78;
-    display: block;
-    user-select: none;
-    pointer-events: none;
+    position: absolute;
+    right: 34px;
+    bottom: -8px;
+    width: 360px;
+    opacity: .72;
   }
 
   .home-date {
-    margin-top: 8px;
-    padding-right: 16px;
-    color: #263238;
+    position: absolute;
+    right: 42px;
+    bottom: 118px;
     text-align: right;
+    color: #263238;
   }
 
   .home-date strong {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     text-transform: capitalize;
   }
 
   .home-date span {
     display: block;
-    margin-top: 2px;
-    font-size: 22px;
+    margin-top: 6px;
+    font-size: 26px;
     font-weight: 700;
     color: #455A64;
-  }
-
-  @media (max-width: 900px) {
-
-    .home-hero {
-      min-height: auto;
-      padding: 18px;
-    }
-
-    .home-hero h2 {
-      font-size: 22px;
-    }
-
-    .home-hero p {
-      font-size: 13px;
-      max-width: 100%;
-    }
-
-    .home-brand {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      margin-top: 40px;
-      align-items: center;
-      text-align: center;
-    }
-
-    .home-logo {
-      width: 100%;
-      max-width: 300px;
-    }
-
-    .home-date {
-      padding-right: 0;
-      text-align: center;
-    }
-
-    .home-date strong {
-      font-size: 12px;
-    }
-
-    .home-date span {
-      font-size: 18px;
-    }
   }
 `;
