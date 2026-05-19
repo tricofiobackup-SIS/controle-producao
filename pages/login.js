@@ -1,106 +1,177 @@
+import { useState } from "react";
+
 export default function Login() {
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function entrar(e) {
+    e.preventDefault();
+
+    if (!usuario.trim() || !senha.trim()) {
+      alert("Informe usuário e senha.");
+      return;
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 700);
+  }
+
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        
-        <img src="/logo-tricofio.png" style={styles.logo} />
+    <>
+      <style>{css}</style>
 
-        <h1 style={styles.title}>Controle Produção</h1>
-        <p style={styles.subtitle}>Acesse o sistema</p>
+      <div className="login-page">
+        <form className="login-card" onSubmit={entrar}>
+          <img src="/logo-tricofio.png" className="login-logo" alt="Tricofio" />
 
-        <label style={styles.label}>Usuário</label>
-        <input style={styles.input} placeholder="Digite seu usuário" />
+          <h1>Controle Produção</h1>
+          <p>Sistema interno Tricofio</p>
 
-        <label style={styles.label}>Senha</label>
-        <input type="password" style={styles.input} placeholder="Digite sua senha" />
+          <label>Usuário</label>
+          <input
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            placeholder="Digite seu usuário"
+          />
 
-        <button
-          style={styles.button}
-          onClick={() => window.location.href = "/"}
-        >
-          Entrar
-        </button>
+          <label>Senha</label>
+          <input
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            placeholder="Digite sua senha"
+          />
 
-        <small style={styles.footer}>
-          Sistema Tricofio • Controle interno
-        </small>
+          <button type="submit" disabled={loading}>
+            {loading ? "Entrando..." : "Entrar no sistema"}
+          </button>
 
+          <div className="footer">
+            <span>Acesso restrito</span>
+            <span>Admin / Visitante</span>
+          </div>
+        </form>
       </div>
-    </div>
+    </>
   );
 }
 
-const styles = {
-  page: {
-    minHeight: "100vh",
-    background: "linear-gradient(135deg, #607D8B, #2F3E46)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "Arial, sans-serif"
-  },
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-  card: {
-    width: 400,
-    background: "#fff",
-    borderRadius: 20,
-    padding: 35,
-    boxShadow: "0 25px 60px rgba(0,0,0,.25)",
-    display: "flex",
-    flexDirection: "column"
-  },
-
-  logo: {
-    width: "65%",
-    margin: "0 auto 25px"
-  },
-
-  title: {
-    textAlign: "center",
-    margin: 0,
-    fontSize: 26,
-    color: "#2F3E46"
-  },
-
-  subtitle: {
-    textAlign: "center",
-    marginBottom: 25,
-    color: "#607D8B"
-  },
-
-  label: {
-    fontSize: 13,
-    fontWeight: "bold",
-    marginBottom: 5,
-    marginTop: 10
-  },
-
-  input: {
-    height: 42,
-    borderRadius: 10,
-    border: "1px solid #D6DEE3",
-    padding: "0 12px",
-    outline: "none",
-    transition: "0.2s"
-  },
-
-  button: {
-    marginTop: 20,
-    height: 45,
-    borderRadius: 12,
-    border: 0,
-    background: "#607D8B",
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 15,
-    cursor: "pointer",
-    transition: "0.2s"
-  },
-
-  footer: {
-    marginTop: 20,
-    textAlign: "center",
-    fontSize: 12,
-    color: "#8FA3AD"
+  * {
+    box-sizing: border-box;
   }
-};
+
+  body {
+    margin: 0;
+  }
+
+  .login-page {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top left, rgba(176,190,197,.65), transparent 35%),
+      linear-gradient(135deg, #263238 0%, #607D8B 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  .login-card {
+    width: 410px;
+    background: #ECEFF1;
+    border: 1px solid #B0BEC5;
+    border-radius: 26px;
+    padding: 34px;
+    box-shadow: 0 30px 80px rgba(38,50,56,.35);
+    animation: subir .45s ease;
+  }
+
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .login-logo {
+    width: 70%;
+    display: block;
+    margin: 0 auto 24px;
+  }
+
+  h1 {
+    margin: 0;
+    text-align: center;
+    color: #263238;
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  p {
+    text-align: center;
+    color: #607D8B;
+    margin-bottom: 28px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #263238;
+    margin: 14px 0 7px;
+  }
+
+  input {
+    width: 100%;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid #90A4AE;
+    padding: 0 14px;
+    outline: none;
+    background: #FFFFFF;
+    font-family: inherit;
+  }
+
+  input:focus {
+    border-color: #607D8B;
+    box-shadow: 0 0 0 4px rgba(96,125,139,.18);
+  }
+
+  button {
+    width: 100%;
+    height: 48px;
+    border-radius: 15px;
+    border: 0;
+    background: #263238;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 24px;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(38,50,56,.28);
+  }
+
+  button:hover {
+    background: #607D8B;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #B0BEC5;
+    color: #607D8B;
+    font-size: 12px;
+  }
+`;
