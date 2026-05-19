@@ -157,8 +157,8 @@ const css = `
   }
 
   .logo {
-    width: 132px;
-    display: block;
+  width: 185px;
+  display: block;
   }
 
   .menu-area {
