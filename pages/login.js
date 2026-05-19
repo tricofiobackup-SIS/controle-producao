@@ -97,10 +97,8 @@ const css = `
     box-shadow: 0 30px 80px rgba(38,50,56,.35);
   }
 
-  .login-logo {
-  width: 340px;
-  max-width: none;
-  margin-bottom: 18px;
+.login-logo {
+  width: 220px;
 }
 
   h1 {
