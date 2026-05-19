@@ -102,12 +102,7 @@ const css = `
   }
 
 .home-logo {
-  width: 1600px;
-  max-width: none;
-  opacity: .88;
-  display: block;
-  user-select: none;
-  pointer-events: none;
+  width: 520px;
 }
 
   .home-date {
