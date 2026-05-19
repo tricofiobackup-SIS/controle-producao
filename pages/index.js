@@ -102,12 +102,13 @@ const css = `
   }
 
   .home-logo {
-    width: 500px;
-    opacity: .82;
-    display: block;
-    user-select: none;
-    pointer-events: none;
-  }
+  width: 680px;
+  max-width: 90vw;
+  opacity: .82;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
 
   .home-date {
     margin-top: 12px;
