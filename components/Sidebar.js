@@ -156,10 +156,11 @@ const css = `
     background: #ECEFF1;
   }
 
-  .logo {
-  width: 185px;
+.logo {
+  width: 260px;
+  max-width: none;
   display: block;
-  }
+}
 
   .menu-area {
     padding: 14px 18px 20px;
