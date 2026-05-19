@@ -101,10 +101,10 @@ const css = `
     align-items: flex-end;
   }
 
-  .home-logo {
-  width: 680px;
-  max-width: 90vw;
-  opacity: .82;
+.home-logo {
+  width: 980px;
+  max-width: none;
+  opacity: .88;
   display: block;
   user-select: none;
   pointer-events: none;
