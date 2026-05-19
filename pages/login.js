@@ -98,7 +98,8 @@ const css = `
   }
 
   .login-logo {
-  width: 240px;
+  width: 340px;
+  max-width: none;
   margin-bottom: 18px;
 }
 
