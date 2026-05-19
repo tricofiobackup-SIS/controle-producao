@@ -368,15 +368,16 @@ export default function CadastroGeral() {
 const css = `
   .cadastro-wrap {
     width: 100%;
-    max-width: 1260px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
   .grid-erp {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, 242px);
+    gap: 14px;
     align-items: start;
+    justify-content: start;
   }
 
   .erp-card {
@@ -385,9 +386,10 @@ const css = `
     border-radius: 14px;
     padding: 11px;
     box-shadow: 0 8px 18px rgba(38,50,56,.10);
-    min-height: 312px;
-    max-width: 255px;
-    width: 100%;
+    width: 242px;
+    height: 312px;
+    display: flex;
+    flex-direction: column;
   }
 
   .erp-card-header {
@@ -398,6 +400,7 @@ const css = `
     border-bottom: 1px solid #B0BEC5;
     padding-bottom: 7px;
     margin-bottom: 9px;
+    min-height: 38px;
   }
 
   .erp-card-header h2 {
@@ -417,6 +420,7 @@ const css = `
   .top-actions {
     display: flex;
     gap: 4px;
+    flex-shrink: 0;
   }
 
   .top-actions button {
@@ -440,6 +444,7 @@ const css = `
     grid-template-columns: 1fr 34px;
     gap: 6px;
     margin-bottom: 8px;
+    flex-shrink: 0;
   }
 
   .insert-line-dupla {
@@ -447,6 +452,7 @@ const css = `
     grid-template-columns: 1fr 58px 34px;
     gap: 5px;
     margin-bottom: 8px;
+    flex-shrink: 0;
   }
 
   .insert-line input,
@@ -482,12 +488,14 @@ const css = `
     padding: 6px 8px;
     margin-bottom: 5px;
     font-size: 11px;
+    flex-shrink: 0;
   }
 
   .item-list {
-    max-height: 218px;
+    flex: 1;
     overflow-y: auto;
     padding-right: 3px;
+    min-height: 0;
   }
 
   .item-list::-webkit-scrollbar {
