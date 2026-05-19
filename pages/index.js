@@ -5,6 +5,17 @@ export default function Home() {
   const [menuAberto, setMenuAberto] = useState("Cadastro");
   const [itemAtivo, setItemAtivo] = useState("Tela Inicial");
 
+import Layout from "../components/Layout";
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1>Controle Produção</h1>
+      <p>Sistema baseado no Excel Tricofio</p>
+    </Layout>
+  );
+} 
+
   const menus = [
     {
       titulo: "Cadastro",
