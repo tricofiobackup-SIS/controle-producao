@@ -2,11 +2,47 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Sidebar from "./Sidebar";
 
-export default function Layout({ children, titulo = "Controle Produção", subtitulo = "" }) {
+export default function Layout({ children, titulo, subtitulo = "" }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [agora, setAgora] = useState(new Date());
+
+  const telas = {
+    "/": {
+      titulo: "Tela Inicial",
+      breadcrumb: "Início",
+      icon: "⌂"
+    },
+    "/modelos": {
+      titulo: "Ficha de Modelos",
+      breadcrumb: "Cadastro > Ficha de Modelos",
+      icon: "▦"
+    },
+    "/cadastro-geral": {
+      titulo: "Cadastro Geral",
+      breadcrumb: "Cadastro > Cadastro Geral",
+      icon: "▣"
+    },
+    "/usuarios": {
+      titulo: "Usuários",
+      breadcrumb: "Configurações > Usuários",
+      icon: "⚙"
+    },
+    "/link-visitante": {
+      titulo: "Link para Visitantes",
+      breadcrumb: "Configurações > Link Visitante",
+      icon: "↗"
+    }
+  };
+
+  const telaAtual = telas[router.pathname] || {
+    titulo: titulo || "Controle Produção",
+    breadcrumb: "Sistema",
+    icon: "▧"
+  };
+
+  const tituloFinal = titulo || telaAtual.titulo;
 
   useEffect(() => {
     const salvo = localStorage.getItem("user");
@@ -40,8 +76,11 @@ export default function Layout({ children, titulo = "Controle Produção", subti
     });
   }
 
-  function horaCompleta(data) {
-    return data.toLocaleTimeString("pt-BR");
+  function horaSemSegundos(data) {
+    return data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   }
 
   if (carregando) return null;
@@ -55,19 +94,22 @@ export default function Layout({ children, titulo = "Controle Produção", subti
 
         <main className="app-main">
           <header className="topbar">
-            <div>
-              <h1>{titulo}</h1>
-              {subtitulo && <p>{subtitulo}</p>}
+            <div className="topbar-left">
+              <div className="page-icon">{telaAtual.icon}</div>
+
+              <div>
+                <div className="breadcrumb">{telaAtual.breadcrumb}</div>
+                <h1>{tituloFinal}</h1>
+                {subtitulo && <p>{subtitulo}</p>}
+              </div>
             </div>
 
             <div className="topbar-right">
               <span className="top-date">
-                {dataCompleta(agora)} • {horaCompleta(agora)}
+                {dataCompleta(agora)} • {horaSemSegundos(agora)}
               </span>
 
-              <span className="user-name">
-                {user?.nome}
-              </span>
+              <span className="user-name">{user?.nome}</span>
 
               <button className="logout-top" onClick={sair}>
                 Sair
@@ -75,7 +117,7 @@ export default function Layout({ children, titulo = "Controle Produção", subti
             </div>
           </header>
 
-          <div className="page-container">
+          <div key={router.pathname} className="page-container page-fade">
             {children}
           </div>
         </main>
@@ -87,13 +129,9 @@ export default function Layout({ children, titulo = "Controle Produção", subti
 const globalCss = `
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
-  html,
-  body,
-  #__next {
+  html, body, #__next {
     margin: 0;
     min-height: 100%;
     font-family: 'Montserrat', Arial, sans-serif;
@@ -101,9 +139,7 @@ const globalCss = `
   }
 
   body {
-    background:
-      radial-gradient(circle at top left, rgba(236,239,241,.55), transparent 34%),
-      linear-gradient(135deg, #B0BEC5 0%, #90A4AE 45%, #607D8B 100%);
+    background: linear-gradient(135deg, #B0BEC5 0%, #90A4AE 45%, #607D8B 100%);
   }
 
   .app-shell {
@@ -123,13 +159,13 @@ const globalCss = `
   }
 
   .topbar {
-    height: 78px;
+    height: 72px;
     background: rgba(236,239,241,.96);
     border-bottom: 1px solid #B0BEC5;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px;
+    padding: 0 26px;
     box-shadow: 0 8px 22px rgba(38,50,56,.08);
     position: sticky;
     top: 0;
@@ -137,16 +173,45 @@ const globalCss = `
     backdrop-filter: blur(10px);
   }
 
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+  }
+
+  .page-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: #607D8B;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(38,50,56,.16);
+  }
+
+  .breadcrumb {
+    font-size: 10.5px;
+    color: #607D8B;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
   .topbar h1 {
     margin: 0;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     color: #263238;
-    letter-spacing: .3px;
+    letter-spacing: .2px;
+    line-height: 1.1;
   }
 
   .topbar p {
-    margin: 5px 0 0;
+    margin: 3px 0 0;
     font-size: 11px;
     color: #607D8B;
     font-weight: 500;
@@ -163,6 +228,7 @@ const globalCss = `
     color: #455A64;
     font-weight: 600;
     white-space: nowrap;
+    text-transform: capitalize;
   }
 
   .user-name {
@@ -176,7 +242,7 @@ const globalCss = `
     background: #ECEFF1;
     color: #263238;
     border-radius: 8px;
-    padding: 8px 13px;
+    padding: 7px 12px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -188,7 +254,22 @@ const globalCss = `
   }
 
   .page-container {
-    padding: 28px;
+    padding: 26px;
+  }
+
+  .page-fade {
+    animation: pageFade .28s ease;
+  }
+
+  @keyframes pageFade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   h1 {
@@ -196,7 +277,6 @@ const globalCss = `
     font-size: 28px;
     font-weight: 700;
     color: #263238;
-    letter-spacing: .2px;
   }
 
   h2 {
@@ -221,9 +301,7 @@ const globalCss = `
     backdrop-filter: blur(8px);
   }
 
-  input,
-  select,
-  textarea {
+  input, select, textarea {
     border: 1px solid #90A4AE;
     border-radius: 10px;
     background: #FFFFFF;
@@ -234,16 +312,12 @@ const globalCss = `
     outline: none;
   }
 
-  input:focus,
-  select:focus,
-  textarea:focus {
+  input:focus, select:focus, textarea:focus {
     border-color: #607D8B;
     box-shadow: 0 0 0 3px rgba(96,125,139,.22);
   }
 
-  button {
-    font-family: inherit;
-  }
+  button { font-family: inherit; }
 
   .primary-btn {
     background: #607D8B;
