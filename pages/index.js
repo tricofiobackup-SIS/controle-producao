@@ -78,50 +78,56 @@ const css = `
   }
 
   .home-hero h2 {
-    font-size: 28px;
+    font-size: 34px;
     color: #263238;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 700;
   }
 
   .home-hero p {
     color: #455A64;
-    font-size: 14px;
+    font-size: 15px;
     max-width: 520px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   .home-brand {
     position: absolute;
-    right: 36px;
-    bottom: 20px;
+    right: 40px;
+    bottom: 28px;
     text-align: right;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
   }
 
-.home-logo {
-  width: 120px;
-}
+  .home-logo {
+    width: 720px;
+    max-width: 72vw;
+    opacity: .16;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+  }
 
   .home-date {
-    margin-top: 12px;
+    margin-top: 16px;
     color: #263238;
     text-align: right;
   }
 
   .home-date strong {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     text-transform: capitalize;
+    color: #263238;
   }
 
   .home-date span {
     display: block;
-    margin-top: 2px;
-    font-size: 22px;
+    margin-top: 3px;
+    font-size: 30px;
     font-weight: 700;
     color: #455A64;
   }
@@ -134,7 +140,7 @@ const css = `
     }
 
     .home-hero h2 {
-      font-size: 22px;
+      font-size: 24px;
     }
 
     .home-hero p {
@@ -146,7 +152,7 @@ const css = `
       position: relative;
       right: auto;
       bottom: auto;
-      margin-top: 40px;
+      margin-top: 50px;
       align-items: center;
       text-align: center;
     }
@@ -154,11 +160,12 @@ const css = `
     .home-logo {
       width: 100%;
       max-width: 320px;
+      opacity: .18;
     }
 
     .home-date {
       text-align: center;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .home-date strong {
@@ -166,7 +173,7 @@ const css = `
     }
 
     .home-date span {
-      font-size: 18px;
+      font-size: 22px;
     }
   }
 `;
