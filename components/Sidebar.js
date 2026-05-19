@@ -84,7 +84,7 @@ export default function Sidebar({ abertoMobile = false, fecharMobile = () => {} 
 
       <aside className={`sidebar ${abertoMobile ? "sidebar-mobile-open" : ""}`}>
         <a href="/" className="logo-strip" title="Voltar para a Tela Inicial" onClick={fecharMobile}>
-          <img src="/logo-tricofio.png" className="logo" alt="Tricofio" />
+          <img src="/logo-tricofio.svg" className="logo" alt="Tricofio" />
         </a>
 
         <div className="menu-area">
