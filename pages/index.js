@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Home() {
+  const [menuAberto, setMenuAberto] = useState(null);
+
   const menus = [
     {
       titulo: "Cadastro",
@@ -18,19 +22,15 @@ export default function Home() {
     }
   ];
 
-  const linhas = [
-    ["Blusa Tricot", "29/04/2026", "Produção", "10"],
-    ["Calça Tricot", "29/04/2026", "Aberto", "8"],
-    ["Casaco Tricot", "24/04/2026", "Finalizado", "5"]
-  ];
+  const toggleMenu = (titulo) => {
+    setMenuAberto(menuAberto === titulo ? null : titulo);
+  };
 
   return (
     <div style={styles.page}>
       <aside style={styles.sidebar}>
         <div style={styles.logoBox}>
-          <div style={styles.logoArea}>
-            <img src="/logo-tricofio.jpg" style={styles.logoImg} alt="Tricofio" />
-          </div>
+          <img src="/logo-tricofio.jpg" style={styles.logoImg} />
           <span style={styles.logoSub}>Controle Produção</span>
         </div>
 
@@ -38,313 +38,94 @@ export default function Home() {
           <a style={styles.active}>Tela Inicial</a>
 
           {menus.map((menu) => (
-            <div key={menu.titulo} style={styles.menuGroup}>
-              <p style={styles.menuTitle}>{menu.titulo}</p>
+            <div key={menu.titulo}>
+              <div
+                style={styles.menuTitle}
+                onClick={() => toggleMenu(menu.titulo)}
+              >
+                {menu.titulo}
+              </div>
 
-              {menu.itens.map((item) => (
-                <a key={item} style={styles.menuItem}>
-                  {item}
-                </a>
-              ))}
+              {menuAberto === menu.titulo && (
+                <div>
+                  {menu.itens.map((item) => (
+                    <a key={item} style={styles.menuItem}>
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </nav>
       </aside>
 
       <main style={styles.main}>
-        <header style={styles.header}>
-          <div>
-            <h1 style={styles.h1}>Controle Produção</h1>
-            <p style={styles.subtitle}>
-              Sistema web baseado fielmente na Tela Inicial do Excel
-            </p>
-          </div>
-
-          <div style={styles.userBox}>
-            <span>Admin</span>
-            <strong>LF</strong>
-          </div>
-        </header>
-
-        <section style={styles.cards}>
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>O.S em aberto</span>
-            <strong style={styles.cardNumber}>24</strong>
-            <p style={styles.cardText}>Ordens aguardando andamento</p>
-          </div>
-
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>Modelos cadastrados</span>
-            <strong style={styles.cardNumber}>128</strong>
-            <p style={styles.cardText}>Base principal do sistema</p>
-          </div>
-
-          <div style={styles.card}>
-            <span style={styles.cardLabel}>Fios em estoque</span>
-            <strong style={styles.cardNumber}>342</strong>
-            <p style={styles.cardText}>Controle de entrada e saída</p>
-          </div>
-        </section>
-
-        <section style={styles.panel}>
-          <div style={styles.panelHeader}>
-            <div>
-              <h2 style={styles.h2}>Encomendas / O.S</h2>
-              <p style={styles.subtitle}>Primeira listagem do sistema web</p>
-            </div>
-
-            <button style={styles.button}>Nova O.S</button>
-          </div>
-
-          <div style={styles.filters}>
-            <input placeholder="Buscar modelo..." style={styles.input} />
-
-            <select style={styles.input}>
-              <option>Todos os status</option>
-              <option>Aberto</option>
-              <option>Produção</option>
-              <option>Finalizado</option>
-              <option>Entregue</option>
-            </select>
-
-            <input type="date" style={styles.input} />
-          </div>
-
-          <div style={styles.table}>
-            <div style={styles.group}>CONJUNTO / MODELO EXEMPLO</div>
-
-            {linhas.map((row, index) => (
-              <div style={styles.row} key={index}>
-                <span>{row[0]}</span>
-                <span>{row[1]}</span>
-                <span>{row[2]}</span>
-                <strong>{row[3]}</strong>
-              </div>
-            ))}
-          </div>
-        </section>
+        <h1>Controle Produção</h1>
+        <p>Sistema web baseado no Excel</p>
       </main>
     </div>
   );
 }
 
 const colors = {
-  fundo: "#A7B3BB",        // fundo principal (cinza azulado)
-  lateral: "#2E3F47",      // topo/menu escuro
-  lateralEscuro: "#24343B",
-  lateralAtivo: "#3F5963",
-  texto: "#1C252A",
-  textoClaro: "#FFFFFF",
-  card: "#FFFFFF",
-  borda: "#D6DEE3",
-  faixa: "#E7EEF2",
-  destaque: "#2E3F47",
-  sombra: "0 10px 25px rgba(0,0,0,.08)"
+  lateral: "#1C1C1C",
+  lateralHover: "#2A2A2A",
+  lateralAtivo: "#333333",
+  textoClaro: "#FFFFFF"
 };
 
 const styles = {
   page: {
     display: "flex",
-    minHeight: "100vh",
-    background: colors.fundo,
-    fontFamily: "Arial, sans-serif",
-    color: colors.texto
+    minHeight: "100vh"
   },
 
   sidebar: {
-    width: 292,
+    width: 260,
     background: colors.lateral,
     color: colors.textoClaro,
-    padding: 24,
-    boxSizing: "border-box"
+    padding: 20
   },
 
   logoBox: {
-    marginBottom: 34
-  },
-
-  logoArea: {
-    background: "#fff",
-    borderRadius: 16,
-    padding: "12px 16px",
-    marginBottom: 10,
-    boxShadow: colors.sombra
+    marginBottom: 20
   },
 
   logoImg: {
     width: "100%",
-    maxWidth: 210,
-    display: "block"
+    marginBottom: 10
   },
 
   logoSub: {
-    display: "block",
     fontSize: 12,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-    color: "#D9231F",
-    fontWeight: "bold"
+    opacity: 0.7
   },
 
   active: {
     display: "block",
-    padding: "13px 16px",
-    borderRadius: 12,
+    padding: 10,
     background: colors.lateralAtivo,
-    color: "#fff",
-    marginBottom: 20,
-    fontWeight: "bold",
-    textDecoration: "none"
-  },
-
-  menuGroup: {
-    marginBottom: 22
+    borderRadius: 6,
+    marginBottom: 10
   },
 
   menuTitle: {
-    fontSize: 12,
-    textTransform: "uppercase",
-    letterSpacing: 1.4,
-    color: "#D9231F",
-    marginBottom: 8,
-    fontWeight: "bold"
+    padding: 10,
+    cursor: "pointer",
+    fontWeight: "bold",
+    borderRadius: 6
   },
 
   menuItem: {
     display: "block",
-    padding: "9px 12px",
-    borderRadius: 10,
-    color: "#FFFFFF",
+    padding: "8px 15px",
     fontSize: 14,
-    textDecoration: "none"
+    opacity: 0.8
   },
 
   main: {
     flex: 1,
-    padding: 34,
-    boxSizing: "border-box"
-  },
-
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 30
-  },
-
-  h1: {
-    margin: 0,
-    fontSize: 30
-  },
-
-  h2: {
-    margin: 0,
-    fontSize: 26
-  },
-
-  subtitle: {
-    color: "#6F5A50",
-    marginTop: 10
-  },
-
-  userBox: {
-    display: "flex",
-    gap: 12,
-    alignItems: "center",
-    background: colors.card,
-    padding: "10px 15px",
-    borderRadius: 14,
-    boxShadow: colors.sombra
-  },
-
-  cards: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 18,
-    marginBottom: 26
-  },
-
-  card: {
-    background: colors.card,
-    padding: 22,
-    borderRadius: 20,
-    boxShadow: colors.sombra,
-    border: `1px solid ${colors.borda}`
-  },
-
-  cardLabel: {
-    color: "#6F5A50"
-  },
-
-  cardNumber: {
-    fontSize: 24,
-    marginLeft: 6,
-    color: colors.destaque
-  },
-
-  cardText: {
-    color: "#6F5A50"
-  },
-
-  panel: {
-    background: colors.card,
-    borderRadius: 24,
-    padding: 24,
-    boxShadow: colors.sombra,
-    border: `1px solid ${colors.borda}`
-  },
-
-  panelHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-
-  button: {
-    background: colors.destaque,
-    color: "#fff",
-    border: 0,
-    borderRadius: 12,
-    padding: "12px 18px",
-    fontWeight: "bold",
-    cursor: "pointer"
-  },
-
-  filters: {
-    display: "flex",
-    gap: 12,
-    margin: "28px 0 24px"
-  },
-
-  input: {
-    padding: "12px 14px",
-    borderRadius: 12,
-    border: `1px solid ${colors.borda}`,
-    background: "#fff",
-    color: colors.texto
-  },
-
-  table: {
-    border: `1px solid ${colors.borda}`,
-    borderRadius: 16,
-    overflow: "hidden"
-  },
-
-  group: {
-    background: colors.faixa,
-    color: colors.destaque,
-    padding: "11px 14px",
-    fontSize: 13,
-    fontWeight: "bold",
-    letterSpacing: 0.4
-  },
-
-  row: {
-    display: "grid",
-    gridTemplateColumns: "1fr 150px 150px 80px",
-    padding: "16px 14px",
-    borderTop: `1px solid ${colors.borda}`,
-    alignItems: "center",
-    background: "#fff"
+    padding: 30
   }
 };
