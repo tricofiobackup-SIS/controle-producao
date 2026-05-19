@@ -1,8 +1,11 @@
 import Layout from "../components/Layout";
 
 export default function LinkVisitante() {
-  const link = "https://controle-producao-alpha.vercel.app/login?tipo=visitante";
-
+  const link =
+  typeof window !== "undefined"
+    ? `${window.location.origin}/login?tipo=visitante`
+    : "";
+  
   function copiar() {
     navigator.clipboard.writeText(link);
     alert("Link copiado!");
